@@ -58,6 +58,7 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
     map.identifier(in: RDF::DC)
+    map.urn(to: "identifier#other", in: RDF::DC)
     map.doi(to: "identifier#doi", in: RDF::QualifiedDC)
 
     map.subject(in: RDF::DC) do |index|
