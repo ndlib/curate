@@ -28,11 +28,15 @@ class Etd < ActiveFedora::Base
   self.contributor_label = 'Author'
 
   with_options datastream: :descMetadata do |ds|
+    ds.attribute :creator,
+      multiple: true,
+      label: "Creator(s)",
+      validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
+
     ds.attribute :contributor,
       multiple: true,
       label: "Contributor(s)",
-      hint: "Who else played a non-primary role in the creation of your #{etd_label}.",
-      validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
+      hint: "Who else played a non-primary role in the creation of your #{etd_label}."
     ds.attribute :contributor_role,
       multiple: true,
       label: "Contributor role(s)",
@@ -91,6 +95,10 @@ class Etd < ActiveFedora::Base
     # ds.attribute :institution,
     #   multiple: false,
     #   hint: "Institution granting the degree associated with the work."
+    ds.attribute :subject,
+      label: "Keyword(s) or phrase(s)",
+      hint: "What words or phrases would be helpful for someone searching for your ETD",
+      datastream: :descMetadata, multiple: true
     ds.attribute :language,
       hint: "What is the language(s) in which you wrote your #{etd_label}?",
       default: ['English'],
@@ -121,6 +129,9 @@ class Etd < ActiveFedora::Base
       multiple: false,
       editable: false
     ds.attribute :doi,
+      multiple: false,
+      editable: false
+    ds.attribute :urn,
       multiple: false,
       editable: false
   end
