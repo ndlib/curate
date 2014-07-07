@@ -33,6 +33,8 @@
         input_html: { class: 'input-xlarge' }
       %>
 
+      <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
+
       <%= f.input :advisor,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
