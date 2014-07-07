@@ -95,6 +95,7 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     def id
       rdf_subject.to_s if persisted?
     end
+
   end
 end
 
