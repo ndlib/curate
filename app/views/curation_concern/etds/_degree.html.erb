@@ -1,0 +1,59 @@
+<% if curation_concern.degree.first.level.blank? %>
+  <div class="control-group string required etd_degree_level">
+    <span class="control-label">
+      <label class="string required" for="etd_degree_attributes_0_level"><abbr title="" data-original-title="required">*</abbr> Level</label>
+    </span>
+    <div class="controls">
+      <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_0_level" name="etd[degree_attributes][0][level]" required="required" type="text" value="">
+    </div>
+  </div>
+  <div class="control-group string required etd_degree_discipline">
+    <span class="control-label">
+      <label class="string required" for="etd_degree_attributes_0_discipline"><abbr title="" data-original-title="required">*</abbr> Discipline</label>
+    </span>
+    <div class="controls">
+      <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_0_level" name="etd[degree_attributes][0][discipline]" required="required" type="text" value="">
+    </div>
+  </div>
+  <div class="control-group string required etd_degree_name">
+    <span class="control-label">
+      <label class="string required" for="etd_degree_attributes_0_name"><abbr title="" data-original-title="required">*</abbr> Name</label>
+    </span>
+    <div class="controls">
+      <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_0_name" name="etd[degree_attributes][0][name]" required="required" type="text" value="">
+    </div>
+  </div>
+<% end %>
+
+<% curation_concern.degree.each_with_index do |degree, index| %>
+  <% degree.level.each do |level| %>
+    <div class="control-group string required etd_degree_level">
+      <span class="control-label">
+        <label class="string required" for="etd_degree_attributes_<%= index %>_level"><abbr title="" data-original-title="required">*</abbr> Level</label>
+      </span>
+      <div class="controls">
+        <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_<%= index %>_level" name="etd[degree_attributes][<%= index %>][level]" required="required" type="text" value="<%= level %>">
+      </div>
+    </div>
+  <% end %>
+  <% degree.discipline.each do |discipline| %>
+    <div class="control-group string required etd_degree_discipline">
+      <span class="control-label">
+        <label class="string required" for="etd_degree_attributes_<%= index %>_discipline"><abbr title="" data-original-title="required">*</abbr> Discipline</label>
+      </span>
+      <div class="controls">
+      <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_<%= index %>_discipline" name="etd[degree_attributes][<%= index %>][discipline]" required="required" type="text" value="<%= discipline %>">
+      </div>
+    </div>
+  <% end %>
+  <% degree.name.each do |name| %>
+    <div class="control-group string required etd_degree_name">
+      <span class="control-label">
+        <label class="string required" for="etd_degree_attributes_<%= index %>_name"><abbr title="" data-original-title="required">*</abbr> Name</label>
+      </span>
+      <div class="controls">
+        <input aria-required="true" class="string required input-xlarge" id="etd_degree_attributes_<%= index %>_name" name="etd[degree_attributes][<%= index %>][name]" required="required" type="text" value="<%= name %>">
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -22,7 +22,11 @@ class Etd < ActiveFedora::Base
     'ETD'
   end
 
-  has_attributes :degree, datastream: :descMetadata, multiple: true
+  has_attributes :degree, :degree_attributes, datastream: :descMetadata, multiple: true
+
+  def build_degree
+    descMetadata.degree = [EtdMetadata::Degree.new(RDF::Repository.new)]
+  end
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
@@ -78,11 +82,10 @@ class Etd < ActiveFedora::Base
       multiple: false
     ds.attribute :date_modified, 
       multiple: false
-    # ds.attribute :degree,
-    #   label: "Degree name",
-    #   hint: "Name of the degree associated with the work as it appears within the work. Example: Masters in Operations Research",
-    #   multiple: false,
-    #   validates: { presence: { message: "Your #{etd_label} must have a degree." } }
+    #ds.attribute :degree,
+    #  label: "Degree name",
+    #  hint: "Name of the degree associated with the work as it appears within the work. Example: Masters in Operations Research",
+    #  multiple: false
     # ds.attribute :degree_level,
     #   label: "Degree level",
     #   multiple: false,
@@ -139,4 +142,8 @@ class Etd < ActiveFedora::Base
   attribute :files,
     multiple: true, form: {as: :file}, label: "Upload Files",
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+
+  def degree_level
+    @degree_level ||= [ 'Bachelors', 'Masters', 'Doctorate' ]
+  end
 end
