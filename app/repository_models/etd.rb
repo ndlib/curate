@@ -28,8 +28,8 @@ class Etd < ActiveFedora::Base
     descMetadata.degree = [EtdMetadata::Degree.new(RDF::Repository.new)]
   end
 
-  self.indefinite_article = 'an'
-  self.contributor_label = 'Author'
+  self.indefinite_article = 'a'
+  self.contributor_label = 'Creator'
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :creator,
