@@ -18,6 +18,24 @@ describe Etd do
   it { should have_multivalue_field(:publisher) }
   it { should have_multivalue_field(:language) }
 
+  context 'degree duplication error' do
+    subject { FactoryGirl.build(:etd) }
+
+    it 'does not keep creating new degree nodes' do
+      degree_attributes = [{"level"=>"1", "discipline"=>"Computer Science", "name"=>"Master of Science"}]
+      subject.degree_attributes = degree_attributes
+      subject.save!
+      expect(subject.reload.degree.count).to eq(1)
+
+      degree = subject.degree.first
+      degree_attributes.first['id'] = degree.id
+
+      subject.degree_attributes = degree_attributes
+      subject.save!
+      expect(subject.reload.degree.count).to eq(1)
+    end
+  end
+
 end
 
 describe Etd do

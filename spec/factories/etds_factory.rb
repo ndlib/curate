@@ -12,6 +12,7 @@ FactoryGirl.define do
     subject "Emerald Ash Borer"
     country "United States of America"
     advisor "Karin Verschoor"
+    creator "Somebody Special"
 
 
     before(:create) { |work, evaluator|

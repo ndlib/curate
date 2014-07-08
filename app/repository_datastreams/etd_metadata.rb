@@ -81,15 +81,11 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     end
 
     def persisted?
-      rdf_subject.kind_of? RDF::URI
+      rdf_subject.present?
     end
 
     def id
-      rdf_subject if persisted?
-    end
-
-    def pid
-      id
+      rdf_subject.to_s if persisted?
     end
 
   end
