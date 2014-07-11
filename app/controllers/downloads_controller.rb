@@ -32,4 +32,12 @@ class DownloadsController < ApplicationController
     redirect_to image
   end
 
+  def send_content(asset)
+    if datastream.mimeType.eql?('application/xml')
+      send_data datastream.content, :type=>"application/xml"
+    else
+      super
+    end
+  end
+
 end
