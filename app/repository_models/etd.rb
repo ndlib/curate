@@ -2,7 +2,6 @@ class Etd < ActiveFedora::Base
   include CurationConcern::Work
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
-  include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
   include CurationConcern::WithEditors
@@ -23,28 +22,20 @@ class Etd < ActiveFedora::Base
   end
 
   has_attributes :degree, :degree_attributes, datastream: :descMetadata, multiple: true
+  has_attributes :contributor, :contributor_attributes, datastream: :descMetadata, multiple: true
 
   def build_degree
     descMetadata.degree = [EtdMetadata::Degree.new(RDF::Repository.new)]
   end
 
-  self.indefinite_article = 'a'
-  self.contributor_label = 'Creator'
+  def build_contributor
+    descMetadata.contributor = [EtdMetadata::Contributor.new(RDF::Repository.new)]
+  end
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :creator,
       multiple: true,
-      label: "Creator(s)",
-      validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
-
-    ds.attribute :contributor,
-      multiple: true,
-      label: "Contributor(s)",
-      hint: "Who else played a non-primary role in the creation of your #{etd_label}."
-    ds.attribute :contributor_role,
-      multiple: true,
-      label: "Contributor role(s)",
-      hint: "The nature of the person or entity's contribution to the #{etd_label}. Examples: co-author, committee member, chair, co-chair, referee, juror."
+      label: "Creator(s)"
     ds.attribute :title,
       label: 'Title',
       hint: "Title of the work as it appears on the title page or equivalent",
@@ -82,22 +73,6 @@ class Etd < ActiveFedora::Base
       multiple: false
     ds.attribute :date_modified, 
       multiple: false
-    #ds.attribute :degree,
-    #  label: "Degree name",
-    #  hint: "Name of the degree associated with the work as it appears within the work. Example: Masters in Operations Research",
-    #  multiple: false
-    # ds.attribute :degree_level,
-    #   label: "Degree level",
-    #   multiple: false,
-    #   validates: { presence: { message: "Your #{etd_label} must have a degree level." } }
-    #   #In ETD-MS, three levels are valid: 0 Undergraduate (pre-masters) 1 Masters (pre-doctoral) 2 Doctoral (includes post-doctoral)
-    # ds.attribute :department,
-    #   label: "Department or Program",
-    #   multiple: false,
-    #   hint: "Name of the department or program with which the author is affiliated."
-    # ds.attribute :institution,
-    #   multiple: false,
-    #   hint: "Institution granting the degree associated with the work."
     ds.attribute :subject,
       label: "Keyword(s) or phrase(s)",
       hint: "What words or phrases would be helpful for someone searching for your ETD",
@@ -137,6 +112,9 @@ class Etd < ActiveFedora::Base
     ds.attribute :urn,
       multiple: false,
       editable: false
+    ds.attribute :date,
+      multiple: false,
+      label: "Defense Date"
   end
 
   attribute :files,
