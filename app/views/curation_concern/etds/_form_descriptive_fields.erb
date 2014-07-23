@@ -36,6 +36,9 @@
       %>
 
       <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
+      <%= f.input :date,
+        input_html: { class: 'input-xlarge' }
+      %>
 
       <%= f.input :advisor,
         as: :multi_value,
@@ -62,10 +65,7 @@
         input_html: { class: 'input-xlarge' }
       %>
 
-      <%= f.input :contributor_role,
-        as: :multi_value,
-        input_html: { class: 'input-xlarge' }
-      %>
+      <%# f.input :contributor_role,        as: :multi_value,        input_html: { class: 'input-xlarge' }      %>
     </div>
 
     <div class="span6">
