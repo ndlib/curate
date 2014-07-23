@@ -23,13 +23,6 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
-    map.contributor(in: RDF::DC) do |index|
-      index.as :stored_searchable, :facetable
-    end
-    # TODO use marcrels instead
-    map.contributor_role(in: RDF::EtdMs, to: 'role')
-
-
     map.advisor(in: RDF::Relators, to: 'ths')
 
     map.abstract(to: "description#abstract", in: RDF::QualifiedDC) do |index|
@@ -56,6 +49,9 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.type :date
       index.as :stored_sortable
     end
+    map.date(to: "date", in: RDF::DC) do |index|
+      index.as :stored_sortable
+    end
     map.language(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
@@ -77,15 +73,31 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     map.country(in: RDF::QualifiedDC, to: 'publisher#country')
 
     map.degree(in: RDF::EtdMs, class_name: 'Degree')
+    map.contributor(in: RDF::DC, class_name: 'Contributor')
   end
 
-  accepts_nested_attributes_for :degree
+  accepts_nested_attributes_for :degree, :contributor
   class Degree
     include ActiveFedora::RdfObject
     map_predicates do |map|
       map.name in: RDF::EtdMs
       map.level in: RDF::EtdMs
       map.discipline in: RDF::EtdMs
+    end
+
+    def persisted?
+      rdf_subject.present?
+    end
+
+    def id
+      rdf_subject.to_s if persisted?
+    end
+  end
+  class Contributor
+    include ActiveFedora::RdfObject
+    map_predicates do |map|
+      map.contributor in: RDF::DC
+      map.role in: RDF::EtdMs
     end
 
     def persisted?
