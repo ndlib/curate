@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sanitize', '~> 3.0.2'
   s.add_dependency 'browse-everything'
   s.add_dependency 'httparty'
+  s.add_dependency 'qa'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails", '~> 3.0'
   s.add_development_dependency "factory_girl_rails"
