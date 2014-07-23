@@ -15,6 +15,7 @@ require 'rails_autolink'
 require 'browse-everything'
 require 'select2-rails'
 require 'curate/migration_services'
+require 'qa'
 
 module Curate
   extend ActiveSupport::Autoload
