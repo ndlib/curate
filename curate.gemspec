@@ -48,8 +48,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubydora', '~> 1.7.4'
   s.add_dependency 'browse-everything'
   s.add_dependency 'httparty'
+  s.add_dependency 'qa'
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "rspec-rails" , '~> 2.14.0'
   s.add_development_dependency "factory_girl_rails"
   s.add_development_dependency 'rspec-html-matchers'
   s.add_development_dependency 'capybara'

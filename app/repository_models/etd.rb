@@ -32,6 +32,18 @@ class Etd < ActiveFedora::Base
     descMetadata.contributor = [EtdMetadata::Contributor.new(RDF::Repository.new)]
   end
 
+  def self.valid_degree_levels
+    EtdVocabulary.values_for("degree_level")
+  end
+
+  def self.valid_degree_names
+    EtdVocabulary.values_for("degree_name")
+  end
+
+  def self.valid_degree_disciplines
+    EtdVocabulary.values_for("degree_discipline")
+  end
+
   with_options datastream: :descMetadata do |ds|
     ds.attribute :creator,
       multiple: true,
@@ -121,7 +133,4 @@ class Etd < ActiveFedora::Base
     multiple: true, form: {as: :file}, label: "Upload Files",
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
-  def degree_level
-    @degree_level ||= [ 'Bachelors', 'Masters', 'Doctorate' ]
-  end
 end
