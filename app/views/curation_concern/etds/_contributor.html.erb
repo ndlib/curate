@@ -1,20 +1,10 @@
-<%= f.simple_fields_for :contributor do |cf| %>
-  <div class="control-group multi_value required etd_contributor_contributor">
-    <span class="control-label">
-      <label class="multi_value required" for="etd_contributor_contributor">Contributor</label>
-    </span>
-    <div class="controls">
-      <ul class="listing">
-        <li class="field-wrapper input-append">
-          <label class="multi_value required" for="etd_contributor_contributor">Contributor Name</label>
-          <input aria-required="true" class="string required" id="etd_contributor_attributes_0_contributor" name="etd[contributor_attributes][0][contributor]" required="required" type="text" value="<%= cf.object.contributor.first %>">
-          <label class="multi_value required" for="etd_contributor_role">Contributor Role</label>
-          <input aria-required="true" class="string required" id="etd_contributor_attributes_0_role" name="etd[contributor_attributes][0][role]" required="required" type="text" value="<%= cf.object.role.first %>">
-          <% if cf.object.contributor.first.present? %>
-            <span class="field-controls"><button class="btn btn-danger remove"><i class="icon-white icon-minus"></i><span>Remove</span></button></span>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-<% end %>
+<div class='section control-group optional' >
+  <ul class='listing'>
+    <%= f.simple_fields_for :contributor do |cf| %>
+      <li class='section field-wrapper'>
+        <%= cf.input :contributor, label: 'Contributor Name', input_html: { value: cf.object.contributor.first } %>
+        <%= cf.input :role, label: 'Contributor Role', input_html: { value: cf.object.role.first } %>
+      </li>
+    <% end %>
+  </ul>
+</div>

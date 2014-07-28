@@ -88,11 +88,13 @@ class Etd < ActiveFedora::Base
     ds.attribute :subject,
       label: "Keyword(s) or phrase(s)",
       hint: "What words or phrases would be helpful for someone searching for your ETD",
-      datastream: :descMetadata, multiple: true
+      datastream: :descMetadata, multiple: true,
+      validates: { presence: { message: "Your #{etd_label} must have a keyword." } }
     ds.attribute :language,
       hint: "What is the language(s) in which you wrote your #{etd_label}?",
       default: ['English'],
-      multiple: true
+      multiple: true,
+      validates: { presence: { message: "Your #{etd_label} must have a language." } }
     ds.attribute :rights,
       default: "All rights reserved",
       multiple: false,

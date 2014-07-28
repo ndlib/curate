@@ -23,6 +23,7 @@
 //= require bootstrap-popover
 //= require bootstrap-datepicker/core
 //
+//= require manage_repeating_sections
 //= require manage_repeating_fields
 //= require toggle_details
 //= require help_modal
@@ -57,6 +58,7 @@ Blacklight.onLoad(function() {
     }
   });
   $('.multi_value.control-group').manage_fields();
+  $('.control-group.section').manage_sections();
   $('.link-users').linkUsers();
   $('.link-groups').linkGroups();
   $('.proxy-rights').proxyRights();
