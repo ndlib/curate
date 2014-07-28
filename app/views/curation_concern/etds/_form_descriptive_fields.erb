@@ -2,16 +2,21 @@
   <legend>Required Information</legend>
 
   <div class="row">
-
     <div class="span6">
       <%= f.input :title,
         input_html: { class: 'input-xlarge' }
       %>
-
       <%= f.input :alternate_title,
         input_html: { class: 'input-xlarge' }
       %>
-
+      <%= f.input :creator,
+        as: :multi_value,
+        input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :advisor,
+        as: :multi_value,
+        input_html: { class: 'input-xlarge' }
+      %>
       <%= f.input :abstract,
         as: :text,
         input_html: {
@@ -20,50 +25,41 @@
         }
       %>
     </div>
-
     <div class="span6">
       <%= render partial: 'linked_editors', locals: {f: f, curation_concern: curation_concern, label: 'Editor'} %>
       <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
-
       <%= f.input :subject,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
       %>
-
+      <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
       <%= f.input :country,
         as: :string,
         input_html: { class: 'input-xlarge' }
       %>
-
-      <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
       <%= f.input :date,
         input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :advisor,
+      <%= f.input :date_created,
+        input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :language,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
       %>
     </div>
 
   </div>
+</fieldset>
+  
+<fieldset class="optional prompt">
 
   <div class="row">
-
-    <div class="span6">
-      <%= f.input :language,
+    <div class="span12">
+      <%= f.input :publisher,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
       %>
-
-    <%= f.input :creator,
-      as: :multi_value,
-      input_html: { class: 'input-xlarge' }
-    %>
-    </div>
-
-    <div class="span6">
-      <%= f.input :publisher,               as: :multi_value, label: "Publisher (Required for DOI)", input_html: { class: 'input-xlarge', id: 'publisher' } %>
 
       <%= f.input :coverage_temporal,
         as: :multi_value,
@@ -80,12 +76,8 @@
 
   <div class="row">
 
-    <div class="span8">
+    <div class="span12">
       <%= render partial: 'contributor', locals: {f: f, curation_concern: curation_concern} %>
-
-      <%= f.input :date_created,
-        input_html: { class: 'input-xlarge' }
-      %>
 
       <%= f.input :note,
         as: :text,
