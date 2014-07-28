@@ -107,6 +107,10 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     def id
       rdf_subject.to_s if persisted?
     end
+
+    def human_readable
+      "#{self.contributor}, #{self.role}"
+    end
   end
 end
 
