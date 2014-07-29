@@ -1,0 +1,9 @@
+<h1>Manage ETD Vocabulary</h1>
+<% unless vocabularies.empty? %>
+  <fieldset class="required with-side-padding">
+    <legend>ETD Vocabulary Listing</legend>
+    <%= render 'listing', vocabularies:vocabularies %>
+  </fieldset>
+<% end %>
+<%= render 'form', type:params[:type]  %>
+
