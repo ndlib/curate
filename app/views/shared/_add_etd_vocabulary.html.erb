@@ -1,0 +1,20 @@
+<div class="btn-group add-content">
+  <a class="btn btn-primary dropdown-toggle user-display-name" data-toggle="dropdown" href="#">
+    Vocab
+    <span class="caret"></span>
+  </a>
+   <ul class="dropdown-menu quick-create">
+    <li>
+      <strong class="menu-heading item-with-options">Manage ETD Types</strong>
+        <% ['degree_level','degree_discipline','degree_name'].each do |concern| %>
+          <li><%= link_to(
+                      "#{concern.titleize}",
+                      etd_vocabularies_by_type_path(concern),
+                      class: "item-option contextual-quick-classify}",
+                      role: 'menuitem'
+                  ) %>
+          </li>
+        <% end %>
+  </ul>
+</div>
+

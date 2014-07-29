@@ -1,0 +1,36 @@
+
+  <table class="table table-striped">
+    <caption class="accessible-hidden">List of Vocabulary</caption>
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th>Value</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for vocabulary in vocabularies %>
+      <tr>
+        <td>
+            <%= vocabulary.field_type.titleize %>
+        </td>
+        <td>
+          <a href="#" data-xeditable="true" data-pk="<%= vocabulary.id %>" data-model="etd_vocabulary" data-name="field_value" data-url="<%= etd_vocabulary_path(vocabulary) %>" data-title="Enter Field Value">
+            <%= vocabulary.field_value %>
+          </a>
+        </td>
+        <td>
+          <%= link_to(
+                  raw('<i class="icon-trash icon-large"></i>'),
+                  vocabulary,
+                  class: 'itemicon itemtrash btn',
+                  data: {
+                      confirm: "Delete this vocabulary?"
+                  },
+                  method: :delete,
+                  title: "Delete vocabulary"
+              )%>
+        </td>
+    <% end %>
+    </tbody>
+  </table>
