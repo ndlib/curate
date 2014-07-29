@@ -1,0 +1,11 @@
+<%= simple_form_for(vocabulary) do |f| %>
+  <fieldset class="required with-side-padding">
+    <legend>Describe Vocabulary to add</legend>
+    <%= f.input :field_type, as: 'hidden', input_html: { value:type , class: 'input-xlarge'} %>
+    <%= f.input :field_value, label: type.titleize, input_html: { class: 'input-xlarge'} %>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= f.submit "Create Vocabulary for ETD", class: 'btn btn-primary' %>
+  </div>
+<% end %>
