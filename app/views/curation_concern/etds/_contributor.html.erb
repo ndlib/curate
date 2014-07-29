@@ -1,10 +1,13 @@
-<div class='section control-group optional' >
+<fieldset>
+  <label>Contributor(s)</label>
+<div class='section control-group optional' id='tstpage' >
   <ul class='listing'>
     <%= f.simple_fields_for :contributor do |cf| %>
       <li class='section field-wrapper'>
-        <%= cf.input :contributor, label: 'Contributor Name', input_html: { value: cf.object.contributor.first } %>
-        <%= cf.input :role, label: 'Contributor Role', input_html: { value: cf.object.role.first } %>
+        <%= cf.input :contributor, label: 'Contributor Name', required: false, input_html: { value: cf.object.contributor.first } %>
+        <%= cf.input :role, label: 'Contributor Role', required: false, input_html: { value: cf.object.role.first } %>
       </li>
     <% end %>
   </ul>
 </div>
+</fieldset>
