@@ -6,18 +6,28 @@
     <tr><th>Attribute Name</th><th>Values</th></tr>
   </thead>
   <tbody>
+  <%= curation_concern_attribute_to_html(curation_concern, :alternate_title, 'Alternate Title') %>
   <%= curation_concern_attribute_to_html(curation_concern, :abstract, 'Abstract') %>
   <%= curation_concern_attribute_to_html(curation_concern, :creator, "Author") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :advisor, "Advisor(s)") %>
   <% curation_concern_attribute_to_html(curation_concern, :contributor, 'Contributors') %>
   <% curation_concern.contributor.each do |contributor| %>
     <% unless contributor.contributor.first.blank? %>
       <tr><th> Contributor(s) </th><td><%= contributor.contributor.first %>, <%= contributor.role.first %></td></tr>
     <% end %>
   <% end %>
+  <% curation_concern.degree.each do |degree| %>
+    <tr><th> Degree Level </th><td><%= degree.level.first %></td></tr>
+    <tr><th> Degree Discipline </th><td><%= degree.discipline.first %></td></tr>
+    <tr><th> Degree Name </th><td><%= degree.name.first %></td></tr>
+  <% end %>
   <%= curation_concern_attribute_to_html(curation_concern, :date, 'Defense Date') %>
+  <%= curation_concern_attribute_to_html(curation_concern, :country, 'Country') %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
   <%= curation_concern_attribute_to_html(curation_concern, :publisher, "Publisher") %>
   <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :coverage_temporal, "Coverage Temporal") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :coverage_spatial, "Coverage Spatial") %>
   <tr>
     <th>Access Rights</th>
     <td>
@@ -26,5 +36,6 @@
   </tr>
   <%= curation_concern_attribute_to_html(curation_concern, :embargo_release_date, "Embargo Release Date") %>
   <%= curation_concern_attribute_to_html(curation_concern, :rights, "Content License") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :note, "Note") %>
   </tbody>
 </table>
