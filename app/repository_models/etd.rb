@@ -54,7 +54,8 @@ class Etd < ActiveFedora::Base
 
     ds.attribute :creator,
       multiple: true,
-      label: "Creator(s)"
+      label: "Author(s)",
+      validates: { presence: { message: "Your #{etd_label} must have an Author." } }
     ds.attribute :title,
       label: 'Title',
       hint: "Title of the work as it appears on the title page or equivalent",
@@ -134,8 +135,10 @@ class Etd < ActiveFedora::Base
       multiple: false,
       editable: false
     ds.attribute :date,
+      default: Date.today.to_s("%Y-%m-%d"),
       multiple: false,
-      label: "Defense Date"
+      label: "Defense Date",
+      validates: { presence: { message: "Your #{etd_label} must have a defense date." } }
   end
 
   attribute :files,
