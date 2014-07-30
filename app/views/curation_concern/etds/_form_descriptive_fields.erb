@@ -34,11 +34,12 @@
         input_html: { class: 'input-xlarge' }
       %>
       <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
-      <%= f.input :country,
-        as: :string,
+      <%= f.input :date,
+        label: 'Date of Defense',
         input_html: { class: 'input-xlarge' }
       %>
-      <%= f.input :date,
+      <%= f.input :country,
+        as: :string,
         input_html: { class: 'input-xlarge' }
       %>
       <%= f.input :date_created,
