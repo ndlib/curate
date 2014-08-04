@@ -3,6 +3,8 @@ class EtdVocabulary < ActiveRecord::Base
   scope :values_for, -> type { where( "field_type = ?", "#{type}").pluck(:field_value) }
   scope :recent, -> { order("updated_at DESC") }
 
+  validates_presence_of :field_value, :message => "Vocabulary value cannot be empty."
+
   #pending these methods will be used on autocomplete
   #def results
   #  @results ||= begin
