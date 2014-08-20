@@ -22,6 +22,7 @@
     <tr><th> Degree Name </th><td><%= degree.name.first %></td></tr>
   <% end %>
   <%= curation_concern_attribute_to_html(curation_concern, :date, 'Defense Date') %>
+  <%= curation_concern_attribute_to_html(curation_concern, :date_approved, 'Approval Date') %>
   <%= curation_concern_attribute_to_html(curation_concern, :country, 'Country') %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
   <%= curation_concern_attribute_to_html(curation_concern, :publisher, "Publisher") %>

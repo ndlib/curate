@@ -44,6 +44,9 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     map.date(to: "date", in: RDF::DC) do |index|
       index.as :stored_sortable
     end
+    map.date_approved(to: "date#approved", in: RDF::QualifiedDC) do |index|
+      index.as :stored_sortable
+    end
     map.language(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end

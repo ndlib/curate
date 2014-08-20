@@ -132,6 +132,9 @@ class Etd < ActiveFedora::Base
       multiple: false,
       label: "Defense Date",
       validates: { presence: { message: "Your #{etd_label} must have a defense date." } }
+    ds.attribute :date_approved,
+      multiple: false,
+      label: "Approval Date"
   end
 
   attribute :files,
