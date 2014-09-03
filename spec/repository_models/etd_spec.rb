@@ -23,7 +23,6 @@ describe Etd do
 
     it 'does not keep creating new degree nodes' do
       degree_attributes = [{"level"=>"1", "discipline"=>"Computer Science", "name"=>"Master of Science"}]
-      subject.degree_attributes = degree_attributes
       subject.save!
       expect(subject.reload.degree.count).to eq(1)
 
@@ -37,7 +36,6 @@ describe Etd do
 
     it 'keeps creating new degree nodes if an id is not included' do
       degree_attributes = [{"level"=>"1", "discipline"=>"Computer Science", "name"=>"Master of Science"}]
-      subject.degree_attributes = degree_attributes
       subject.save!
       expect(subject.reload.degree.count).to eq(1)
 
