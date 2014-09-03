@@ -4,6 +4,11 @@ describe 'Creating an etd' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 
+  before do
+    EtdVocabulary.new(field_type: "degree_level", field_value: 2).save
+    EtdVocabulary.new(field_type: "degree_discipline", field_value: "Computer Science").save
+    EtdVocabulary.new(field_type: "degree_name", field_value: "PhD").save
+  end
   it "should allow me to attach the link on the create page" do
     login_as(user)
     visit root_path
@@ -11,16 +16,22 @@ describe 'Creating an etd' do
     classify_what_you_are_uploading 'Etd'
     within '#new_etd' do
       fill_in "Title", with: "umami sartorial Williamsburg church-key"
+      fill_in "URN", with: "etd-abcd-xyz123"
       fill_in "Abstract", with: "Some stuff"
       fill_in "Country", with: "Belgium"
+      fill_in "Author", with: "Tony Stark"
       fill_in "Advisor", with: "Marcy Holmes"
       fill_in "Subject", with: "Paleoethnography"
-      fill_in "Date created", with: "2013 October 4"
+      fill_in "Submission Date", with: "2013 October 4"
+      select(2, from: "etd_degree_attributes_0_level")
+      select("Computer Science", from: "etd_degree_attributes_0_discipline")
+      select("PhD", from: "etd_degree_attributes_0_name")
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Etd")
     end
 
+    click_button 'keyword-search-submit'
     # then I should find it in the search results.
     fill_in 'Search Curate', with: 'sartorial umami'
     click_button 'keyword-search-submit'
