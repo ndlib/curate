@@ -16,7 +16,7 @@ FactoryGirl.define do
     country "United States of America"
     advisor "Karin Verschoor"
     creator "Somebody Special"
-    contributor_attributes  [{contributor: "Some Body", role: "Some Role"}]
+    contributor_attributes({"0"=>{contributor: "Some Body", role: "Some Role"}})
     degree_attributes [{ "degree_level" => "0", "degree_discipline" => "Computer Science", "degree_name" => "BS" }]
 
 
