@@ -3,35 +3,33 @@
   <%= form_tag params[:controller] == "folder" ? folder_index_path : catalog_index_path, :method => :get, :class => "well form-inline" do %>
 
     <div class="sorting">
-      <%= label_tag :sort, "Sort by" %>
+
       <%= select_tag(
         :sort,
         options_for_select(
           sort_fields,
           h(params[:sort])
         ),
-        :class => "input-medium"
+        :class => "input-medium sort-per-page-dropdown"
       )%>
 
     <%= label_tag(:per_page) do %>
-      Show
       <%= select_tag(
         :per_page,
         options_for_select(
-          ['10', '20', '50', '100'],
+          [['10 per page', '10'], ['20 per page', '20'], ['50 per page', '50'], ['100 per page', '100']],
           h(params[:per_page])
         ),
         :title => "Number of results to display per page",
-        :class => "input-small"
+        :class => "input-medium sort-per-page-dropdown"
       )%>
-      per page
     <% end %>
 
       <%= search_as_hidden_fields(:omit_keys => [:per_page, :sort]) %>
-
-      <button class="btn btn-primary pull-right">
+      <button class="btn btn-primary submit-sort-per-page">
         <i class="icon-refresh icon-white"></i> Update
       </button>
+          <%= render 'results_pagination' %>
     </div>
 
   <% end %>

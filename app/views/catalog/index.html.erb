@@ -21,24 +21,22 @@
 <% if has_search_parameters? %>
   <div class="alert alert-info search-constraints">
     <i class="icon-search icon-large"></i>
-    Limited to:
+    You searched for: &nbsp;
       <%= render_constraints(params) %>
     <div>
-      <%= link_to( "Clear limits", "/?", :class => 'btn' ) %>
+      <%= link_to( "New Search", "/?", :class => 'btn btn-primary' ) %>
+
     </div>
+    <div class="clear-break">&nbsp;</div>
   </div>
 
   <%= render :partial => 'did_you_mean' %>
-  <%= render :partial => 'facet_selected' %>
 
-  <div class="row">
-    <div class="span9">
-      <%= render_pagination_info @response, :entry_name=>'item' %>
-      <%= render 'sort_and_per_page' %>
-    </div>
+  <div class="row" id="sort-and-per-page">
+    <%= render 'sort_and_per_page' %>
   </div>
 
-<%= render 'results_pagination' %>
+
 
 <%= render 'document_list' %>
 

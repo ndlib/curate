@@ -1,0 +1,16 @@
+<%- pagination_info_cache = render_pagination_info @response %>
+<div class="page_links">
+  <% if total_pages > 1 -%>
+    <%= paginator.render do -%>
+      <%= prev_page_tag %>
+      <span class="page_entries">
+        <%= pagination_info_cache %>
+      </span>
+      <%= next_page_tag %>
+    <% end -%>
+  <% else -%>
+    <span class="page_entries">
+      <%= pagination_info_cache %>
+    </span>
+  <% end -%>
+</div>
