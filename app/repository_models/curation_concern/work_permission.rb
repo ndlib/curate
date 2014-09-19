@@ -42,6 +42,7 @@ class CurationConcern::WorkPermission
     end
 
     def self.editor_group(group_id)
+      return nil unless group_id.present?
       Hydramata::Group.find(group_id)
     rescue ActiveFedora::ObjectNotFoundError
       nil
