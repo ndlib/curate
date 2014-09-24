@@ -17,4 +17,5 @@
       <%- unless value.blank? -%>
         <span class="filterValue"><%= options[:escape_value] ? h(value) : value %></span>
       <%- end -%>
+      &nbsp;<a href='<%= options[:remove] %>' class="icon-remove-sign"></a>
 </span>
