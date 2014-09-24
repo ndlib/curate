@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "factory_girl_rails"
   s.add_development_dependency 'rspec-html-matchers', '~> 0.6'
   s.add_development_dependency 'rspec-its', '~> 1.0.1'
+  s.add_development_dependency 'rspec-given', '~> 3.5'
   s.add_development_dependency 'rspec-activemodel-mocks', '~> 1.0.1'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'timecop'

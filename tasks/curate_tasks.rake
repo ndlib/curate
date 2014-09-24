@@ -53,6 +53,7 @@ task :generate do
       gem 'poltergeist'
       gem 'rspec-html-matchers'
       gem 'rspec-its'
+      gem 'rspec-given'
       gem 'rspec-activemodel-mocks'
       gem 'simplecov', require: false
       gem 'test_after_commit'

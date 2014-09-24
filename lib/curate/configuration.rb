@@ -41,6 +41,18 @@ module Curate
       @build_identifier ||= Time.now.strftime("%Y-%m-%d %H:%M:%S")
     end
 
+    def fedora_integrity_message_delivery
+      @fedora_integrity_message_delivery ||= default_fedora_integrity_message_delivery
+    end
+
+    def fedora_integrity_message_delivery=(callable)
+      if callable.respond_to?(:call)
+        @fedora_integrity_message_delivery = callable
+      else
+        raise RuntimeError, "Expected #{callable.inspect} to respond_to :call"
+      end
+    end
+
     # Override characterization runner
     attr_accessor :characterization_runner
 
@@ -62,6 +74,15 @@ module Curate
     def curation_concerns
       registered_curation_concern_types.map(&:constantize)
     end
+
+    def default_fedora_integrity_message_delivery
+      lambda do |options|
+        pid = options.fetch(:pid)
+        message = options.fetch(:message)
+        $stderr.puts "----------- Problem with #{pid}, Message:#{message} ----------"
+      end
+    end
+    private :default_fedora_integrity_message_delivery
   end
 
   configure {}
