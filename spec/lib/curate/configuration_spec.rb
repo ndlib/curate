@@ -3,6 +3,7 @@ require 'spec_helper'
 module Curate
   describe Configuration do
     its(:default_antivirus_instance) { should respond_to(:call)}
+    its(:fedora_integrity_message_delivery) { should respond_to(:call)}
     its(:build_identifier) { should be_an_instance_of String }
     it 'allow for registration of curation_concerns' do
       expect {
@@ -34,6 +35,16 @@ module Curate
           }.to raise_error(RuntimeError)
         end
       end
+    end
+    context 'override fedora_integrity_message_delivery' do
+        it 'raises an exception when the object is invalid' do
+          expect {
+            subject.fedora_integrity_message_delivery = :bogus_method
+          }.to raise_error(RuntimeError)
+        end
+        Given(:service) { double(call: true) }
+        When { subject.fedora_integrity_message_delivery = service }
+        Then { subject.fedora_integrity_message_delivery == service }
     end
   end
 end

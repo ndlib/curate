@@ -20,7 +20,8 @@ module CurationConcern
     )
     Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
     true
-  rescue ActiveFedora::RecordInvalid
+  rescue ActiveFedora::RecordInvalid => e
+    Curate.configuration.fedora_integrity_message_delivery.call(pid: generic_file.pid, message:"Error Occured when attaching file, #{e.message}")
     false
   end
 end
