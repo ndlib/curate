@@ -50,7 +50,7 @@ describe "Showing and creating Collections" do
     login_as(user)
     visit collections_path
 
-    msg = 'No items found'
+    msg = 'No entries found'
     expect(page).to have_content(msg)
   end
 end
