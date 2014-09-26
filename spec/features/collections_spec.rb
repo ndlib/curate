@@ -34,16 +34,16 @@ describe "Showing and creating Collections" do
     fill_in 'collection_description', with: "I've collected a few related things together"
     attach_file( 'collection_file', Rails.root.join('../fixtures/files/image.png') )
     click_button "Create Collection"
-    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}/thumbnail']" )
 
     visit collection_path( user.collections.first )
-    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}/thumbnail']" )
 
     visit edit_collection_path( user.collections.first )
-    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}/thumbnail']" )
 
     visit root_path
-    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}/thumbnail']" )
   end
 
   it 'displays a friendly message if user has no collections yet' do

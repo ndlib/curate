@@ -53,6 +53,6 @@ class Collection < ActiveFedora::Base
   end
 
   def generate_thumbnail_url
-    "/downloads/#{self.representative}?datastream_id=thumbnail"
+    "/downloads/#{self.representative}/thumbnail"
   end
 end
