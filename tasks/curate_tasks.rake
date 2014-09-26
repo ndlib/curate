@@ -97,9 +97,9 @@ RSpec::Core::RakeTask.new(:rspec) do |t|
   if ENV['TRAVIS']
     case ENV['SPEC_GROUP'].to_s
     when '1'
-      t.pattern = '../../spec/features/**/*_spec.rb'
+      t.pattern = 'features/**/*_spec.rb'
     when '2'
-      t.pattern = '../../spec/controllers/**/*_spec.rb'
+      t.pattern = 'controllers/**/*_spec.rb'
     else
       pattern = FileList['../../spec/*/'].exclude(/\/(features|controllers)\//).map { |f| f << '**/*_spec.rb' }.to_a
       t.pattern = pattern
