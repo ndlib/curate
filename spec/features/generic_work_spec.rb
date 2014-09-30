@@ -22,14 +22,14 @@ describe 'Creating a generic work' do
         check("I have read and accept the contributor license agreement")
         click_button("Create Generic work")
       end
-      expect(page).to have_selector('h1', text: 'Generic Work')
+      expect(page).to have_selector('span', text: 'Generic Work')
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
       end
     end
   end
 
-  describe 'with a cloud resource' , js: true do
+  describe 'with a cloud resource', js: true do
     it "should allow me to attach the cloud resource on the create page" do
       login_as(user)
       visit new_curation_concern_generic_work_path
@@ -50,8 +50,7 @@ describe 'Creating a generic work' do
         check("I have read and accept the contributor license agreement")
         click_button("Create Generic work")
       end
-      #expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
-      expect(page).to have_selector('h1', text: 'Generic Work')
+      expect(page).to have_selector('span', text: 'Generic Work')
       page.should have_content("Files")
       page.should have_content('features.rb')
     end

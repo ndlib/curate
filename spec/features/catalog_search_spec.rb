@@ -29,13 +29,13 @@ describe 'Clear limits from search' do
     visit '/'
     click_link 'Collections'
   
-    expect( page ).to have_link( 'Clear limits' )
+    expect( page ).to have_link( 'New Search' )
   end
 
   it 'returns the user to the all works view' do
     visit '/'
     click_link 'Collections'
-    click_link 'Clear limits'
+    click_link 'New Search'
   
     expect( current_path ).to eq( root_path )
   end
