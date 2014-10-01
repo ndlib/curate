@@ -126,7 +126,7 @@ class Etd < ActiveFedora::Base
       editable: false
     ds.attribute :urn,
       multiple: false,
-      editable: false
+      validates: { presence: { message: "Your #{etd_label} must have URN." } }
     ds.attribute :date,
       default: Date.today.to_s("%Y-%m-%d"),
       multiple: false,
