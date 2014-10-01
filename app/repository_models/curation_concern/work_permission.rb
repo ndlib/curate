@@ -42,20 +42,23 @@ class CurationConcern::WorkPermission
     end
 
     def self.editor_group(group_id)
+      return nil unless group_id.present?
       Hydramata::Group.find(group_id)
+    rescue ActiveFedora::ObjectNotFoundError
+      nil
     end
 
     def self.update_editors(work, editors, action)
       collection = decide_editorship_action(editors, action)
-      work.remove_editors(collection[:remove].map { |u| user(u) })
-      work.add_editors(collection[:create].map { |u| user(u) })
+      work.remove_editors(collection[:remove].map { |u| user(u) }.compact)
+      work.add_editors(collection[:create].map { |u| user(u) }.compact)
       work.save!
     end
 
     # This is extremely expensive because add_editor_group causes a save each time.
     def self.update_groups(work, editor_groups, action)
       collection = decide_editorship_action(editor_groups, action)
-      work.remove_editor_groups(collection[:remove].map { |grp| editor_group(grp) })
-      work.add_editor_groups(collection[:create].map { |grp| editor_group(grp) })
+      work.remove_editor_groups(collection[:remove].map { |grp| editor_group(grp) }.compact)
+      work.add_editor_groups(collection[:create].map { |grp| editor_group(grp) }.compact)
     end
 end
