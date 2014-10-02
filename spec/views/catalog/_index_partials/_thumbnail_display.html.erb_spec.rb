@@ -30,7 +30,7 @@ describe 'catalog/_index_partials/_thumbnail_display' do
       render partial: 'thumbnail_display', locals: { document: document }
     end
     it 'should display selected representative as thumbnail' do
-      rendered.should include("/downloads/1234?datastream_id=thumbnail")
+      rendered.should include("/downloads/1234/thumbnail")
     end
   end
 end

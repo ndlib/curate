@@ -19,7 +19,7 @@ module ActionDispatch::Routing
         end
         match 'profile' => 'user_profiles#show', via: :get, as: 'user_profile'
       end
-      resources :downloads, only: [:show]
+      #resources :downloads, only: [:show]
 
       namespace :curation_concern, path: :concern do
         Curate.configuration.registered_curation_concern_types.map(&:tableize).each do |container|
@@ -49,6 +49,7 @@ module ActionDispatch::Routing
       match "show/:id" => "common_objects#show", via: :get, as: "common_object"
       match "show/stub/:id" => "common_objects#show_stub_information", via: :get, as: "common_object_stub_information"
       match 'users/:id/edit' => 'users#edit', via: :get, as: 'edit_user'
+      match 'downloads/:id(/:datastream_id)(.:format)' => 'downloads#show', via: :get, as: 'download'
 
       #scope module: 'hydramata' do
       namespace :hydramata do

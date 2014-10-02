@@ -67,7 +67,7 @@ describe 'Profile for a Person: ' do
       create_image(image_file)
       visit('/')
       click_link "My Profile"
-      page.should have_css("img[src$='/downloads/#{person.pid}?datastream_id=medium']")
+      page.should have_css("img[src$='/downloads/#{person.pid}/medium']")
     end
 
     it 'should show gravatar image if profile image not uploaded' do
