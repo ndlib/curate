@@ -29,6 +29,7 @@ $(function(){
     setTimeout(function(){
       $modal.load('/help_requests/new #new_help_request', function(){
         $modal.modal();
+        $('body').modalmanager('loading');
         populateHelpForm();
       });
     }, 1000);
