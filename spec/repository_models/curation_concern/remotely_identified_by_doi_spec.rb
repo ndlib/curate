@@ -19,6 +19,8 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
     end
   end
 
+  let(:actor){ double(notification_messages: []) }
+
   describe 'Attributes' do
     subject { model.new }
 
@@ -36,7 +38,7 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
       it 'should return the returning value' do
         DoiMintingWorker.any_instance.stub(:new).and_return(true)
         DoiMintingWorker.any_instance.stub(:run).and_return(true)
-        expect(subject.apply_doi_assignment_strategy(&perform_persistence_block)).to eq(!!returning_value)
+        expect(subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)).to eq(!!returning_value)
       end
     end
     subject { model.new(pid: CurationConcern.mint_a_pid).tap {|m| m.extend CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior } }
@@ -63,12 +65,12 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
           let(:doi_assignment_strategy) { described_class::ALREADY_GOT_ONE }
           it 'should allow explicit assignment of identifer' do
             expect {
-              subject.apply_doi_assignment_strategy(&perform_persistence_block)
+              subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)
             }.to change(subject, :identifier).from(nil).to(expected_existing_identifier)
           end
 
           it 'should yield the subject' do
-            expect { |b| subject.apply_doi_assignment_strategy(&b) }.to yield_with_args(subject)
+            expect { |b| subject.apply_doi_assignment_strategy(actor, &b) }.to yield_with_args(subject)
           end
         end
 
@@ -78,21 +80,23 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
           let(:doi_assignment_strategy) { described_class::NOT_NOW }
 
           it 'should return the returning value' do
-            expect(subject.apply_doi_assignment_strategy(&perform_persistence_block)).to eq(returning_value)
+            expect(subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)).to eq(returning_value)
           end
 
           it 'should not update identifier' do
             expect {
-              subject.apply_doi_assignment_strategy(&perform_persistence_block)
+              subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)
             }.to_not change(subject, :identifier).from(nil)
           end
 
           it 'should yield the subject' do
-            expect { |b| subject.apply_doi_assignment_strategy(&b) }.to yield_with_args(subject)
+            expect { |b| subject.apply_doi_assignment_strategy(actor, &b) }.to yield_with_args(subject)
           end
         end
 
         context 'with request for minting' do
+          let(:notification_message) { double(message_id: :doi_minting, target_pid: 'the_pid') } 
+          let(:actor){ double(append_returning_message: true) }
 
           let(:doi_assignment_strategy) { accessor_name }
           context 'with valid save' do
@@ -101,8 +105,9 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
             it 'should request a minting' do
               DoiMintingWorker.any_instance.stub(:run).and_return(true)
               expect {
-                subject.apply_doi_assignment_strategy(&perform_persistence_block)
+                subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)
               }.to_not change(subject, :identifier).from(nil)
+              expect(actor).to have_received(:append_returning_message)
             end
           end
 
@@ -111,7 +116,7 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
             let(:returning_value) { false }
             it 'should not request a minting if the perform_persistence_block failed' do
               expect {
-                subject.apply_doi_assignment_strategy(&perform_persistence_block)
+                subject.apply_doi_assignment_strategy(actor, &perform_persistence_block)
               }.to_not change(subject, :identifier).from(nil)
             end
           end
@@ -120,6 +125,7 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
     end
 
     context 'without doi_assignment_strategy accessor' do
+      let(:actor){ double(notification_messages: []) }
       it_behaves_like 'minting behavior returning value'
 
       let(:model) do
@@ -128,7 +134,7 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
         end
       end
       it 'should yield the subject' do
-        expect { |b| subject.apply_doi_assignment_strategy(&b) }.to yield_with_args(subject)
+        expect { |b| subject.apply_doi_assignment_strategy(actor, &b) }.to yield_with_args(subject)
       end
     end
 

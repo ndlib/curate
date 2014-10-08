@@ -19,7 +19,15 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def after_create_response
+    report_notification_messages
     respond_with([:curation_concern, curation_concern])
+  end
+
+  def report_notification_messages
+    flash[:notice] ||= []
+    actor.notification_messages.each do |message|
+      flash[:notice] << "#{message.message_id}"
+    end
   end
   protected :after_create_response
 
@@ -73,6 +81,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def after_update_response
+    report_notification_messages
     if actor.visibility_changed?
       redirect_to confirm_curation_concern_permission_path(curation_concern)
     else
