@@ -2,6 +2,10 @@ require 'browser'
 class HelpRequest < ActiveRecord::Base
 
   belongs_to :user
+  validates_presence_of :name,
+    :message => "Please enter your name"
+  validates_presence_of :email,
+    :message => "Please provide an email address."
   validates_presence_of :how_can_we_help_you,
     :message => "Please tell us about the problem or issue you are having with #{I18n.t('sufia.product_name')}."
 
@@ -10,6 +14,22 @@ class HelpRequest < ActiveRecord::Base
   def browser_name
     parse_user_agent
     @browser.name
+  end
+
+  def form_email
+    if user
+      user.email || ''
+    else
+      ''
+    end
+  end
+
+  def form_name
+    if user
+      user.user_key || ''
+    else
+      ''
+    end
   end
 
   def platform

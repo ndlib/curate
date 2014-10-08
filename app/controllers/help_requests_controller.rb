@@ -32,9 +32,11 @@ class HelpRequestsController < ApplicationController
     unless params[:action] == 'new'
       help_request.attributes = params.require(:help_request).permit(
         :current_url,
+        :email,
         :flash_version,
         :how_can_we_help_you,
         :javascript_enabled,
+        :name,
         :resolution,
         :user_agent,
         :view_port
