@@ -24,9 +24,9 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def report_notification_messages
-    flash[:notice] ||= []
     actor.notification_messages.each do |message|
-      flash[:notice] << "#{message.message_id}"
+      flash[:notice] ||= []
+      flash[:notice] << t(message.message_id, scope: [:curate, :notification_messages], pid: message.target_pid)
     end
   end
   protected :after_create_response
