@@ -78,5 +78,11 @@ Blacklight.onLoad(function() {
 		event.preventDefault();
 	});
 
+	$("input.datepicker").datepicker({
+		format: 'yyyy-mm-dd'
+	});
+
 });
+
+
 

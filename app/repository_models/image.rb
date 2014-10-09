@@ -34,7 +34,7 @@ class Image < ActiveFedora::Base
       default: Date.today.to_s("%Y-%m-%d"),
       label: "Date",
       hint: "The date or date range the item was created.",
-      multiple: true,
+      multiple: false,
       validates: { presence: { message: "Your #{image_label} must have a date." } }
 
     ds.attribute :description,

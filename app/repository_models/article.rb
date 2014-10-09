@@ -56,7 +56,7 @@ class Article < ActiveFedora::Base
     default: Date.today.to_s("%Y-%m-%d"),
     label: "When did your finish your Article",
     hint: "This does not need to be exact, but your best guess.",
-    datastream: :descMetadata, multiple: true
+    datastream: :descMetadata, multiple: false
   attribute :date_uploaded,
     datastream: :descMetadata, multiple: false
   attribute :date_modified, 

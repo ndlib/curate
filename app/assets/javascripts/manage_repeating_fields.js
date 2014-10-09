@@ -50,7 +50,13 @@
           val('').
           removeProp('required');
         $listing.append($newField);
-        $newChildren.first().focus();
+
+				if ($newChildren.first().hasClass( "datepicker" )) {
+					$newChildren.first().datepicker({
+						format: 'yyyy-mm-dd'
+					});
+				}
+				$newChildren.first().focus();
         this._trigger("add");
       }
     },
