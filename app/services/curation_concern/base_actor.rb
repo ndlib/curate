@@ -11,9 +11,10 @@ module CurationConcern
       @attributes = input_attributes.dup.with_indifferent_access
       @visibility = attributes[:visibility]
       @cloud_resources= attributes.delete(:cloud_resources.to_s)
+      @notification_messages = []
     end
 
-    attr_reader :visibility
+    attr_reader :visibility, :notification_messages
     protected :visibility
 
     delegate :visibility_changed?, to: :curation_concern
@@ -29,6 +30,10 @@ module CurationConcern
       apply_save_data_to_curation_concern
       reset_license
       save { block_given? ? yield : true }
+    end
+
+    def append_returning_message(message)
+      @notification_messages << message
     end
 
     protected
@@ -52,7 +57,7 @@ module CurationConcern
 
     def save
       curation_concern.extend(CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior)
-      curation_concern.apply_doi_assignment_strategy do |*|
+      curation_concern.apply_doi_assignment_strategy(self) do |*|
         curation_concern.save && (block_given? ? yield : true)
       end
     end

@@ -46,12 +46,12 @@ module CurationConcern
 
     module MintingBehavior
 
-      def apply_doi_assignment_strategy(&perform_persistence_block)
+      def apply_doi_assignment_strategy(actor, &perform_persistence_block)
         if respond_to?(:doi_assignment_strategy)
           no_doi_assignment_strategy_given(&perform_persistence_block) ||
             not_now(&perform_persistence_block) ||
             update_identifier_locally(&perform_persistence_block) ||
-            request_remote_minting_for(&perform_persistence_block)
+            request_remote_minting_for(actor, &perform_persistence_block)
         else
           !!yield(self)
         end
@@ -60,12 +60,12 @@ module CurationConcern
 
       private
 
-      def request_remote_minting_for
+      def request_remote_minting_for(actor)
         return false unless remote_doi_assignment_strategy?
         # Before we make a potentially expensive call
         # hand off control back to the caller.
         # I'm doing this because I want a chance to persist the object first
-        !!yield(self) && send_doi_minting_request
+        !!yield(self) && send_doi_minting_request && actor.append_returning_message( NotificationMessage.new( :minting_doi, self.pid ) )
       end
 
       def send_doi_minting_request

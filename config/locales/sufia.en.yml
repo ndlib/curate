@@ -27,3 +27,6 @@ en:
         group:
           name:         "Group"
           help:         "Add groups to allow others to collaboratively edit this work."
+  curate:
+    notification_messages:
+      minting_doi: "Your DOI for your work is being requested. It may take a few minutes to generate."

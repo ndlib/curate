@@ -78,7 +78,7 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
       it "should create a work" do
         controller.curation_concern.stub(:persisted?).and_return(true)
         controller.curation_concern.inner_object.pid = 'test:123'
-        controller.actor = double(:create => true)
+        controller.actor = double(:create => true, notification_messages: [])
 
         post :create, accept_contributor_agreement: "accept"
         response.should redirect_to path_to_curation_concern
@@ -87,7 +87,7 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
 
     describe "#create failure" do
       it 'renders the form' do
-        controller.actor = double(:create => false)
+        controller.actor = double(:create => false, notification_messages: [])
         post :create, accept_contributor_agreement: "accept"
         expect(response).to render_template('new')
       end
@@ -126,20 +126,20 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     describe "#update" do
       let(:a_work) { FactoryGirl.create(default_work_factory_name, user: user) }
       it "should update the work " do
-        controller.actor = double(:update => true, :visibility_changed? => false)
+        controller.actor = double(:update => true, :visibility_changed? => false, notification_messages: [])
         patch :update, id: a_work
         response.should redirect_to path_to_curation_concern
       end
       describe "changing rights" do
         it "should prompt to change the files access" do
-          controller.actor = double(:update => true, :visibility_changed? => true)
+          controller.actor = double(:update => true, :visibility_changed? => true, notification_messages: [])
           patch :update, id: a_work
           response.should redirect_to confirm_curation_concern_permission_path(controller.curation_concern)
         end
       end
       describe "failure" do
         it "renders the form" do
-          controller.actor = double(:update => false, :visibility_changed? => false)
+          controller.actor = double(:update => false, :visibility_changed? => false, notification_messages: [])
           patch :update, id: a_work
           expect(response).to render_template('edit')
         end
