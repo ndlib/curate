@@ -13,7 +13,7 @@
         <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 
         <%= f.input :date_created,
-          as: :multi_value
+            input_html: {class:'datepicker'}
         %>
 
         <%= f.input :description,
