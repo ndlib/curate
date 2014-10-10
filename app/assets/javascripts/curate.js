@@ -27,6 +27,7 @@
 //= require toggle_details
 //= require help_modal
 //= require jquery.tokeninput
+//= require readmore.min
 //= require curate/select_works
 //= require curate/link_users
 //= require curate/link_groups
@@ -40,7 +41,7 @@
 //= require curate/browse_everything_implement
 //= require curate/validate_doi
 //= require curate/sort_and_per_page
-
+//= require curate/read_more
 
 
 // Initialize plugins and Bootstrap dropdowns on jQuery's ready event as well as
