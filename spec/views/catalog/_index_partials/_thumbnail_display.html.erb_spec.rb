@@ -12,7 +12,7 @@ describe 'catalog/_index_partials/_thumbnail_display' do
       end
     end
 
-    context 'Uploaded Image: ' do
+    context 'Uploaded Image for Person: ' do
       let(:person) { FactoryGirl.create(:person, representative: '1234') }
       before do
         person.stub(:representative_image_url).and_return('/downloads/1234?datastream_id=thumbnail')
@@ -21,6 +21,17 @@ describe 'catalog/_index_partials/_thumbnail_display' do
       it 'should display uploaded image as thumbnail' do
         rendered.should include("/downloads/1234?datastream_id=thumbnail")
       end
+    end
+  end
+
+  context 'Uploaded Image for Article: ' do
+    let(:article) { FactoryGirl.create(:article, representative: '1234') }
+    before do
+      article.stub(:representative_image_url).and_return('/downloads/1234?datastream_id=thumbnail')
+      render partial: 'thumbnail_display', locals: { document: article }
+    end
+    it 'should display uploaded image as thumbnail' do
+      rendered.should include("/downloads/1234?datastream_id=thumbnail")
     end
   end
 
