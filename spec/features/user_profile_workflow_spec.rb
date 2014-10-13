@@ -61,8 +61,6 @@ describe 'user profile workflow', FeatureSupport.options do
       logout
       visit new_user_registration_path
       sign_up_new_user(email, password)
-
-      agree_to_tos
       assert_user_has_not_updated_their_profile_yet(email)
 
       assert_logout_link_is_visible
@@ -114,15 +112,14 @@ describe 'user profile workflow', FeatureSupport.options do
 
     click_link("Sign up")
     sign_up_new_user(email, password)
-    agree_to_tos
-
+    visit edit_user_registration_path
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
       fill_in("user[current_password]", with: password)
       click_button("Update Account")
     end
     click_link("add-content")
-
+    agree_to_tos
     assert_on_page_allowing_upload!
   end
 
