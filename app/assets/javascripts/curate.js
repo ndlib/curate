@@ -83,6 +83,11 @@ Blacklight.onLoad(function() {
 		format: 'yyyy-mm-dd'
 	});
 
+	$('li.disabled').on('click', 'a', function(event) {
+		event.preventDefault();
+	});
+
+
 });
 
 
