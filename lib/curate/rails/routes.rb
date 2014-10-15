@@ -21,6 +21,11 @@ module ActionDispatch::Routing
       end
       #resources :downloads, only: [:show]
 
+      match 'collections' => 'collections#index', via: :get, as: 'curation_concern_collections'
+      match 'collection/:id' => 'collections#show', via: :get, as: 'curation_concern_collection'
+      match 'people/:id' => 'people#show', via: :get, as: 'curation_concern_person'
+      match 'people' => 'people#index', via: :get, as: 'curation_concern_people'
+
       namespace :curation_concern, path: :concern do
         Curate.configuration.registered_curation_concern_types.map(&:tableize).each do |container|
           resources container, except: [:index]
