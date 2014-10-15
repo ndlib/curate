@@ -45,10 +45,11 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
-    it "only requires me to agree once" do
+    it "only requires me to agree once when trying to upload" do
       login_as(user)
-      visit('/')
+      visit new_classify_concern_path
       agree_to_terms_of_service
+      classify_what_you_are_uploading('Generic Work')
       logout
 
       visit('/')
@@ -212,6 +213,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link "Help!"
+      click_link "Report a Problem"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")
@@ -260,7 +262,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     let(:sign_in_count) { 20 }
     it "displays the terms of service page after authentication" do
       login_as(user)
-      visit('/')
+      visit new_classify_concern_path
       agree_to_terms_of_service
       classify_what_you_are_uploading('Generic Work')
       create_generic_work('I Agree' => true, 'Visibility' => 'visibility_open')
