@@ -4,7 +4,7 @@
         <fieldset class="required">
         <legend>
           Attach Your File.
-          <strong>Note - For files larger than<%= t('sufia.supported_file_upload_size') %> please contact <%= mail_to t('sufia.help_email') %> for assistance.
+          <%= file_size_warning %>
         </legend>
           <%= f.input :files, as: :file, label: 'Upload your file' %>
         </fieldset>
