@@ -212,9 +212,10 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link "Help!"
+      click_on("Report a Problem")
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-        click_on("Let Us Know")
+        first(:button, "Let Us Know").trigger('click')
       end
       page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end
@@ -223,9 +224,10 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link "Help!"
+      click_on("Report a Problem")
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-        click_on("Let Us Know")
+        first(:button, "Let Us Know").click
       end
       page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end

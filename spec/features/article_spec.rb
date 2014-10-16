@@ -19,7 +19,7 @@ describe 'Creating a article' do
         check("I have read and accept the contributor license agreement")
         click_button("Create Article")
       end
-      expect(page).to have_selector('h1', text: 'Article')
+      expect(page).to have_selector('span', text: 'Article')
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
       end
