@@ -19,7 +19,7 @@
       <fieldset class="span5">
         <legend>
           Attach Your File.
-          <strong>Note - For files larger than<%= t('sufia.supported_file_upload_size') %> please contact <%= mail_to t('sufia.help_email') %> for assistance.
+          <%= file_size_warning.html_safe %>
         </legend>
         <%= f.input :files, as: :file, label: 'Upload a file', hint: 'A PDF is preferred.'%>
       </fieldset>
