@@ -28,6 +28,7 @@ describe NotificationMailer do
     "Javascript enabled: #{@help_request.javascript_enabled}\n" +
     "User Agent: #{@help_request.user_agent}\n" +
     "Resolution: #{@help_request.resolution}\n" +
+    "Name: #{@help_request.name}\n" +
     "Message: #{@help_request.how_can_we_help_you}"
   }
 
