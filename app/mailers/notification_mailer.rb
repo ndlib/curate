@@ -15,6 +15,7 @@ class NotificationMailer < ActionMailer::Base
     body += "Javascript enabled: #{help_request.javascript_enabled}\n"
     body += "User Agent: #{help_request.user_agent}\n"
     body += "Resolution: #{help_request.resolution}\n"
+    body += "Name: #{help_request.name}\n"
     body += "Message: #{help_request.how_can_we_help_you}"
     body
   end

@@ -38,19 +38,11 @@ class HelpRequest < ActiveRecord::Base
   end
 
   def sender_email
-    if user
-      user.email || I18n.t('sufia.help_email')
-    else
-      I18n.t('sufia.help_email')
-    end
+    user.try(:email) || email || I18n.t('sufia.help_email')
   end
 
   def user_name
-    if user
-      user.user_key || 'Unknown'
-    else
-      'Unknown'
-    end
+    user.try(:user_key) || name || 'Unknown'
   end
 
   private

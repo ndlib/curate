@@ -25,11 +25,10 @@ $(function(){
     event.preventDefault();
 
     $('body').modalmanager('loading');
-
     setTimeout(function(){
       $modal.load('/help_requests/new #new_help_request', function(){
+        $('body').modalmanager('loading')
         $modal.modal();
-        $('body').modalmanager('loading');
         populateHelpForm();
       });
     }, 1000);
