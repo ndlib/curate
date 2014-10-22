@@ -26,8 +26,6 @@ describe 'Creating an etd' do
     click_button 'keyword-search-submit'
     within('#documents') do
       expect(page).to have_link('umami sartorial Williamsburg church-key') #title
-      expect(page).to have_selector('dd', text: 'Paleoethnography')
-      expect(page).to have_selector('dd', text: '2013 October 4')
     end
   end
 end
