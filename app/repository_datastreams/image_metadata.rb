@@ -19,7 +19,7 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.date_created(:to => "created", :in => RDF::DC) do |index|
-      index.as :stored_searchable
+      index.as :stored_searchable, :facetable
     end
 
     map.description(in: RDF::DC) do |index|
