@@ -13,13 +13,13 @@ describe Image do
   it { should have_unique_field(:identifier) }
   it { should have_unique_field(:rights) }
   it { should have_unique_field(:date_created) }
+  it { should have_unique_field(:description) }
 
   it { should have_multivalue_field(:source) }
 
   it { should have_multivalue_field(:creator) }
   it { should have_multivalue_field(:subject) }
   it { should have_multivalue_field(:publisher) }
-  it { should have_multivalue_field(:description) }
 
 
   describe 'to_solr' do
