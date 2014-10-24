@@ -20,9 +20,9 @@
           <dt>Abstract:</dt>
           <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__abstract_tesim'), length: 500) %></dd>
         <% end %>
-        <% if solr_doc.has?('date_created_derived_dtsim') %>
+        <% if solr_doc.has?('desc_metadata__date_created_tesim') %>
           <dt>Date Created:</dt>
-          <dd><%= render_index_field_value(document: solr_doc, field: 'date_created_derived_dtsim') %></dd>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__date_created_tesim') %></dd>
         <% end %>
       </dl>
 
