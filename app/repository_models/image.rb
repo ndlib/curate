@@ -39,7 +39,7 @@ class Image < ActiveFedora::Base
 
     ds.attribute :description,
       label: "Description",
-      multiple: true
+      multiple: false
 
     ds.attribute :alternate_title,
       label: "Alternate Title",
