@@ -4,6 +4,7 @@ class DownloadsController < ApplicationController
   include Sufia::Noid # for normalize_identifier method
   include Hydra::Controller::DownloadBehavior
   prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
+  with_themed_layout
 
   def datastream_to_show
     super
