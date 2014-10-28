@@ -1,0 +1,9 @@
+<% content_for :page_title, construct_page_title("#{response.status} - Page Is Gone") %>
+<% content_for :page_header do %>
+  <h1>The page is gone</h1>
+<% end %>
+
+<p>
+  The page you are looking for is no longer available in <%= t('sufia.product_name') %>.
+  It may have been removed by the owner or the university.
+</p>
