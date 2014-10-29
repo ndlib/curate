@@ -29,7 +29,7 @@ class Document < GenericWork
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
  
-  attribute :date_created,               datastream: :descMetadata, multiple: false, default: Date.today.to_s("%Y-%m-%d")
+  attribute :date_created,               datastream: :descMetadata, multiple: false, default: lambda { Date.today.to_s("%Y-%m-%d") }
   attribute :date_uploaded,              datastream: :descMetadata, multiple: false
   attribute :date_modified,              datastream: :descMetadata, multiple: false
   attribute :alternate_title,            datastream: :descMetadata, multiple: true
