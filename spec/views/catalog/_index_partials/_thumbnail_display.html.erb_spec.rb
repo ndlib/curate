@@ -1,5 +1,12 @@
 require 'spec_helper'
 describe 'catalog/_index_partials/_thumbnail_display' do
+  context 'no image found' do
+    let(:document) { double(:persisted? => false) }
+    it 'does renders a link' do
+      render partial: 'thumbnail_display', locals: { title_link_target: '/path/to/target', document: document }
+      expect(rendered.strip).to eq(%(<a href="/path/to/target"><span class="canonical-image"></span></a>))
+    end
+  end
   context 'Person: ' do
     context 'Gravatar Image: ' do
       let(:person) { FactoryGirl.create(:person, representative: '1234') }

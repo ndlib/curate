@@ -6,5 +6,5 @@
 <%- elsif document.persisted? -%>
   <%= link_to(image_tag(download_path(document,  'thumbnail'), html_options = { class: "canonical-image"}), title_link_target)  %>
 <%- else -%>
-  <%= link_to('<span class="canonical-image"></span>', title_link_target) %>
+  <%= link_to('<span class="canonical-image"></span>'.html_safe, title_link_target) %>
 <%- end -%>
