@@ -24,7 +24,7 @@ module Curate
 
     config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
-    config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
+    config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :gone
     config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
     config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
     config.action_dispatch.rescue_responses["Rubydora::RecordNotFound"] = :not_found
