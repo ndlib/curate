@@ -65,7 +65,7 @@ class Etd < ActiveFedora::Base
       multiple: true,
       validates: { presence: { message: "Your #{etd_label} must have an advisor." } }
     ds.attribute :date_created,
-      default: Date.today.to_s("%Y-%m-%d"),
+      default: lambda { Date.today.to_s("%Y-%m-%d") },
       label: "Date",
       hint: "The date that appears on the title page or equivalent of the #{etd_label}.",
       multiple: false,
