@@ -24,17 +24,20 @@
       </div>
     </div>
   <% elsif !(curation_concern.owner == current_user.user_key) %>
-    <fieldset class="row with-footroom">
+    <div class="row with-footroom">
       <div class="span12">
-        <legend>
-          Ownership
-        </legend>
+        <fieldset>
+          <legend>
+            Ownership
+          </legend>
+
+          <div class="controls" id="delegate-actions">
+            <section class="help-block">
+              This <%= curation_concern.human_readable_type %> is owned by <%= curation_concern.owner %>.
+            </section>
+          </div>
+        </fieldset>
       </div>
-      <div class="controls span12" id="delegate-actions">
-        <section class="help-block">
-          This <%= curation_concern.human_readable_type %> is owned by <%= curation_concern.owner %>.
-        </section>
-      </div>
-    </fieldset>
+    </div>
   <% end %>
 <% end %>
