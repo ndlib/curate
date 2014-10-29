@@ -57,9 +57,17 @@ module CurationConcern
 
     def save
       curation_concern.extend(CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior)
-      curation_concern.apply_doi_assignment_strategy(self) do |*|
-        curation_concern.save && (block_given? ? yield : true)
+      return curation_concern.apply_doi_assignment_strategy(self) do |*|
+        curation_concern.save && (block_given? ? yield : true) && apply_access_permissions
       end
+    end
+
+    def apply_access_permissions
+      Sufia.queue.push(AccessPermissionsCopyWorker.new(pid_for_object_to_copy_permissions_from))
+    end
+
+    def pid_for_object_to_copy_permissions_from
+      curation_concern.pid
     end
 
     def apply_save_data_to_curation_concern
