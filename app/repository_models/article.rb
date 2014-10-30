@@ -53,7 +53,7 @@ class Article < ActiveFedora::Base
     label: "Recommended Citation",
     datastream: :descMetadata, multiple: true
   attribute :date_created,
-    default: Date.today.to_s("%Y-%m-%d"),
+    default: lambda { Date.today.to_s("%Y-%m-%d") },
     label: "When did your finish your Article",
     hint: "This does not need to be exact, but your best guess.",
     datastream: :descMetadata, multiple: false
