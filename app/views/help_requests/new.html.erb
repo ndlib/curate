@@ -51,25 +51,8 @@
   <%= f.input :current_url, as: 'hidden' %>
   <% end -%>
   <%= f.input :javascript_enabled, as: 'hidden' %>
-  <div class="control-group text required">
-    <span class="control-label">
-      <label class="text required" for="name">
-        <abbr class="required-indicator" title="" data-placement="right" data-original-title="Required">★</abbr>
-        Your Username
-      </label>
-    </span>
-    <div class="controls"><%= f.text_field :name, as: 'text', required: 'required', value: help_request.form_name %></div>
-  </div>
-
-  <div class="control-group text required">   
-    <span class="control-label">
-      <label class="text required" for="email">
-        <abbr class="required-indicator" title="" data-placement="right" data-original-title="Required">★</abbr>
-        Your Email Address
-      </label>
-      <div class="controls"><%= f.text_field :email, as: 'text',  required: 'required', value: help_request.form_email %></div>
-    </span>
-  </div>
+  <%= f.input :name, value: help_request.form_name %>
+  <%= f.input :email, value: help_request.form_email %>
   <legend>Describe Your Issue</legend>
   <%= f.input :how_can_we_help_you, as: 'text', input_html: { class: 'input-xxxlarge', rows: '10' } %>
 </fieldset>
