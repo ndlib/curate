@@ -10,6 +10,9 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.creator(to: 'creator#author', in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end
+    map.affiliation(to: 'creator#affiliation', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
     map.contributor(to: 'contributor#author', in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end

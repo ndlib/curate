@@ -72,6 +72,11 @@ module CurationConcern
       curation_concern_type.name.underscore.to_sym
     end
 
+    def affiliations
+      @affiliations ||= Affiliation.values.collect{|entity|[entity.label,entity.human_name]}
+    end
+    helper_method :affiliations
+
     register :curation_concern do
       if params[:id]
         if curation_concern_type == ActiveFedora::Base

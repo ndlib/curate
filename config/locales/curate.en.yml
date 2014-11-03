@@ -1,0 +1,15 @@
+en:
+  curate:
+    organization_affiliation:
+      label:
+        faculty: "Faculty research and publications"
+        staff: "Staff research and publications"
+        graduate: "Graduate research and publications "
+        undergraduate: "Undergraduate research and publications "
+        other: "Other"
+      name:
+        faculty: "Faculty"
+        staff: "Staff"
+        graduate: "Graduate"
+        undergraduate: "Undergraduate"
+        other: "Other"

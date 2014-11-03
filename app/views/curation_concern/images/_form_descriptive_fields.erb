@@ -16,6 +16,12 @@
             input_html: {class:'datepicker'}
         %>
 
+        <%= f.input :affiliation,
+                    as: :select,
+                    collection: affiliations,
+                    input_html: { class: 'input-xlarge' }
+        %>
+
         <%= f.input :description,
           as: :text,
           input_html: {
