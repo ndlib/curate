@@ -30,7 +30,12 @@ class Image < ActiveFedora::Base
       multiple: true,
       validates: { multi_value_presence: { message: "Your #{image_label} must have a creator." } }
 
-    ds.attribute :affiliation, multiple: false
+    ds.attribute :affiliation,datastream: :descMetadata, hint: "Creator's Affiliation to the Institution.", multiple: false
+
+    ds.attribute :organization,
+              datastream: :descMetadata, multiple: true,
+              label: "School & Department",
+              hint: "School and Department that creator belong to."
 
     ds.attribute :date_created,
       default: lambda { Date.today.to_s("%Y-%m-%d") },

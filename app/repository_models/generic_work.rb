@@ -28,7 +28,11 @@ class GenericWork < ActiveFedora::Base
   attribute :date_modified,  datastream: :descMetadata, multiple: false
   attribute :available,      datastream: :descMetadata, multiple: false
   attribute :creator,        datastream: :descMetadata, multiple: false
-  attribute :affiliation,    datastream: :descMetadata, multiple: false
+  attribute :affiliation,datastream: :descMetadata, hint: "Creator's Affiliation to the Institution.", multiple: false
+  attribute :organization,
+            datastream: :descMetadata, multiple: true,
+            label: "School & Department",
+            hint: "School and Department that creator belong to."
   attribute :content_format, datastream: :descMetadata, multiple: false
 
   attribute :contributor,            datastream: :descMetadata, multiple: true

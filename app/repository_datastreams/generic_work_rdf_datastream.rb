@@ -19,6 +19,10 @@ class GenericWorkRdfDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.organization(to: 'creator#organization', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.description(in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable
