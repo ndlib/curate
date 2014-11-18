@@ -26,6 +26,7 @@ class Article < ActiveFedora::Base
   attribute :alternate_title,
     datastream: :descMetadata, multiple: true
   attribute :creator, datastream: :descMetadata, multiple: true, validates: { multi_value_presence: true }
+  attribute :affiliation,datastream: :descMetadata, multiple: false
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",

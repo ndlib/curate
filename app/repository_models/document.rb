@@ -28,6 +28,8 @@ class Document < GenericWork
     multiple: false,
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
+
+  attribute :affiliation, datastream: :descMetadata, multiple: false
  
   attribute :date_created,               datastream: :descMetadata, multiple: false, default: lambda { Date.today.to_s("%Y-%m-%d") }
   attribute :date_uploaded,              datastream: :descMetadata, multiple: false

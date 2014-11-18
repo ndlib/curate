@@ -1,3 +1,5 @@
+require File.expand_path('../../../lib/rdf/qualified_dc', __FILE__)
+
 class GenericWorkRdfDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
     map.title(in: RDF::DC) do |index|
@@ -12,6 +14,11 @@ class GenericWorkRdfDatastream < ActiveFedora::NtriplesRDFDatastream
     map.creator(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
+
+    map.affiliation(to: 'creator#affiliation', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.description(in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable

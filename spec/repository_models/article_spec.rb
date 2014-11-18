@@ -14,6 +14,7 @@ describe Article do
   it { should have_unique_field(:date_uploaded) }
   it { should have_unique_field(:date_modified) }
   it { should have_unique_field(:doi) }
+  it { should have_unique_field(:affiliation) }
 
   it { should have_multivalue_field(:source) }
   it { should have_multivalue_field(:issn) }

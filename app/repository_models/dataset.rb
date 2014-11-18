@@ -25,6 +25,7 @@ class Dataset < ActiveFedora::Base
             multiple: false,
             validates: {presence: { message: 'You must select a license for your dataset.' }}
   attribute :contributor, datastream: :descMetadata, multiple: true
+  attribute :affiliation, datastream: :descMetadata, multiple: false
 
   attribute :date_created,            datastream: :descMetadata, multiple: false, default: lambda { Date.today.to_s("%Y-%m-%d") }
   attribute :date_uploaded,           datastream: :descMetadata, multiple: false

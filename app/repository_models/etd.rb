@@ -28,6 +28,7 @@ class Etd < ActiveFedora::Base
   self.contributor_label = 'Author'
 
   with_options datastream: :descMetadata do |ds|
+    ds.attribute :affiliation, multiple: false
     ds.attribute :contributor,
       multiple: true,
       label: "Contributor(s)",
