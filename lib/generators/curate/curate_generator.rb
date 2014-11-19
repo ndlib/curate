@@ -163,7 +163,12 @@ This generator makes the following changes to your application:
   def create_predicate_mapping
     template 'predicate_mappings.yml', 'config/predicate_mappings.yml'
   end
+
   def create_licensing_permissions
     template 'licensing_permissions.yml', 'config/licensing_permissions.yml'
+  end
+
+  def create_departments
+    template 'departments.yml', 'config/departments.yml'
   end
 end

@@ -19,6 +19,10 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.organization(to: 'creator#organization', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.contributor(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end

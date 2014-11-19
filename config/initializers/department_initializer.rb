@@ -1,0 +1,1 @@
+DEPARTMENTS = YAML.load( File.open( Rails.root.join( 'config/departments.yml' ) ) ).freeze if File.exist?(Rails.root.join( 'config/departments.yml'))
