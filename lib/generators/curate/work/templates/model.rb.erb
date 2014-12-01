@@ -34,6 +34,7 @@ class <%= class_name %> < ActiveFedora::Base
   attribute :content_format, datastream: :descMetadata, multiple: false
   attribute :identifier,     datastream: :descMetadata, multiple: false
   attribute :affiliation,    datastream: :descMetadata, multiple: false
+  attribute :organization,   datastream: :descMetadata, multiple: false
 
   attribute :contributor,            datastream: :descMetadata, multiple: true
   attribute :publisher,              datastream: :descMetadata, multiple: true
