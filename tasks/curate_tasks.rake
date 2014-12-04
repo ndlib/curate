@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 DUMMY_APP = 'spec/internal'
 APP_ROOT = '.'
 require 'jettywrapper'
-JETTY_ZIP_BASENAME = 'master'
+JETTY_ZIP_BASENAME = 'v7.0.0'
 Jettywrapper.url = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 def system_with_command_output(command, options = {})
