@@ -21,6 +21,30 @@
 </div>
 
 <div class="row with-headroom">
+  <fieldset id="content-editor">
+    <legend class="span12">
+      <%=t('sufia.work.collaborator.legend') %>
+      <small><%=t('sufia.work.collaborator.caption') %></small>
+    </legend>
+    <div class="span7" id="required-information">
+      <%= render "linked_editors", curation_concern: curation_concern, f: f %>
+    </div>
+
+    <div class="span7" id="additional-information">
+      <%= render "linked_groups", curation_concern: curation_concern, f: f %>
+    </div>
+
+    <div class="span7" id="additional-information">
+      <%= render "linked_viewers", curation_concern: curation_concern, f: f %>
+    </div>
+
+    <div class="span7" id="additional-information">
+      <%= render "linked_viewer_groups", curation_concern: curation_concern, f: f %>
+    </div>
+  </fieldset>
+</div>
+
+<div class="row with-headroom">
   <div class="span12">
     <%= render "form_content_license", curation_concern: curation_concern, f: f %>
   </div>

@@ -18,15 +18,21 @@ en:
     profile:
       default_title:    "Selected Works:"
     work:
-      editor:
-        legend:         "Content Editors"
-        caption:        "Who should be able to make changes to this work?"
-        individual:
-          name:         "Individual"
-          help:         "At least one person should be able to edit this work"
-        group:
-          name:         "Group"
-          help:         "Add groups to allow others to collaboratively edit this work."
+      collaborator:
+        legend:         "Collaborators"
+        caption:        "Who can work with this content?"
+        editor:
+          name:         "Individual Editors"
+          help:         "These people can make changes to this work. There should be atleast one editor"
+        editor_group:
+          name:         "Group Editors"
+          help:         "These groups can make changes to this work."
+        viewer:
+          name:         "Individual Viewers"
+          help:         "These people can view this work but not make changes."
+        viewer_group:
+          name:         "Group Viewers"
+          help:         "These groups can view this work but not make changes."
   curate:
     notification_messages:
       minting_doi: "Your DOI for your work is being requested. It may take a few minutes to generate."

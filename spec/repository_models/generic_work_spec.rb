@@ -74,6 +74,48 @@ describe GenericWork do
 
   end
 
+  describe 'Viewer' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:another_person) { FactoryGirl.create(:person_with_user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_viewer' do
+      it 'should add viewer' do
+        work.viewers.should == []
+        work.add_viewer(another_person.user)
+
+        work.save!
+
+        work.reload
+        work.viewers.should eq [another_person]
+        work.read_users.should eq [another_person.depositor]
+      end
+
+      it 'should not add non-work objects' do
+        work.viewers.should == []
+        expect { work.add_viewer(collection) }.to raise_error ArgumentError
+        work.reload.viewers.should == []
+      end
+    end
+
+    describe '#remove_viewer' do
+      before do
+        work.viewers.should == []
+        work.add_viewer(another_person.user)
+        work.save!
+        work.reload
+      end
+      it 'should remove viewer' do
+        work.remove_viewer(another_person.user)
+
+        work.reload
+
+        work.viewers.should == []
+        work.read_users.should_not include(another_person.user.user_key)
+      end
+    end
+  end
+
   describe 'Editor' do
     let(:person) { FactoryGirl.create(:person_with_user) }
     let(:another_person) { FactoryGirl.create(:person_with_user) }
@@ -113,6 +155,61 @@ describe GenericWork do
 
         work.editors.should == []
         work.edit_users.should_not include(another_person.user.user_key)
+      end
+    end
+  end
+
+
+  describe 'ViewerGroup' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:user) { person.user }
+    let(:group) { FactoryGirl.create(:group, user: user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_editor_group' do
+      it 'should add group' do
+        work.viewer_groups.should == []
+
+        work.add_viewer_group(group)
+
+        work.reload
+
+        work.viewer_groups.should == [group]
+        work.read_groups.should include(group.pid)
+        work.edit_groups.should_not include(group.pid)
+      end
+
+      it 'should not add non-group objects' do
+        expect { work.add_viewer_group(collection) }.to raise_error ArgumentError
+        work.reload.viewer_groups.should == []
+      end
+    end
+
+    describe '#remove_viewer_group' do
+      before do
+        work.viewer_groups.should == []
+        work.add_viewer_group(group)
+
+        work.reload
+      end
+
+      it 'should remove_viewer_group' do
+        work.remove_viewer_group(group)
+
+        work.reload
+
+        work.viewer_groups.should == []
+        work.viewer_groups.should_not include(group.pid)
+      end
+
+      it 'should delete relationship when related object is deleted' do
+        group_pid = group.pid
+        group.destroy
+
+        work.reload
+
+        work.read_groups.should_not include(group_pid)
+        work.datastreams['RELS-EXT'].content.to_s.should_not include(group_pid)
       end
     end
   end
