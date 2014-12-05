@@ -1,13 +1,18 @@
 class CurationConcern::WorkPermission
-  def self.create(work, action, editors, groups)
-    update_editors(work, editors, action)
-    update_groups(work, groups, action)
+  def self.create(work, action, people, groups, type='viewer')
+    if type == 'editor'
+      update_editors(work, people, action)
+      update_editor_groups(work, groups, action)
+    else
+      update_viewers(work, people, action)
+      update_viewer_groups(work, groups, action)
+    end
     true
   end
 
   private
 
-    def self.decide_editorship_action(attributes_collection, action_type)
+    def self.decide_action(attributes_collection, action_type)
       sorted = { remove: [], create: [] }
       return sorted unless attributes_collection
       if attributes_collection.is_a? Hash
@@ -41,7 +46,7 @@ class CurationConcern::WorkPermission
       ::User.find_by_repository_id(person_id)
     end
 
-    def self.editor_group(group_id)
+    def self.group(group_id)
       return nil unless group_id.present?
       Hydramata::Group.find(group_id)
     rescue ActiveFedora::ObjectNotFoundError, Rubydora::FedoraInvalidRequest
@@ -49,16 +54,29 @@ class CurationConcern::WorkPermission
     end
 
     def self.update_editors(work, editors, action)
-      collection = decide_editorship_action(editors, action)
+      collection = decide_action(editors, action)
       work.remove_editors(collection[:remove].map { |u| user(u) }.compact)
       work.add_editors(collection[:create].map { |u| user(u) }.compact)
       work.save!
     end
 
+    def self.update_viewers(work, viewers, action)
+      collection = decide_action(viewers, action)
+      work.remove_viewers(collection[:remove].map { |u| user(u) }.compact)
+      work.add_viewers(collection[:create].map { |u| user(u) }.compact)
+      work.save!
+    end
+
     # This is extremely expensive because add_editor_group causes a save each time.
-    def self.update_groups(work, editor_groups, action)
-      collection = decide_editorship_action(editor_groups, action)
-      work.remove_editor_groups(collection[:remove].map { |grp| editor_group(grp) }.compact)
-      work.add_editor_groups(collection[:create].map { |grp| editor_group(grp) }.compact)
+    def self.update_editor_groups(work, editor_groups, action)
+      collection = decide_action(editor_groups, action)
+      work.remove_editor_groups(collection[:remove].map { |grp| group(grp) }.compact)
+      work.add_editor_groups(collection[:create].map { |grp| group(grp) }.compact)
+    end
+
+    def self.update_viewer_groups(work, viewer_groups, action)
+      collection = decide_action(viewer_groups, action)
+      work.remove_viewer_groups(collection[:remove].map { |grp| group(grp) }.compact)
+      work.add_viewer_groups(collection[:create].map { |grp| group(grp) }.compact)
     end
 end

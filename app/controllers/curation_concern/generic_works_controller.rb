@@ -39,6 +39,8 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
     curation_concern.editor_groups.build
+    curation_concern.viewers.build
+    curation_concern.viewer_groups.build
   end
   protected :setup_form
 

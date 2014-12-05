@@ -18,26 +18,38 @@ describe 'curation_concern/base/_form.html.erb' do
       expect(rendered).to have_link('Cancel', href: root_path)
     end
     it 'should have editor legend' do
-      expect(rendered).to have_text(t('sufia.work.editor.legend'))
-      expect(rendered).to have_text(t('sufia.work.editor.caption'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.legend'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.caption'))
     end
     it 'should have editor in its own fieldset' do
       expect(rendered).to have_selector('fieldset#set-editors div#editors')
     end
     it 'should have labeled editor field' do
-      expect(rendered).to have_text(t('sufia.work.editor.individual.name'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.editor.name'))
     end
     it 'should have inline editor help text' do
-      expect(rendered).to have_text(t('sufia.work.editor.individual.help'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.editor.help'))
     end
     it 'should have groups in their own fieldset' do
       expect(rendered).to have_selector('fieldset#set-groups div#groups')
     end
     it 'should show the editor group name' do
-      expect(rendered).to have_text(t('sufia.work.editor.group.name'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.editor_group.name'))
     end
     it 'should have group help text' do
-      expect(rendered).to have_text(t('sufia.work.editor.group.help'))
+      expect(rendered).to have_text(t('sufia.work.collaborator.editor_group.help'))
+    end
+    it 'should have viewer in its own fieldset' do
+      expect(rendered).to have_selector('fieldset#set-viewers div#viewers')
+    end
+    it 'should have labeled viewer field' do
+      expect(rendered).to have_text(t('sufia.work.collaborator.viewer.name'))
+    end
+    it 'should show the viewer group name' do
+      expect(rendered).to have_text(t('sufia.work.collaborator.viewer_group.name'))
+    end
+    it 'should have group help text' do
+      expect(rendered).to have_text(t('sufia.work.collaborator.viewer_group.help'))
     end
   end
 

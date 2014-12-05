@@ -7,7 +7,7 @@ describe CurationConcern::WorkPermission do
   context "non existent group" do
     it "should not complain for adding and removing" do
       expect{
-        CurationConcern::WorkPermission.update_groups(generic_work, invalid_groups, "update")
+        CurationConcern::WorkPermission.update_editor_groups(generic_work, invalid_groups, "update")
       }.to_not raise_error
     end
   end

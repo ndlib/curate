@@ -10,10 +10,12 @@ class Hydramata::Group < ActiveFedora::Base
 
   has_and_belongs_to_many :members, class_name: "::Person", property: :has_member, inverse_of: :is_member_of
   has_and_belongs_to_many :works, class_name: "::ActiveFedora::Base", property: :is_editor_group_of, inverse_of: :has_editor_group
+  has_and_belongs_to_many :view_works, class_name: "::ActiveFedora::Base", property: :is_viewer_group_of, inverse_of: :has_viewer_group
   before_destroy :remove_associations
   has_metadata "descMetadata", type: GroupMetadataDatastream
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :works, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :view_works, allow_destroy: true, reject_if: :all_blank
 
   has_attributes :title, :date_uploaded, :date_modified, :description, datastream: :descMetadata, multiple: false
   validates :title, presence: true
@@ -109,6 +111,10 @@ class Hydramata::Group < ActiveFedora::Base
   def remove_works
     self.works.each do |work|
       work.remove_editor_group(self)
+    end
+
+    self.view_works.each do |work|
+      work.remove_viewer_group(self)
     end
   end
 
