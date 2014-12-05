@@ -22,6 +22,7 @@
 //= require bootstrap-tooltip
 //= require bootstrap-popover
 //= require bootstrap-datepicker/core
+//= require select2
 //
 //= require manage_repeating_fields
 //= require toggle_details
@@ -87,6 +88,33 @@ Blacklight.onLoad(function() {
 		event.preventDefault();
 	});
 
+	$(".department-select").select2({
+		placeholder: "Make a Selection",
+		formatResultCssClass:function(object) {
+									if(object.disabled === true){
+										return "bold-row";
+									}
+								},
+		formatResult: format
+
+	});
+
+	function format(option, container, query) {
+		var originalOption = option.element;
+		var noOfSpaces= $(originalOption).data('indent')
+		if (noOfSpaces==undefined )
+			return option.text;
+		else{
+			var space = "&nbsp",
+			returnValue = "";
+			for(var index=0; index < noOfSpaces*3; index++) {
+				returnValue += space;
+			}
+			return  returnValue + option.text;
+		}
+
+
+	}
 
 });
 
