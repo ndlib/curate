@@ -1,24 +1,26 @@
 <% label ||= 'Members' %>
 <div class="control-group required link-users" id="members">
   <div class="row">
-    <div class="span4">
+    <div class="span6">
       <span class="control-label">
         <label class="required" for="<%=f.object_name.downcase%>_members_attributes_0_name">
-          <%= label %>
+          <h2><%= label %></h2>
+          <p><%= I18n.t('curate.group.members') %></p>
         </label>
       </span>
-    </div>
-    <div class="span2 text-center">
-      Can edit group
     </div>
   </div>
   <div class="controls">
     <% prefix = f.object_name.downcase %>
 
     <script id="entry-template" type="text/x-handlebars-template">
+      <% mem_val = [['Member', '0'], ['Owner', "{{value}}"]] %>
       <li class="field-wrapper input-append">
         <div class="row">
-          <div class="span4">
+          <div class="span3 text-center">
+            <%= select_tag "group_member[edit_users_ids][]", options_for_select(mem_val, ''), prompt: 'Make a Selection', class: 'input-xlarge' %>
+          </div>
+          <div class="span3">
             <input class="input-xlarge autocomplete-users" data-url="/people" id="<%=prefix %>_members_attributes_{{index}}_name" name="<%=prefix %>[members_attributes][{{index}}][name]" type="text" value="" />
             <span class="field-controls">
               <button class="btn btn-success add">
@@ -27,17 +29,16 @@
               </button>
             </span>
           </div>
-          <div class="span2 text-center">
-            <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", false %></label>
-            <input id="<%=prefix %>_members_attributes_{{index}}_id" name="<%=prefix %>[members_attributes][{{index}}][id]" type="hidden" value="" />
-          </div>
         </div>
       </li>
     </script>
     <script id="existing-user-template" type="text/x-handlebars-template">
       <li class="field-wrapper input-append">
         <div class="row">
-          <div class="span4">
+          <div class="span3 text-center">
+            <%= select_tag "group_member[edit_users_ids][]", options_for_select(mem_val, selected: @group.owner?("{{value}}")), prompt: 'Make a Selection', class: 'input-xlarge' %>
+          </div>
+          <div class="span3">
             <span class="linked-user">
               <a href="/people/{{value}}" target="_new">{{label}}</a>
             </span>
@@ -48,9 +49,6 @@
                 <span>Remove</span>
               </button>
             </span>
-          </div>
-          <div class="span2 text-center">
-            <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", "{{value}}", @group.edit_users.include?("{{value}}") %></label>
           </div>
         </div>
       </li>
@@ -63,7 +61,22 @@
           <div class="row">
             <%= memberField.hidden_field :id %>
             <%= memberField.hidden_field :_destroy %>
-            <div class="span4">
+            <div class="span3 text-center">
+              <% mem_val = [['Member', '0'], ['Owner', memberField.object.pid]] %>
+              <label class="checkbox inline-checkbox">
+                <% if memberField.object.persisted? %>
+                  <% if ( @group.edit_users.include?(memberField.object.user_key) && ( @group.edit_users.size == 1 ) ) %>
+                    <%= select_tag "group_member[edit_users_ids][]", options_for_select(mem_val, selected: @group.owner?(memberField.object)), class: 'input-xlarge', disabled: true %>
+                    <%= hidden_field_tag "group_member[edit_users_ids][]", memberField.object.pid %>
+                  <% else %>
+                    <%= select_tag "group_member[edit_users_ids][]", options_for_select(mem_val, selected: @group.owner?(memberField.object)), class: 'input-xlarge' %>
+                  <% end %>
+                <% else %>
+                  <%= select_tag "group_member[edit_users_ids][]", options_for_select(mem_val), prompt: 'Make a Selection', class: 'input-xlarge' %>
+                <% end %>
+              </label>
+            </div>
+            <div class="span3">
               <% if memberField.object.persisted? %>
                 <% if ( @group.edit_users.include?(memberField.object.user_key) && @group.edit_users.size == 1 ) %>
                   <span class="linked-user current-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
@@ -77,20 +90,6 @@
                 <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0  %>
                 <span class="field-controls"></span>
               <% end %>
-            </div>
-            <div class="span2 text-center">
-              <label class="checkbox inline-checkbox">
-                <% if memberField.object.persisted? %>
-                  <% if ( @group.edit_users.include?(memberField.object.user_key) && ( @group.edit_users.size == 1 ) ) %>
-                    <%= check_box_tag "current_user_disabled", 'checked', true, disabled: true %>
-                    <%= hidden_field_tag "group_member[edit_users_ids][]", memberField.object.pid %>
-                  <% else %>
-                    <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.user_key) %>
-                  <% end %>
-                <% else %>
-                  <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, false %>
-                <% end %>
-              </label>
             </div>
           </div>
         </li>

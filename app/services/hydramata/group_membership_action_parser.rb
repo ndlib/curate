@@ -33,8 +33,6 @@ module Hydramata::GroupMembershipActionParser
         elsif !value["id"].nil? and value["id"] == "" and value["_destroy"].nil?
           #empty member field, do nothing with membership
           action << "none"
-        else
-          raise Exception, "Exception placeholder"
         end
       end
       
