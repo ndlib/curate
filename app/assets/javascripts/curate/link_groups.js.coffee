@@ -73,6 +73,7 @@
       $currentGroup = $(el).closest('li')
       $listing = $currentGroup.closest('.listing')
       $currentGroup.hide()
+      $('input[data-info="not-persisted"]', $currentGroup).val('true')
       # set the destroy flag
       $('input:not([value])', $currentGroup).val('true')
       false
