@@ -73,6 +73,7 @@
       $currentUser = $(el).closest('li')
       $listing = $currentUser.closest('.listing')
       $currentUser.hide()
+      $('input[data-info="not-persisted"]', $currentUser).val('true')
       # set the destroy flag
       $('input:not([value])', $currentUser).val('true')
       false
