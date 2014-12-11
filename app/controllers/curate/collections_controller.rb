@@ -50,28 +50,42 @@ class Curate::CollectionsController < ApplicationController
   # This filters out objects that you want to exclude from search results, like FileAssets
   Curate::CollectionsController.solr_search_params_logic += [:only_collections]
 
-  skip_load_and_authorize_resource only: [:add_member_form, :add_member, :remove_member]
+  skip_load_and_authorize_resource only: [:add_member_form, :add_member, :remove_member, :create]
   before_filter :load_and_authorize_collectible, only: [:add_member_form, :add_member]
   before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
 
   def new
     super
     @add_to_profile = params.delete(:add_to_profile)
+    setup_form if !@add_to_profile
   end
 
   def create
-    super
+    if params.has_key?("collection")
+      init_collection
+    elsif params.has_key?("profile_section")
+      init_profile_sections
+    end
+    super 
     extract_file_parameter
   end
 
   def update
-    super
+    viewers = params['collection'].delete('viewers_attributes')
+    viewer_groups = params['collection'].delete('viewer_groups_attributes')
+    add_or_update_viewers_and_groups(viewers, viewer_groups, :create) &&
+      super
     extract_file_parameter
   end
 
   def index
     super
     redirect_to catalog_index_path(:'f[generic_type_sim][]' => 'Collection', works: 'mine')
+  end
+
+  def edit
+    super
+    setup_form if !params['add_to_profile']
   end
 
   def add_member_form
@@ -169,6 +183,30 @@ class Curate::CollectionsController < ApplicationController
   #  e.g. collections.collection_path(@collection)
   def collections
     self
+  end
+
+  def setup_form
+    @collection.viewers.build
+    @collection.viewer_groups.build
+  end
+  protected :setup_form
+
+  def add_or_update_viewers_and_groups(viewers, groups, action)
+    CurationConcern::WorkPermission.create(@collection, action, viewers,
+                                           groups, 'viewer')
+  end
+
+  def init_profile_sections
+    @collection = ProfileSection.new(params['profile_section'])
+    @collection.save
+  end
+
+  def init_collection
+    viewers = params['collection'].delete('viewers_attributes')
+    viewer_groups = params['collection'].delete('viewer_groups_attributes')
+    @collection = Collection.new(params['collection'])
+    @collection.save
+    add_or_update_viewers_and_groups(viewers, viewer_groups, :create)
   end
 
 end

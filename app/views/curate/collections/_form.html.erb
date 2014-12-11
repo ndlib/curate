@@ -52,6 +52,16 @@
     </div>
 
     <%= render partial: 'form_permission', locals: {f: f} %>
+    <fieldset>
+      <legend>Collaborators</legend>
+      <div class="span7" id="additional-information">
+        <%= render "linked_viewers", curation_concern: @collection, f: f %>
+      </div>
+
+      <div class="span7" id="additional-information">
+        <%= render "linked_viewer_groups", curation_concern: @collection, f: f %>
+      </div>
+    </fieldset>
   <% end %>
 
   <%= hidden_collection_members %>
