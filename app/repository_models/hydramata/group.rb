@@ -88,6 +88,15 @@ class Hydramata::Group < ActiveFedora::Base
     self.save!
   end
 
+  def owner?(member)
+    # check if member is an object or just an id obtained by javascript
+    if member.respond_to?(:user_key)
+      edit_users.include?(member.user_key) ? member.pid : '0'
+    else
+      edit_users.include?(member) ? member : '0'
+    end
+  end
+
   private
 
   def remove_associations
