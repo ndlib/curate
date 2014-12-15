@@ -33,6 +33,17 @@ en:
         viewer_group:
           name:         "Group Viewers"
           help:         "These groups can view this work but not make changes."
+    collection:
+      collaborator:
+        legend:         "Collaborators"
+        caption:        "Who can view this content before making it public?"
+        viewer:
+          name:         "Individual Viewers"
+          help:         "These people can view this collection but not make changes."
+        viewer_group:
+          name:         "Group Viewers"
+          help:         "These groups can view this collection but not make changes."
+
   curate:
     notification_messages:
       minting_doi: "Your DOI for your work is being requested. It may take a few minutes to generate."

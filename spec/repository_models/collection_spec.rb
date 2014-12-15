@@ -111,4 +111,92 @@ describe Collection do
     end
   end
 
+  describe 'Viewer' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:another_person) { FactoryGirl.create(:person_with_user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_viewer' do
+      it 'should add viewer' do
+        collection.viewers.should == []
+        collection.add_viewer(another_person.user)
+
+        collection.save!
+
+        collection.reload
+        collection.viewers.should eq [another_person]
+        collection.read_users.should eq [another_person.depositor]
+      end
+    end
+
+    describe '#remove_viewer' do
+      before do
+        collection.viewers.should == []
+        collection.add_viewer(another_person.user)
+        collection.save!
+        collection.reload
+      end
+      it 'should remove viewer' do
+        collection.remove_viewer(another_person.user)
+
+        collection.reload
+
+        collection.viewers.should == []
+        collection.read_users.should_not include(another_person.user.user_key)
+      end
+    end
+  end
+
+  describe 'ViewerGroup' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:user) { person.user }
+    let(:group) { FactoryGirl.create(:group, user: user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_viewer_group' do
+      it 'should add group' do
+        collection.viewer_groups.should == []
+
+        collection.add_viewer_group(group)
+
+        collection.reload
+
+        collection.viewer_groups.should == [group]
+        collection.read_groups.should include(group.pid)
+        collection.edit_groups.should_not include(group.pid)
+      end
+
+      it 'should not add non-group objects' do
+        expect { collection.add_viewer_group(work) }.to raise_error ArgumentError
+        collection.reload.viewer_groups.should == []
+      end
+    end
+
+    describe '#remove_viewer_group' do
+      before do
+        collection.viewer_groups.should == []
+        collection.add_viewer_group(group)
+
+        collection.reload
+      end
+
+      it 'should remove_viewer_group' do
+        collection.remove_viewer_group(group)
+
+        collection.reload
+
+        collection.viewer_groups.should == []
+        collection.viewer_groups.should_not include(group.pid)
+      end
+
+      it 'should delete relationship when related object is deleted' do
+        group_pid = group.pid
+        group.destroy
+
+        collection.reload
+
+        collection.read_groups.should_not include(group_pid)
+        collection.datastreams['RELS-EXT'].content.to_s.should_not include(group_pid)
+      end
+    end
+  end
 end

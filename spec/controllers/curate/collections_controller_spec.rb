@@ -51,7 +51,7 @@ describe Curate::CollectionsController do
 
       expect {
         expect {
-          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+          post :create, profile_section:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
         }.to change{ProfileSection.count}.by(1)
       }.to_not change{Collection.count}
 
@@ -63,7 +63,7 @@ describe Curate::CollectionsController do
       user.profile.should be_nil
       expect {
         expect {
-          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+          post :create, profile_section:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
         }.to change{ProfileSection.count}.by(1)
       }.to_not change{Collection.count}
       expect(response).to redirect_to user_profile_path
