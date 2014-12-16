@@ -1,7 +1,13 @@
 module GenericFileHelper
 
   def generic_file_title(gf)
-    can?(:read, gf) ? gf.to_s : "File"
+    if gf.with_empty_content?
+      'File Upload Error'
+    elsif can?(:read, gf)
+      gf.to_s
+    else
+      'File'
+    end
   end
 
   def generic_file_link_name(gf)
@@ -35,9 +41,5 @@ module GenericFileHelper
       link_to('Rollback', versions_curation_concern_generic_file_path(gf),{ class: 'btn', title: "Rollback to previous version" } )
     end
   end
-
-
-
-
 
 end

@@ -19,7 +19,7 @@ describe 'Creating a article' do
         click_button("Create Article")
       end
       expect(page).to have_selector('span', text: 'Article')
-      within ('.linked_resource.attributes') do
+      within ('#related-resources .related-resource') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
       end
 
@@ -44,14 +44,14 @@ describe 'An existing article owned by me' do
   it 'should allow me to attach a linked resource' do
     login_as(user)
     visit curation_concern_article_path(article)
-    click_link 'Add an External Link'
+    click_link 'Add a Link'
 
     within '#new_linked_resource' do
       fill_in 'External link', with: you_tube_link
       click_button 'Add External Link'
     end
 
-    within ('.linked_resource.attributes') do
+    within ('#related-resources .related-resource') do
       expect(page).to have_link(you_tube_link, href: you_tube_link)
     end
   end
@@ -59,7 +59,7 @@ describe 'An existing article owned by me' do
   it 'cancel takes me back to the dashboard' do
     login_as(user)
     visit curation_concern_article_path(article)
-    click_link 'Add an External Link'
+    click_link 'Add a Link'
     page.should have_link('Cancel', href: catalog_index_path)
   end
 end

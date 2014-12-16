@@ -1,60 +1,97 @@
+<% editor = can?(:edit, curation_concern)%>
+
+<section id="attached-files">
 <% if curation_concern.respond_to?(:generic_files) && curation_concern.generic_files.present? %>
-<table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
-  <caption class="table-heading">
-    <h2>Files</h2>
-    <% if curation_concern.with_empty_contents? %>
-      <div class="alert"><strong>Hey!</strong> It looks like there is a problem with one of these files.</div>
-    <% end %>
-  </caption>
-  <thead>
-    <tr>
-      <th>File</th>
-      <th>Filename</th>
-      <th>Date Uploaded</th>
-      <th>Visibility</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% curation_concern.generic_files.each do |generic_file| %>
-      <tr class="<%= dom_class(generic_file) %> attributes <%= alert_class(generic_file) %> ">
-        <td class="attribute title">
-          <%= render partial: 'thumbnail', locals: {thumbnail: generic_file, dom_class_name: 'thumbnail'} %>
-          <%= generic_file_title(generic_file) %>
-        </td>
-        <td class="attribute filename"><%= link_to(generic_file_link_name(generic_file), curation_concern_generic_file_path(generic_file)) %></td>
-        <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
-        <td class="attribute permission"><%= permission_badge_for(generic_file) %></td>
-        <td class="generic_file_actions">
-          <%- if with_actions -%>
-            <% if can?(:edit, generic_file) -%>
-              <%= actions_for_edit_button(generic_file)%>
-            <% end -%>
-            <%- if can?(:edit, generic_file) -%>
-              <%= link_to(
-                'Rollback',
-                versions_curation_concern_generic_file_path(generic_file),
-                { class: "btn #{"disabled" if generic_file.with_empty_content?}", title: "Rollback to previous version" }
-              )%>
-            <%- end -%>
-            <%- if can?(:destroy, generic_file) -%>
-              <%= link_to(
-                'Delete',
-                polymorphic_path([:curation_concern, generic_file]),
-                class: 'btn', method: :delete, title: "Delete #{generic_file.to_s.inspect}",
-                data: {confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"}
-              )%>
-            <%- end -%>
-          <%- end -%>
-          <%- if can?(:read, generic_file) -%>
-            <%= link_to "Download", download_path(generic_file.noid),{class: "btn #{"disabled" if generic_file.with_empty_content?}", title: "Download #{generic_file.to_s.inspect}", :target => "_blank"}%>
-          <%- end -%>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% elsif can? :edit, curation_concern %>
   <h2>Files</h2>
-  <p class="center"><em>This <%= curation_concern.human_readable_type %> has no files associated with it. You can add one using the "Attach a File" button below.</em></p>
+  <% if curation_concern.with_empty_contents? %>
+    <div class="alert"><strong>Hey!</strong> It looks like there is a problem with one of these files.</div>
+  <% end %>
+
+  <% curation_concern.generic_files.each_with_index do |generic_file, index| %>
+    <% badge_html = capture do %>
+      <%= permission_badge_for(generic_file) %>
+    <% end %>
+
+    <article id="file-<%= index %>" class="attached-file <%= dom_class(generic_file) %> <%= alert_class(generic_file) %>">
+      <h3 class="file-title">
+        <%= generic_file_title(generic_file) %>
+      </h3>
+      <figure class="file-thumbnail">
+        <a class="detail-view" title="View larger image" href="https://curate.nd.edu/concern/generic_files/05741r6883h">
+          <%= render partial: '/application/thumbnail', locals: { thumbnail: generic_file, captured: badge_html } %>
+        </a>
+      </figure>
+      <div class="actions">
+        <%- if can?(:read, generic_file) %>
+          <%
+            if generic_file.with_empty_content?
+              content_dependent_button_class = 'btn disabled'
+            else
+              content_dependent_button_class = 'btn'
+            end
+          %>
+          <%= link_to(
+            download_path(generic_file.noid),
+            {
+              class: content_dependent_button_class,
+              title: "Download #{generic_file.to_s.inspect}",
+              target: "_blank"
+            }
+          ) do %>
+            <i class="icon icon-download"></i> Download File
+          <% end %>
+          <%= link_to "View Details", curation_concern_generic_file_path(generic_file), class: 'btn' %>
+        <% end %>
+        <% if with_actions %>
+          <% if can?(:edit, generic_file) %>
+            <%= actions_for_edit_button(generic_file) %>
+            <%= link_to(
+              versions_curation_concern_generic_file_path(generic_file),
+              {
+                class: content_dependent_button_class,
+                title: "Rollback to previous version"
+              }
+            ) do %>
+              <i class="icon icon-repeat flip-icon"></i> Rollback
+            <% end %>
+          <% end %>
+          <% if can?(:destroy, generic_file) %>
+            <%
+              file_name = generic_file.to_s.inspect
+              delete_confirmation_message = %Q{
+Deleting #{file_name} from #{t('sufia.product_name')} is a permanent action.
+
+Click OK to remove #{file_name} from #{t('sufia.product_name')}, or Cancel to abort this operation.
+            } %>
+            <%= link_to(
+              polymorphic_path([:curation_concern, generic_file]),
+              {
+                class: 'btn',
+                method: :delete,
+                title: "Delete #{generic_file.to_s.inspect}",
+                data: {
+                  confirm: delete_confirmation_message
+                }
+              }
+            ) do %>
+             <i class="icon icon-trash"></i> Delete
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+  </article>
+  <% end %>
+
+<% elsif editor %>
+  <h2>Files</h2>
+  <p><em>This <%= curation_concern.human_readable_type %> has no files associated with it.</em></p>
 <% end %>
+<% if editor %>
+  <div class="section-actions">
+    <%= link_to new_curation_concern_generic_file_path(curation_concern), class: 'btn' do %>
+      <i class="icon icon-upload"></i> Attach a File
+    <% end %>
+  </div>
+<% end %>
+</section>
+

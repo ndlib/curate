@@ -23,7 +23,7 @@ describe 'Creating a generic work' do
         click_button("Create Generic work")
       end
       expect(page).to have_selector('span', text: 'Generic Work')
-      within ('.linked_resource.attributes') do
+      within ('.related-resources') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
       end
     end
@@ -67,14 +67,14 @@ describe 'An existing generic work owned by the user' do
   it 'should allow me to attach a linked resource' do
     login_as(user)
     visit curation_concern_generic_work_path(work)
-    click_link 'Add an External Link'
+    click_link 'Add a Link'
 
     within '#new_linked_resource' do
       fill_in 'External link', with: you_tube_link
       click_button 'Add External Link'
     end
 
-    within ('.linked_resource.attributes') do
+    within ('.related-resources') do
       expect(page).to have_link(you_tube_link, href: you_tube_link)
     end
   end
@@ -82,7 +82,7 @@ describe 'An existing generic work owned by the user' do
   it 'cancel takes me back to the dashboard' do
     login_as(user)
     visit curation_concern_generic_work_path(work)
-    click_link 'Add an External Link'
+    click_link 'Add a Link'
     page.should have_link('Cancel', href: catalog_index_path)
   end
 
@@ -107,8 +107,8 @@ describe 'An existing generic work owned by the user' do
         page.should have_tag("#status", text: "1 item(s) selected")
         click_button("Attach to Generic Work")
       end
-      within ('.generic_file.attributes') do
-        expect(page).to have_selector('.attribute.filename a', text: 'features.rb')
+      within ('.attached-file.generic_file') do
+        expect(page).to have_selector('.file-title', text: 'features.rb')
       end
     end
   end
