@@ -19,15 +19,14 @@ class Curate::CollectionsController < ApplicationController
   include Curate::FieldsForAddToCollection
   include Sufia::Noid
 
-  prepend_before_filter :normalize_identifier, only: [:show]
-
   with_themed_layout '1_column'
 
   add_breadcrumb 'Collections', lambda {|controller| controller.request.path }
 
-  before_filter :authenticate_user!, except: :show
-  before_filter :agreed_to_terms_of_service!
-  before_filter :force_update_user_profile!
+  before_filter :authenticate_user!, except: [:show]
+  before_filter :agreed_to_terms_of_service!, :except => [:show]
+  before_filter :force_update_user_profile!, :except => [:show]
+  prepend_before_filter :normalize_identifier, only: [:show]
 
   rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
     case exception.action
