@@ -1,34 +1,61 @@
-  <div class="proxy-rights">
-
-    <fieldset class="span12">
-      <legend>Authorize Delegate</legend>
-
-      Search <%=text_field_tag :user, '', "data-url"=>"/people" %>
-
-      <table class="table table-condensed" id='authorizedProxies'>
-        <caption>Currently Authorized</caption>
-        <tbody>
-          <% @grantor.user.can_receive_deposits_from.each do |depositor| %>
-            <% begin %>
-            <tr><td><%= depositor.name %></td>
-              <td><%=link_to(person_depositor_path(@grantor, depositor.person), method: :delete, class: "remove-proxy-button") do %>
-                <i class="icon-remove"></i><% end %>
-              </td></tr>
-            <% rescue ActiveFedora::ObjectNotFoundError %>
-              <!-- Depositor's person object was deleted !-->
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
-
-      <script type="text/x-handlebars-template" id="tmpl-proxy-row">
-        <tr><td>{{ name }}</td>
-          <td><a class="remove-proxy-button" data-method="delete" href="/people/rj43kv61h/depositors/{{ id }}" rel="nofollow">
-            <i class="icon-remove"></i>
-          </a>
-        </td></tr>
-      </script>
-    </fieldset>
-
+<div class="row">
+  <div class="span12 main-header ">
+    <h2>Manage Your Delegates</h2>
   </div>
+</div>
+
+<div class="alert alert-block">
+  <strong>Please Note:</strong>
+  Your delegates can do <em>anything</em> on your behalf in CurateND.
+  Be selective in who you give delegate access.
+</div>
+
+<div class="row">
+  <div class="span7">
+    <p>
+      Delegate accounts in CurateND work very similar to <a href="https://support.google.com/mail/answer/138350?hl=en">delegate accounts in Gmail</a>.
+      If you authorize a delegate they can view, edit, or delete <em>all</em> of your existing works and files.
+      Delegates can also add create new works and upload files on your behalf.
+    </p>
+    <p>
+      You can use <a href="/hydramata/groups">groups</a> or work-specific collaborators for more fine-grained access control.
+    </p>
+  </div>
+</div>
+<div class="proxy-rights row with-headroom">
+  <fieldset class="form-inline span12">
+    <legend><h3>Grant Delegate Access</h3></legend>
+
+    <label for="user">Search by name:</label>
+    <%=text_field_tag :user, '', "data-url"=>"/people" %>
+  </fieldset>
+
+  <table class="table table-hover span12" id='authorizedProxies'>
+    <caption class="table-heading"><h3>Authorized Delegates</h3></caption>
+    <tbody>
+      <% @grantor.user.can_receive_deposits_from.each do |depositor| %>
+        <% begin %>
+          <tr>
+            <td><%= depositor.name %></td>
+            <td>
+              <%=link_to(person_depositor_path(@grantor, depositor.person), method: :delete, class: "remove-proxy-button") do %>
+                <i class="icon-remove"></i>Revoke Delegate Access
+              <% end %>
+            </td>
+          </tr>
+        <% rescue ActiveFedora::ObjectNotFoundError %>
+          <!-- Depositor's person object was deleted !-->
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <script type="text/x-handlebars-template" id="tmpl-proxy-row">
+    <tr><td>{{ name }}</td>
+      <td><a class="remove-proxy-button" data-method="delete" href="/people/rj43kv61h/depositors/{{ id }}" rel="nofollow">
+        <i class="icon-remove"></i>
+      </a>
+    </td></tr>
+  </script>
+</div>
 
