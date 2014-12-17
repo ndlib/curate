@@ -15,7 +15,7 @@
     <p>
       Delegate accounts in CurateND work very similar to <a href="https://support.google.com/mail/answer/138350?hl=en">delegate accounts in Gmail</a>.
       If you authorize a delegate they can view, edit, or delete <em>all</em> of your existing works and files.
-      Delegates can also add create new works and upload files on your behalf.
+      Delegates can also create new works and upload files on your behalf.
     </p>
     <p>
       You can use <a href="/hydramata/groups">groups</a> or work-specific collaborators for more fine-grained access control.
@@ -26,7 +26,8 @@
   <fieldset class="form-inline span12">
     <legend><h3>Grant Delegate Access</h3></legend>
 
-    <label for="user">Search by name:</label>
+    <p> Search for your delegate by name and select the name when retrieved.</p>
+    <label for="user">Search: </label>
     <%=text_field_tag :user, '', "data-url"=>"/people" %>
   </fieldset>
 
