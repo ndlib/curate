@@ -176,6 +176,12 @@ module CurateHelper
 
   def richly_formatted_text(text)
     markup = Curate::TextFormatter.call(text: text)
-    markup.html_safe
+    markup.html_safe unless markup.nil?
+  end
+
+  def escape_html_for_solr_text(text)
+    return if text.nil?
+    modified_text = CGI.escapeHTML(text)
+    CGI.unescapeHTML(CGI.unescapeHTML(modified_text))
   end
 end
