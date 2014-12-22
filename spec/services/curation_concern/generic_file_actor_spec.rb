@@ -86,7 +86,7 @@ describe CurationConcern::GenericFileActor do
       generic_file.content.content.should_not == file_content
       return_value = nil
       return_value = subject.update
-      generic_file.title.should == [title]
+      generic_file.title.should == title
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
       return_value.should be_truthy
@@ -102,7 +102,7 @@ describe CurationConcern::GenericFileActor do
         generic_file.content.content.should_not == file_content
         return_value = nil
         return_value = subject.update
-        generic_file.title.should == [title]
+        generic_file.title.should == title
         generic_file.to_s.should == title
         generic_file.content.content.should == file_content
         return_value.should be_truthy

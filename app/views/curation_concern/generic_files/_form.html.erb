@@ -7,7 +7,7 @@
         <span class="control-label">
           <label class="string optional" for="generic_file_title">Title</label>
         </span>
-        <%= text_field_tag 'generic_file[title]', curation_concern.title.first,
+        <%= text_field_tag 'generic_file[title]', curation_concern.title,
                     input_html: { class: 'input-xlarge' }
         %>
       </fieldset>

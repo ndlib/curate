@@ -30,6 +30,10 @@ class GenericFile < ActiveFedora::Base
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "An arbitrary single file."
 
+  attribute :title,
+    datastream: :descMetadata, multiple: false,
+    label: "Title of your File"
+
   attr_accessor :file, :version
 
   def filename
@@ -42,8 +46,7 @@ class GenericFile < ActiveFedora::Base
   end
 
   def to_s
-    return title.join(", ") if title.present?
-    label || "No Title"
+    title || "No Title"
   end
 
   def versions

@@ -16,7 +16,7 @@ describe "select representative file for work" do
       work1.generic_files << file2
 
       visit edit_curation_concern_generic_work_path(work1)
-      select file2.title.first, from: "generic_work[representative]"
+      select file2.title, from: "generic_work[representative]"
       select "All rights reserved", from: "generic_work[rights]"
       click_button "Update Generic work"
 
