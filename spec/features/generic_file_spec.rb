@@ -12,7 +12,7 @@ describe 'Uploading Generic File' do
     end
 
     it 'there will be a cancle link on the edit page' do
-      click_link "Edit This Generic Work"
+      click_link "Edit"
       expect(page).to have_link('Cancel', curation_concern_generic_work_path(work))
     end
     it 'there will be a cancle link on the attach file page' do
@@ -58,7 +58,7 @@ describe 'Uploading Generic File' do
       it 'the file name for the private file is not visible' do
         public_work.generic_files.count.should == 1
         file = public_work.generic_files.first
-        expect(page).to have_link('File', curation_concern_generic_file_path(file))
+        expect(page).to have_selector('h3', text: 'File')
         expect(page).to_not have_text('image.png')
       end
     end
@@ -84,7 +84,7 @@ describe 'Uploading Generic File' do
       expect(page).to have_link('image.png')
       expect(page).to have_link('image_2.png')
 
-      first('.generic_file.attributes').click_link('Delete')
+      first('.attached-file.generic_file').click_link('Delete')
       expect(page).to_not have_link('image.png')
       expect(page).to have_link('image_2.png')
       public_work.reload.representative.should_not == representative_image
@@ -109,9 +109,9 @@ describe 'Uploading Generic File' do
       login_as user
       visit curation_concern_generic_work_path(generic_work)
       generic_work.generic_files.count.should == 1
-      
+
       expect(page).to have_link('Resolve', edit_curation_concern_generic_file_path(file))
-      expect(page).to have_link('File Upload Error', curation_concern_generic_file_path(file))
+      expect(page).to have_selector('h3', text: 'File Upload Error')
       expect(page).to have_selector('div', text: 'It looks like there is a problem with one of these files.')
     end
 
@@ -140,7 +140,7 @@ describe 'Uploading Generic File' do
       generic_file_without_content
       login_as user
       visit edit_curation_concern_generic_work_path(generic_work)
-      
+
       expect(page).to have_link('Click here to resolve this problem', edit_curation_concern_generic_file_path(file))
       expect(page).to have_selector('.alert', text: 'It looks like there is a problem with some of your files:')
     end
@@ -149,13 +149,13 @@ describe 'Uploading Generic File' do
       generic_file_with_content
       login_as user
       visit edit_curation_concern_generic_work_path(generic_work)
-      
+
       expect(page).to_not have_selector('.alert', text: 'It looks like there is a problem with some of your files:')
     end
     it 'Viewing generic file without content' do
       login_as user
       visit curation_concern_generic_file_path(generic_file_without_content)
-      
+
       expect(page).to have_selector('.alert', text: 'It looks like there was an issue uploading this file.')
       expect(page).to have_selector('td', text: 'File Not Found')
     end
@@ -163,7 +163,7 @@ describe 'Uploading Generic File' do
     it 'Viewing generic file with content' do
       login_as user
       visit curation_concern_generic_file_path(generic_file_with_content)
-      
+
       expect(page).to_not have_selector('.alert', text: 'It looks like there was an issue uploading this file.')
       expect(page).to have_selector('td', text: 'Filename: generic_file_spec.rb')
     end
@@ -171,7 +171,7 @@ describe 'Uploading Generic File' do
     it 'editing generic file with empty content' do
       login_as user
       visit edit_curation_concern_generic_file_path(generic_file_without_content)
-      
+
       expect(page).to have_selector('.alert', text: 'it looks like this file didn’t upload correctly.')
       expect(page).to have_selector('.alert', text: 'help@curate.org')
     end

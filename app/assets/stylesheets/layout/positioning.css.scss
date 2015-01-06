@@ -91,9 +91,40 @@ dl.stacked {
 .main-header {
   border-bottom: 1px solid $grayLighter;
 }
+.main-header-with-actions {
+  position: relative;
+
+  .human_readable_type {
+    display:block;
+  }
+
+  .main-header {
+    margin-bottom: 0;
+
+    h1 {
+      margin-bottom:0;
+    }
+  }
+
+  .page-actions {
+    margin:0;
+    padding:.5em 0 0;
+  }
+}
 
 .page-actions {
   text-align:right;
+  line-height:3;
+}
+
+.section-actions {
+  margin-bottom:2em;
+}
+
+.attached-file + .section-actions,
+.related-resources + .section-actions {
+  border-top:1px solid #EFEFEF;
+  padding-top:1em;
 }
 
 .search > .row > .main-header {

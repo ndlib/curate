@@ -95,13 +95,13 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       # today (browser's date), and I want timecop to help
       embargo_release_date = 1.days.from_now
       embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
-      
+
       # Make sure the title is unique
       title = SecureRandom.uuid
-      
+
       login_as(user)
       visit new_curation_concern_generic_work_path
-      
+
       # Timecop doesn't work for just changing the system date because Solr uses it's own system date for the embargo queries,
       # and Active Fedora doesn't allow an embargo date in the past.
       # Under embargo test steps: Set the embargo date to one day from now. Run tests to make sure object is under embargo.
@@ -117,11 +117,11 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       )
 
       page.assert_selector(".embargo_release_date.attribute", text: embargo_release_date_formatted)
-      page.assert_selector(".permission.attribute", text: "Open Access")
+      page.assert_selector(".attached-file .canonical-image .label", text: "Open Access")
 
 
       noid = page.current_path.split("/").last
-      
+
       # The embargo'd object should show up in a search for the owner
       search_catalog_for_title(title)
       page.assert_selector('a', text: title)
@@ -131,7 +131,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       page.assert_no_selector('h1', text: "Unauthorized")
 
       logout
-      
+
       # Assign the work to a group
       work = ActiveFedora::Base.find("sufia:#{noid}", :cast => :true)
       work.add_editor_group(test_group_1)
@@ -158,28 +158,28 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       # An anonymous user should not be able to see the embargo'd object's show view.
       visit("/concern/generic_works/#{noid}")
       page.assert_selector('h1', text: "Unauthorized")
-      
+
       login_as(user)
-      
+
       # Go back a 1/1/2014
       new_time = Time.local(2014, 1, 1)
       Timecop.travel(new_time) do
-        
+
         # Set embargo date to one day from "now"
         work.embargo_release_date = (Time.now + 1.day).strftime("%Y-%m-%d")
         work.save!
-        
+
         # Go back to now
         Timecop.return
 
         # The embargo'd object should still show up in a search for the owner
         search_catalog_for_title(title)
         page.assert_selector('a', text: title)
-      
+
         # The owner should still be able to see the embargo'd object's show view
         visit("/concern/generic_works/#{noid}")
-        page.assert_no_selector('h1', text: "Unauthorized")   
-      
+        page.assert_no_selector('h1', text: "Unauthorized")
+
         logout
 
         login_as(another_person.user)
@@ -187,10 +187,10 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
          # The embargo'd object should still show up in a search for someone in a group that has access
         search_catalog_for_title(title)
         page.assert_selector('a', text: title)
-      
+
         # Someone in a group that has access should still be able to see the embargo'd object's show view
         visit("/concern/generic_works/#{noid}")
-        page.assert_no_selector('h1', text: "Unauthorized") 
+        page.assert_no_selector('h1', text: "Unauthorized")
 
         logout
 
@@ -344,7 +344,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     path_to_view_work  = page.current_path
     page.should have_content("Files")
     page.should have_content(initial_title)
-    within(".generic_file.attributes") do
+    within(".attached-file.generic_file") do
       page.should have_content(File.basename(initial_file_path))
     end
 
@@ -352,7 +352,9 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
   end
 
   def edit_your_work
-    click_on("Edit This Generic Work")
+    within('.page-actions') do
+      click_on('Edit')
+    end
     edit_page_path = page.current_path
     within('.edit_generic_work') do
       fill_in("Title", with: updated_title)

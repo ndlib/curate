@@ -1,7 +1,15 @@
-<% width = 36 if width.blank? %>
-<%  if thumbnail.image? || thumbnail.pdf? || thumbnail.video? %>
-  <% path = download_path(thumbnail, {datastream_id: 'thumbnail'}) %>
-<% else %>
-  <% path = "curate/default.png" %>
+<%
+  width = 100 if width.blank?
+  captured = '' if captured.blank?
+
+  if thumbnail.image? || thumbnail.pdf? || thumbnail.video?
+    path = download_path(thumbnail, {datastream_id: 'thumbnail'})
+  else
+    path = "curate/default.png"
+  end
+%>
+
+<%= link_to curation_concern_generic_file_path(thumbnail.noid), class: "canonical-image width-#{width}" do %>
+  <%= image_tag(path, width: width, class: 'thumbnail') %>
+  <%= captured %>
 <% end %>
-<%= link_to image_tag(path, width: width, class: 'thumbnail'), curation_concern_generic_file_path(thumbnail.noid), class: 'canonical-image' %>

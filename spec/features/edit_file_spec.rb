@@ -12,11 +12,11 @@ describe "Editing an attached file" do
     generic_file_with_content
     login_as(user)
     visit curation_concern_generic_work_path(work)
-    within '.generic_file.attributes' do
+    within '.attached-file.generic_file' do
       click_link 'Edit'
     end
     fill_in "Title", with: 'Test title'
     click_button "Update Attached File"
-    expect(page).to have_selector('.related_files .attribute.title', text: /Test title/)
+    expect(page).to have_selector('#attached-files h3', text: /Test title/)
   end
 end
