@@ -22,8 +22,8 @@ class TermsOfServiceAgreementsController < ApplicationController
   end
   protected :user_just_agreed_to_tos?
 
-  I_AGREE_TEXT = "I Agree"
-  I_DO_NOT_AGREE_TEXT = "I Do Not Agree"
+  I_AGREE_TEXT = "I have read the terms and I agree"
+  I_DO_NOT_AGREE_TEXT = "I do not agree"
   def i_agree_text
     I_AGREE_TEXT
   end

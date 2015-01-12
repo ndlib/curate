@@ -285,7 +285,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
   def agree_to_terms_of_service
     within('#terms_of_service') do
-      click_on("I Agree")
+      click_on('tos-agree')
     end
   end
 
