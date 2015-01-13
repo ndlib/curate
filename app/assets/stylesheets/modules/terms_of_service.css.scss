@@ -1,0 +1,64 @@
+.terms-of-service-actions {
+  line-height:4.5;
+  text-align:center;
+
+  .tos-read {
+    display:block;
+    margin-top:.5em;
+  }
+}
+
+#full-terms-of-service {
+  .print {
+    display:none;
+  }
+}
+
+@media (min-width: 450px){
+  #full-terms-of-service {
+    .print {
+      display:block;
+      float:right;
+      margin-top:-2em;
+    }
+  }
+}
+
+@media (min-width: 980px){
+  .terms-of-service-actions {
+    .tos-read {
+      display:inline-block;
+      margin-top:0;
+      padding-left:0;
+    }
+  }
+}
+
+@media print {
+  .terms-of-service-summary,
+  .terms-of-service-actions {
+    display:none;
+  }
+
+  #full-terms-of-service {
+    display:block;
+    position:initial;
+    opacity:100;
+    margin:0;
+    border:none;
+
+    .close,
+    .print {
+      display:none;
+    }
+
+    .modal-header {
+      padding:9px 0;
+    }
+
+    .modal-footer {
+      border:none;
+    }
+  }
+}
+

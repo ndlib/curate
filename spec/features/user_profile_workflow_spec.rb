@@ -161,7 +161,7 @@ describe 'user profile workflow', FeatureSupport.options do
 
   def agree_to_tos
     within('form#terms_of_service') do
-      click_button("I Agree")
+      click_button('tos-agree')
     end
   end
 end

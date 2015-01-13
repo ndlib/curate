@@ -8,6 +8,7 @@ en:
     institution_homepage_url:   "#"
     division_name:      "Your Division at Institution"
     division_homepage_url:   "#"
+    tos_summary:   "A short summary of the terms of service."
     search:
       form:
         q:
