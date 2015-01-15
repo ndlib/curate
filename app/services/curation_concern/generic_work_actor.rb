@@ -21,10 +21,10 @@ module CurationConcern
       groups = attributes.delete('editor_groups_attributes')
       viewers = attributes.delete('viewers_attributes')
       viewer_groups = attributes.delete('viewer_groups_attributes')
-      add_or_update_editors_and_groups(editors, groups, :update) &&
-        add_or_update_viewers_and_groups(viewers, viewer_groups, :create) &&
-        add_to_collections(attributes.delete(:collection_ids)) &&
-        super { attach_files && create_linked_resources }
+      add_to_collections(attributes.delete(:collection_ids)) &&
+        super { attach_files && create_linked_resources } &&
+        add_or_update_editors_and_groups(editors, groups, :update) &&
+        add_or_update_viewers_and_groups(viewers, viewer_groups, :create)
     end
 
     delegate :visibility_changed?, to: :curation_concern
