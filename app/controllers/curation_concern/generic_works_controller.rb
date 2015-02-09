@@ -122,6 +122,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def reset_organization_if_necessary
+    return unless curation_concern.respond_to?(:organization)
     if params.has_key?(hash_key_for_curation_concern.to_s) && !params[hash_key_for_curation_concern.to_s].has_key?("organization")
       params[hash_key_for_curation_concern.to_s].merge!('organization' => [""])
     end
