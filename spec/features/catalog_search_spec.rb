@@ -37,7 +37,7 @@ describe 'Clear limits from search' do
     click_link 'Collections'
     click_link 'New Search'
   
-    expect( current_path ).to eq( root_path )
+    expect( current_path ).to eq( catalog_index_path )
   end
 end
 

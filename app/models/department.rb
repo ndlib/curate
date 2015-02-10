@@ -11,6 +11,17 @@ class Department
     new(DEPARTMENTS.fetch(key))
   end
 
+  def self.title(word)
+    no_cap_words = %w[on the and of]
+    word.split(' ').map.with_index do |w, i|
+      unless (no_cap_words.include? w) and (i > 0)
+        w.capitalize
+      else
+        w
+      end
+    end.join(' ')
+  end
+
   attr_reader :id, :identifier, :selectable, :label
   
   alias_method :selectable?, :selectable
@@ -23,12 +34,14 @@ class Department
   end
 
   def label
-    identifier.split("::").last.titleize
+    Department.title(identifier.split("::").last)
   end
 
   def to_s
     label
   end
+
+
 
   def children
     children=[]
