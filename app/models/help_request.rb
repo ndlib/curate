@@ -13,11 +13,11 @@ class HelpRequest < ActiveRecord::Base
   end
 
   def form_email
-    email || user.try(:email) || ''
+    user.try(:email) || email || ''
   end
 
   def form_name
-    name || user.try(:user_key) || ''
+    user.try(:name) || name || ''
   end
 
   def platform
