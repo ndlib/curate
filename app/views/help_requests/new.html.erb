@@ -51,8 +51,8 @@
   <%= f.input :current_url, as: 'hidden' %>
   <% end -%>
   <%= f.input :javascript_enabled, as: 'hidden' %>
-  <%= f.input :name, value: help_request.form_name %>
-  <%= f.input :email, value: help_request.form_email %>
+  <%= f.input :name, input_html: { value: help_request.form_name } %>
+  <%= f.input :email, input_html: { value: help_request.form_email } %>
   <legend>Describe Your Issue</legend>
   <%= f.input :how_can_we_help_you, as: 'text', input_html: { class: 'input-xxxlarge', rows: '10' } %>
 </fieldset>
