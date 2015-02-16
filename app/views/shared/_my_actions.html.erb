@@ -11,6 +11,9 @@
     <% if current_user.repository_noid? %>
     <li><%= link_to 'My Delegates',     person_depositors_path(current_user.repository_noid),                  class: 'my-proxies',     role: 'menuitem' %></li>
     <% end %>
+    <% if current_user.is_user_a_manager? %>
+      <li><%= link_to 'RepoManager Permissions', edit_repo_manager_path(current_user.repository_noid),            class: 'repo_managers',     role: 'menuitem' %></li>
+    <% end %>
     <li class="divider"></li>
     <li><%= link_to 'Log Out',        destroy_user_session_path,                                             class: 'log-out',        role: 'menuitem' %></li>
   </ul>

@@ -1,0 +1,20 @@
+<fieldset>
+  <legend> Repository Manager </legend>
+  <%= simple_form_for @repo_manager do |f| %>
+    <ul style="text-decoration: none">
+      <li><strong>Account Name: </strong><%= current_user.name %></li>
+      <li><strong>NetID: </strong><%= current_user.user_key %></li>
+      <li><strong>Repository Permission Level: </strong><br/>
+        <% {"All Permissions" => true, "Restricted Permissions" => false}.each do |key, value| %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button(:active, value) %>
+              <%= key %>
+            </label>
+          </div>
+        <% end %>
+      </li>
+    </ul>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</fieldset>
