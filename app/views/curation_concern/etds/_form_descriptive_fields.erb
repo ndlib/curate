@@ -35,7 +35,7 @@
       <%= render partial: 'degree', locals: {f: f, curation_concern: curation_concern} %>
       <%= f.input :date,
         label: 'Date of Defense',
-        input_html: { class: 'input-xlarge' }
+        input_html: { class: 'input-xlarge datepicker' }
       %>
       <%= f.input :country,
         as: :string,
@@ -43,11 +43,11 @@
       %>
       <%= f.input :date_uploaded,
         label: 'Submission Date',
-        input_html: { class: 'input-xlarge' }
+        input_html: { class: 'input-xlarge datepicker' }
       %>
       <%= f.input :date_approved,
         label: 'Approval Date',
-        input_html: { class: 'input-xlarge' }
+        input_html: { class: 'input-xlarge datepicker' }
       %>
       <%= f.input :language,
         as: :multi_value,
@@ -62,7 +62,6 @@
 <fieldset class="optional prompt">
 
   <div class="row">
-    <div class="span12">
       <%= f.input :publisher,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
@@ -77,7 +76,6 @@
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
       %>
-    </div>
 
   </div>
 
