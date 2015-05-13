@@ -80,18 +80,13 @@
   </div>
 
   <div class="row">
-
-    <div class="span12">
-      <%= render partial: 'contributor', locals: {f: f, curation_concern: curation_concern} %>
-
-      <%= f.input :note,
-        as: :text,
-        input_html: { 
-          class: 'input-xxxlarge',
-          rows: '5'
-        }
-      %>
-    </div>
-
+    <%= render partial: 'contributor', locals: {f: f, curation_concern: curation_concern} %>
+    <%= f.input :note,
+      as: :text,
+      input_html: { 
+        class: 'input-xxxlarge',
+        rows: '5'
+      }
+    %>
   </div>
 </fieldset>
