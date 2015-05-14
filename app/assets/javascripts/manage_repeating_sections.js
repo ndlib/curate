@@ -3,6 +3,8 @@
 // These assumptions are reflected in the MultiValueInput class.
 //
 (function($){
+  'use strict';
+
   $.widget( "curate.manage_sections", {
     options: {
       change: null,
@@ -12,53 +14,75 @@
 
     _create: function() {
       this.element.addClass("managed");
-      $('.section.field-wrapper', this.element).addClass("input-append");
-      this.controls = $("<span class=\"field-controls\">");
-      this.remover  = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
-      this.adder    = $("<button class=\"btn btn-success add\" id=\"section_add_button\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
+      $('.repeat', this.element).addClass("input-append");
+      this.adder = $("<button class=\"btn btn-success add\" id=\"section_add_button\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
+      this.remover = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
+      this.tableControls = $('.table-controls', this.element);
+      this.cannotAddNotification = $('<div class="alert alert-warning warning">You cannot add multiple empty entries.</div>');
+      this.fieldIndex = $('.repeat', this.element).length;
 
-      $('.section.field-wrapper', this.element).append(this.controls);
-      $('.section.field-wrapper:not(:last-child) .field-controls', this.element).append(this.remover);
-      $('.field-controls:last', this.element).append(this.adder);
+      $('.repeat:not(:last-child) .row-controls', this.element).append(this.remover);
+      $('.table-controls', this.element).append(this.adder);
 
       this._on( this.element, {
         "click .remove": "remove_from_list",
         "click .add": "add_to_section_list"
       });
 
-      var $last_line = $('.section.field-wrapper', this.element).last();
-      var $last_element_val = $last_line.children('div').first().children('div').children('input').val();
+      var $last_line = $('.repeat', this.element).last();
+      var $last_element_val = $last_line.children('td.name').first().children('div').children('input').val();
       if( $last_element_val ){
         $( '#section_add_button').trigger( 'click' );
-      } 
+      }
     },
 
     add_to_section_list: function( event ) {
       event.preventDefault();
 
-      var num = $('.section.field-wrapper').length;
-      var $activeField = $(event.target).parents('.section.field-wrapper'),
-          $activeFieldControls = $activeField.children('.field-controls'),
-          $removeControl = this.remover.clone(),
+      var $activeField = $('.repeat:last', this.element), // Assume we are always working with the bottom-most row
+          $activeFieldControls = $activeField.children('.row-controls'),
+          $lastNameField = $activeField.children('td.name').first().children('div').children('input'),
           $newField = $activeField.clone(),
-          $listing = $('.listing', this.element),
-          $warningSpan  = $("<span class=\'message warning\'>cannot add new empty field</span>");
-      if ($activeField.children('div').first().children('div').children('input').val() === '') {
-          $listing.children('.warning').remove();
-          $listing.append($warningSpan);
-      }
-      else{
-        $listing.children('.warning').remove();
+          $listing = $activeField.parent(),
+          $removeControl = this.remover.clone(),
+          $warning = this.tableControls.children('.warning'),
+          warningCount = $warning.length;
+
+      if ($lastNameField.val() === '') {
+        if (warningCount === 0) {
+          this.tableControls.prepend(this.cannotAddNotification);
+        }
+      } else {
+        $warning.remove();
+
+        this.fieldIndex += 1;
+        var rowNumber = this.fieldIndex;
+
         $('.add', $activeFieldControls).remove();
         $('.remove', $activeFieldControls).remove();
         $activeFieldControls.prepend($removeControl);
-        $newChild1 = $newField.children('div').first().children('div').children('input').attr('id', 'etd_contributor_attributes_'+num+'_contributor').attr('name', 'etd[contributor_attributes][' + num + '][contributor][]');
-        $newChild2 = $newField.children('div').last().children('div').children('input').attr('id', 'etd_contributor_attributes_'+num+'_role').attr('name', 'etd[contributor_attributes][' + num + '][role][]');
-        $newChild1.val('');
-        $newChild2.val('');
+
+        var $nameFieldCell = $newField.children('td.name')
+                       .first()
+                       .children('div')
+                       .children('input')
+                       .attr('id', 'etd_contributor_attributes_' + rowNumber + '_contributor')
+                       .attr('name', 'etd[contributor_attributes][' + rowNumber + '][contributor]');
+
+        var $roleFieldCell = $newField.children('td.role')
+                       .last()
+                       .children('div')
+                       .children('input')
+                       .attr('id', 'etd_contributor_attributes_' + rowNumber + '_role')
+                       .attr('name', 'etd[contributor_attributes][' + rowNumber + '][role]');
+
+        $nameFieldCell.val('');
+        $roleFieldCell.val('');
+
+        $activeField.children('button').remove();
         $listing.append($newField);
         $('.remove', $newField).remove();
-        $newChild1.first().focus();
+        $nameFieldCell.first().focus();
         this._trigger("add");
       }
     },
@@ -66,8 +90,12 @@
     remove_from_list: function( event ) {
       event.preventDefault();
 
+      this.tableControls
+        .children('.warning')
+        .remove();
+
       $(event.target)
-        .parents('.section.field-wrapper')
+        .parents('.repeat')
         .remove();
 
       this._trigger("remove");
@@ -75,7 +103,7 @@
 
     _destroy: function() {
       this.actions.remove();
-      $('.section.field-wrapper', this.element).removeClass("input-append");
+      $('.repeat', this.element).removeClass("input-append");
       this.element.removeClass( "managed" );
     }
   });

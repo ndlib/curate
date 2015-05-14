@@ -63,7 +63,7 @@ Blacklight.onLoad(function() {
     }
   });
   $('.multi_value.control-group').manage_fields();
-  $('.control-group.section').manage_sections();
+  $('.table.contributors').manage_sections();
   $('.link-users').linkUsers();
   $('.link-groups').linkGroups();
   $('.proxy-rights').proxyRights();

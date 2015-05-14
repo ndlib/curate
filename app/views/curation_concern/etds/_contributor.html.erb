@@ -1,13 +1,30 @@
 <fieldset>
   <label>Contributor(s)</label>
-<div class='section control-group optional' id='tstpage' >
-  <ul class='listing'>
-    <%= f.simple_fields_for :contributor do |cf| %>
-      <li class='section field-wrapper'>
-        <%= cf.input :contributor, label: 'Contributor Name', required: false, input_html: { value: cf.object.contributor.first } %>
-        <%= cf.input :role, label: 'Contributor Role', required: false, input_html: { value: cf.object.role.first } %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+  <table class="table expandible contributors">
+    <thead>
+      <tr class='span12'>
+        <th class="span4">Name</th>
+        <th class="span4">Role</th>
+        <th class="row-controls"></th>
+      </tr>
+    </thead>
+    <tfoot>
+      <td colspan="5" class="table-controls span4">
+      </td>
+    </tfoot>
+    <tbody>
+      <%= f.simple_fields_for :contributor do |cf| %>
+        <tr class='repeat span12'>
+          <td class="name span4">
+            <%= cf.input :contributor, label: false, required: false, wrapper: false, input_html: { value: cf.object.contributor.first } %>
+          </td>
+          <td class="role span4">
+            <%= cf.input :role, label: false, required: false, wrapper: false, input_html: { value: cf.object.role.first } %>
+          </td>
+          <td class="row-controls span4">
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </fieldset>
