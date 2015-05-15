@@ -155,8 +155,9 @@ class CatalogController < ApplicationController
       contributor_institution_name = solr_name("desc_metadata__contributor_institution", :stored_searchable, type: :string)
       subject_name = solr_name("desc_metadata__subject", :stored_searchable, type: :string)
       identifier_name = solr_name("desc_metadata__identifier", :stored_searchable, type: :string)
+      urn  = solr_name("desc_metadata__urn", :stored_searchable, type: :string)
       field.solr_parameters = {
-        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name}",
+        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name} #{urn}",
         :pf => "#{title_name}"
       }
     end

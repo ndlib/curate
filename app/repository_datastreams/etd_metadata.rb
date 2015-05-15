@@ -64,9 +64,15 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     map.coverage_temporal(to: "coverage#temporal", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.identifier(in: RDF::DC)
-    map.urn(to: "identifier#other", in: RDF::QualifiedDC)
-    map.doi(to: "identifier#doi", in: RDF::QualifiedDC)
+    map.identifier(in: RDF::DC) do |index|
+      index.as :stored_searchable
+    end
+    map.urn(to: "identifier#other", in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable
+    end
+    map.doi(to: "identifier#doi", in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable
+    end
 
     map.subject(in: RDF::DC) do |index|
       index.type :text
