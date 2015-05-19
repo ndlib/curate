@@ -8,10 +8,8 @@
   <tbody>
   <%= curation_concern_attribute_to_html(curation_concern, :alternate_title, 'Alternate Title') %>
   <%= curation_concern_attribute_to_html(curation_concern, :urn, 'URN') %>
-  <%= curation_concern_attribute_to_html(curation_concern, :abstract, 'Abstract') %>
   <%= curation_concern_attribute_to_html(curation_concern, :creator, "Author") %>
   <%= curation_concern_attribute_to_html(curation_concern, :advisor, "Advisor(s)") %>
-  <% curation_concern_attribute_to_html(curation_concern, :contributor, 'Contributors') %>
   <% curation_concern.contributor.each do |contributor| %>
     <% unless contributor.contributor.first.blank? %>
       <tr><th> Contributor(s) </th><td><%= contributor.contributor.first %>, <%= contributor.role.first %></td></tr>

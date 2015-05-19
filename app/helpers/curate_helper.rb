@@ -63,12 +63,12 @@ module CurateHelper
         # curation_concern.  If that URL is valid in form, then it is used as a link.  If it is not valid, it is used as plain text.
         parsedUri = URI.parse(value) rescue nil
         if parsedUri.nil?
-          markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
+          markup << %(<li class="attribute #{method_name}">#{h(richly_formatted_text(value))}</li>\n)
         else
           markup << %(<li class="attribute #{method_name}"><a href=#{h(value)} target="_blank"> #{h(Sufia.config.cc_licenses_reverse[value])}</a></li>\n)
         end
       else
-        markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
+        markup << %(<li class="attribute #{method_name}">#{h(richly_formatted_text(value))}</li>\n)
       end
     end
     markup << %(</ul></td></tr>)
@@ -175,6 +175,7 @@ module CurateHelper
   end
 
   def richly_formatted_text(text)
+    return if text.blank?
     markup = Curate::TextFormatter.call(text: text)
     markup.html_safe unless markup.nil?
   end

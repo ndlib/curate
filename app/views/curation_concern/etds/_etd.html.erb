@@ -17,11 +17,6 @@
           <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
         <% end %>
 
-        <% if solr_doc.has?('desc_metadata__abstract_tesim') %>
-          <dt>Abstract:</dt>
-          <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__abstract_tesim'), length: 150) %></dd>
-        <% end %>
-
         <% if solr_doc.has?('date_created_derived_dtsim') %>
           <dt>Date Created:</dt>
           <dd><%= solr_doc['date_created_derived_dtsim'].first %></dd>
