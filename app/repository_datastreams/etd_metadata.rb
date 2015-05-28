@@ -89,9 +89,18 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
   class Degree
     include ActiveFedora::RdfObject
     map_predicates do |map|
-      map.name in: RDF::EtdMs
-      map.level in: RDF::EtdMs
-      map.discipline in: RDF::EtdMs
+      map.name(in: RDF::EtdMs) do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+      map.level(in: RDF::EtdMs) do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+      map.discipline(in: RDF::EtdMs) do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
     end
 
     def persisted?
@@ -105,8 +114,14 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
   class Contributor
     include ActiveFedora::RdfObject
     map_predicates do |map|
-      map.contributor in: RDF::DC
-      map.role in: RDF::EtdMs
+      map.contributor(in: RDF::DC) do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+      map.role(in: RDF::EtdMs) do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
     end
 
     def persisted?

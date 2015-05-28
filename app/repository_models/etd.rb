@@ -148,4 +148,27 @@ class Etd < ActiveFedora::Base
     multiple: true, form: {as: :file}, label: "Upload Files",
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
+  def to_solr(solr_doc={}, opts={})
+    solr_doc[Solrizer.solr_name('degree_name', :stored_searchable)] = degree_name
+    solr_doc[Solrizer.solr_name('degree_discipline', :stored_searchable)] = degree_discipline
+    solr_doc[Solrizer.solr_name('contributors', :stored_searchable)] = contributors_list
+    super(solr_doc, opts)
+  end
+
+  def contributors_list
+    @contributors_list ||= []
+    return @contributors_list unless @contributors_list.blank?
+    self.contributor.each do |con|
+      @contributors_list << con.contributor
+    end
+    @contributors_list
+  end
+
+  def degree_name
+    self.degree.first.name
+  end
+
+  def degree_discipline
+    self.degree.first.discipline
+  end
 end
