@@ -38,11 +38,15 @@ class Etd < ActiveFedora::Base
   end
 
   def self.valid_degree_names
-    EtdVocabulary.values_for("degree_name")
+    EtdVocabulary.values_for("degree_name").map{|disc| [disc, degree_acronym_mapper[disc]]}
   end
 
   def self.valid_degree_disciplines
     EtdVocabulary.values_for("degree_discipline")
+  end
+
+  def self.degree_acronym_mapper
+    DEGREE.fetch('degrees').invert
   end
 
   with_options datastream: :descMetadata do |ds|
@@ -150,8 +154,9 @@ class Etd < ActiveFedora::Base
 
   def to_solr(solr_doc={}, opts={})
     solr_doc[Solrizer.solr_name('degree_name', :stored_searchable)] = degree_name
-    solr_doc[Solrizer.solr_name('degree_discipline', :stored_searchable)] = degree_discipline
+    solr_doc[Solrizer.solr_name('degree_disciplines', :stored_searchable)] = degree_disciplines
     solr_doc[Solrizer.solr_name('contributors', :stored_searchable)] = contributors_list
+    solr_doc[Solrizer.solr_name('degree_department_acronyms', :stored_searchable)] = department_acronyms
     super(solr_doc, opts)
   end
 
@@ -168,7 +173,15 @@ class Etd < ActiveFedora::Base
     self.degree.first.name
   end
 
-  def degree_discipline
-    self.degree.first.discipline
+  def degree_disciplines
+    self.degree.map{|deg| deg.discipline.first }
+  end
+
+  def department_acronyms
+    degree_disciplines.collect{|disc| department_acronym_mapper[disc] }.compact
+  end
+
+  def department_acronym_mapper
+    DEPARTMENT.fetch('departments').invert
   end
 end
