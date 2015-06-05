@@ -164,7 +164,7 @@ class Etd < ActiveFedora::Base
     @contributors_list ||= []
     return @contributors_list unless @contributors_list.blank?
     self.contributor.each do |con|
-      @contributors_list << con.contributor
+      @contributors_list << con.contributor.first
     end
     @contributors_list
   end
