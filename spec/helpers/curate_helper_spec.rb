@@ -70,7 +70,7 @@ describe ApplicationHelper do
     end
 
     it 'handles an array by rendering one <dd> per element' do
-      collection = ["<h2>", "Johnny Tables"]
+      collection = ["h2", "Johnny Tables"]
       object = double('curation_concern', things: collection)
 
       rendered = helper.curation_concern_attribute_to_html(object, :things, "Weird")

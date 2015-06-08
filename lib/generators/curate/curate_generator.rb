@@ -168,6 +168,21 @@ This generator makes the following changes to your application:
     template 'licensing_permissions.yml', 'config/licensing_permissions.yml'
   end
 
+  def create_etd_department_map
+    template 'etd_department_map.yml', 'config/etd_department_map.yml'
+  end
+
+  def create_etd_degree_map
+    template 'etd_degree_map.yml', 'config/etd_degree_map.yml'
+  end
+
+  def create_etd_department_initializer
+    template 'etd_department_initializer.rb', 'config/initializers/etd_department_initializer.rb'
+  end
+
+  def create_etd_degree_initializer
+    template 'etd_degree_initializer.rb', 'config/initializers/etd_degree_initializer.rb'
+  end
   def create_departments
     template 'departments.yml', 'config/departments.yml'
   end

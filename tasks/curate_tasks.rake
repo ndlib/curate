@@ -45,6 +45,7 @@ task :generate do
     gem 'browse-everything'
 
     group :test do
+      gem 'rspec-rails', '~> 3.0.2'
       gem 'capybara', '2.4.1'
       gem 'coveralls', require: false
       gem 'database_cleaner', '< 1.1.0'

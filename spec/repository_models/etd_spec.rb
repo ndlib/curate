@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Etd do
   subject { FactoryGirl.build(:etd) }
 
-  it_behaves_like 'with_related_works'
+  #it_behaves_like 'with_related_works'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
 
