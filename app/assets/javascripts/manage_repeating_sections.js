@@ -82,7 +82,7 @@
         $activeField.children('button').remove();
         $listing.append($newField);
         $('.remove', $newField).remove();
-        $nameFieldCell.first().focus();
+        //$nameFieldCell.first().focus();
         this._trigger("add");
       }
     },
