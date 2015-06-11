@@ -160,8 +160,9 @@ class CatalogController < ApplicationController
       degree_disciplines = solr_name("degree_disciplines", :stored_searchable, type: :string)
       contributors = solr_name("contributors", :stored_searchable, type: :string)
       degree_department_acronyms = solr_name("degree_department_acronyms", :stored_searchable, type: :string)
+      date_created = solr_name("desc_metadata__date_created", :stored_searchable, type: :string)
       field.solr_parameters = {
-        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name} #{urn} #{degree_name} #{degree_disciplines} #{contributors} #{degree_department_acronyms}",
+        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name} #{urn} #{degree_name} #{degree_disciplines} #{contributors} #{degree_department_acronyms} #{date_created}",
         :pf => "#{title_name}"
       }
     end

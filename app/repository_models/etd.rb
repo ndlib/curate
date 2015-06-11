@@ -157,6 +157,9 @@ class Etd < ActiveFedora::Base
     solr_doc[Solrizer.solr_name('degree_disciplines', :stored_searchable)] = degree_disciplines
     solr_doc[Solrizer.solr_name('contributors', :stored_searchable)] = contributors_list
     solr_doc[Solrizer.solr_name('degree_department_acronyms', :stored_searchable)] = department_acronyms
+    if(cdate = Array.wrap(self.date_created).compact).blank?
+      solr_doc[Solrizer.solr_name('desc_metadata__date_created', :stored_searchable)] = cdate.first
+    end
     super(solr_doc, opts)
   end
 
