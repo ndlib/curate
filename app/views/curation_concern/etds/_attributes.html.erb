@@ -17,8 +17,12 @@
   <% end %>
   <% curation_concern.degree.each do |degree| %>
     <tr><th> Degree Level </th><td><%= degree.level.first %></td></tr>
-    <tr><th> Degree Discipline </th><td><%= degree.discipline.first %></td></tr>
-    <tr><th> Degree Name </th><td><%= degree.name.first %></td></tr>
+    <% degree.discipline.each do |disc| %>
+      <% unless disc.blank? %>
+        <tr><th> Degree Discipline </th><td><%= disc %></td></tr>
+      <% end %>
+    <% end %>
+    <tr><th> Degree Name </th><td><%= DEGREE.fetch('degrees')[degree.name.first] %></td></tr>
   <% end %>
   <%= curation_concern_attribute_to_html(curation_concern, :date, 'Defense Date') %>
   <%= curation_concern_attribute_to_html(curation_concern, :date_approved, 'Approval Date') %>

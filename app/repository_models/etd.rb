@@ -177,7 +177,7 @@ class Etd < ActiveFedora::Base
   end
 
   def degree_disciplines
-    self.degree.map{|deg| deg.discipline.first }
+    self.degree.map {|m| m.discipline }.flatten.compact
   end
 
   def department_acronyms
