@@ -68,7 +68,7 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
     map.urn(to: "identifier#other", in: RDF::QualifiedDC) do |index|
-      index.as :stored_searchable
+      index.as :stored_searchable, :symbol
     end
     map.doi(to: "identifier#doi", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable
