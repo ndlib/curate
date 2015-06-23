@@ -1,14 +1,6 @@
 class CurationConcern::EtdsController < CurationConcern::GenericWorksController
   self.curation_concern_type = Etd
 
-  def new
-    raise "This action is disabled in CurateND. ETD deposits are handled by Sipity"
-  end
-
-  def create
-    raise "This action is disabled in CurateND. ETD deposits are handled by Sipity"
-  end
-
   def setup_form
     if action_name == 'new'
       curation_concern.creator << current_user.name if curation_concern.creator.empty? && !current_user.can_make_deposits_for.any?
