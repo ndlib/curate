@@ -53,15 +53,16 @@
         as: :multi_value,
         input_html: { class: 'input-xlarge' }
       %>
-      <%= f.input :date_created,
-        input_html: { class: 'input-xlarge datepicker' }
-      %>
   </div>
 </fieldset>
   
 <fieldset class="optional prompt">
 
   <div class="row">
+      <%= f.input :date_created,
+        input_html: { class: 'input-xlarge datepicker' }
+      %>
+
       <%= f.input :publisher,
         as: :multi_value,
         input_html: { class: 'input-xlarge' }

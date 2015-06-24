@@ -91,8 +91,7 @@ class Etd < ActiveFedora::Base
       default: lambda { Date.today.to_s("%Y-%m-%d") },
       label: "Date",
       hint: "The date that appears on the title page or equivalent of the #{etd_label}.",
-      multiple: false,
-      validates: { presence: { message: "Your #{etd_label} must have a date." } }
+      multiple: false
     ds.attribute :date_uploaded,
       multiple: false
     ds.attribute :date_modified, 
