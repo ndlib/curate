@@ -38,11 +38,11 @@ class Etd < ActiveFedora::Base
   end
 
   def self.valid_degree_names
-    EtdVocabulary.values_for("degree_name").map{|disc| [disc, degree_acronym_mapper[disc]]}
+    EtdVocabulary.values_for("degree_name").map{|disc| [disc, degree_acronym_mapper[disc]]}.sort
   end
 
   def self.valid_degree_disciplines
-    EtdVocabulary.values_for("degree_discipline")
+    EtdVocabulary.values_for("degree_discipline").sort
   end
 
   def self.degree_acronym_mapper
