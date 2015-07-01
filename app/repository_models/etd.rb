@@ -68,11 +68,6 @@ class Etd < ActiveFedora::Base
     ds.attribute :alternate_title,
       label: "Alternate title",
       multiple: false
-    ds.attribute :subject,
-      label: "Subject",
-      hint: "The topic of the content of the #{etd_label}.",
-      multiple: true,
-      validates: { presence: { message: "Your #{etd_label} must have a subject." } }
     ds.attribute :abstract,
       label: "Full text of the abstract",
       multiple: false,
@@ -96,10 +91,9 @@ class Etd < ActiveFedora::Base
     ds.attribute :date_modified, 
       multiple: false
     ds.attribute :subject,
-      label: "Keyword(s) or phrase(s)",
+      label: "Subject",
       hint: "What words or phrases would be helpful for someone searching for your ETD",
-      datastream: :descMetadata, multiple: true,
-      validates: { presence: { message: "Your #{etd_label} must have a keyword." } }
+      datastream: :descMetadata, multiple: true
     ds.attribute :language,
       hint: "What is the language(s) in which you wrote your #{etd_label}?",
       default: ['English'],
@@ -134,8 +128,7 @@ class Etd < ActiveFedora::Base
       multiple: false,
       editable: false
     ds.attribute :urn,
-      multiple: false,
-      validates: { presence: { message: "Your #{etd_label} must have URN." } }
+      multiple: false
     ds.attribute :date,
       default: Date.today.to_s("%Y-%m-%d"),
       multiple: false,
