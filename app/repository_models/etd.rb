@@ -117,12 +117,8 @@ class Etd < ActiveFedora::Base
       label: "Coverage Spatial",
       hint: " The general region that the materials are related to when applicable."
     ds.attribute :identifier,
-      multiple: false,
-      editable: false
+      multiple: false
     ds.attribute :format,
-      multiple: false,
-      editable: false
-    ds.attribute :doi,
       multiple: false,
       editable: false
     ds.attribute :urn,
@@ -135,6 +131,14 @@ class Etd < ActiveFedora::Base
     ds.attribute :date_approved,
       multiple: false,
       label: "Approval Date"
+  end
+
+  def doi=(doi)
+    self.identifier = doi
+  end
+
+  def doi
+    self.identifier
   end
 
   attribute :files,
