@@ -16,6 +16,7 @@ class Document < GenericWork
       'Letter',
       'Manuscript',
       'Newsletter',
+      'OpenCourseWare',
       'Pamphlet',
       'Presentation',
       'Press Release',
