@@ -9,8 +9,11 @@
 <%= render "form_representative_image", curation_concern: curation_concern, f: f %>
 
 <div class="row with-headroom">
-  <div class="span6">
+  <div class="span12">
     <%= render "form_doi", curation_concern: curation_concern, f: f %>
+    <% if curation_concern.doi.present? %>
+      <%= f.input :doi, label: 'Changes to DOI can be made here', input_html: { class: 'input-xlarge' } %>
+    <% end %>
   </div>
 </div>
 
