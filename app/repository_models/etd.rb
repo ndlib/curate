@@ -75,8 +75,7 @@ class Etd < ActiveFedora::Base
     ds.attribute :country,
       label: "Country",
       hint: "The country in which the #{etd_label} was originally published or accepted.",
-      multiple: false,
-      validates: { presence: { message: "Your #{etd_label} must have a country." } }
+      multiple: false
     ds.attribute :advisor,
       label: "Advisor",
       hint: "Advisor(s) to the thesis author.",
@@ -97,8 +96,7 @@ class Etd < ActiveFedora::Base
     ds.attribute :language,
       hint: "What is the language(s) in which you wrote your #{etd_label}?",
       default: ['English'],
-      multiple: true,
-      validates: { presence: { message: "Your #{etd_label} must have a language." } }
+      multiple: true
     ds.attribute :rights,
       default: "All rights reserved",
       multiple: false,
