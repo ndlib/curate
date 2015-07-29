@@ -1,9 +1,0 @@
-<div class="control-group <%=curation_concern.class%>_organization">
-  <span class="control-label"><label name="<%= f.object_name %>[organization]" class="select optional">Organization</label></span>
-  <div class="controls">
-    <% options = "" %>
-    <% options << opt_listing(curation_concern) %>
-    <%=select_tag "#{f.object_name}[organization][]", options, {prompt: 'Make a Selection', class: 'input-xxlarge department-select', :size =>10, multiple:true}  %>
-  </div>
-</div>
-

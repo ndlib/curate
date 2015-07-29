@@ -27,7 +27,7 @@ class Dataset < ActiveFedora::Base
             validates: {presence: { message: 'You must select a license for your dataset.' }}
   attribute :contributor, datastream: :descMetadata, multiple: true
   attribute :affiliation,datastream: :descMetadata, hint: "Creator's Affiliation to the Institution.", multiple: false
-  attribute :organization,
+  attribute :administrative_unit,
             datastream: :descMetadata, multiple: true,
             label: "School & Department",
             hint: "School and Department that creator belong to."

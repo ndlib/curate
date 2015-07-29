@@ -21,11 +21,11 @@ class Affiliation
   attr_reader :key
 
   def label
-    I18n.t!(key, scope: 'curate.organization_affiliation.label')
+    I18n.t!(key, scope: 'curate.administrative_unit_affiliation.label')
   end
 
   def human_name
-    I18n.t!(key, scope: 'curate.organization_affiliation.name')
+    I18n.t!(key, scope: 'curate.administrative_unit_affiliation.name')
   end
 
   def to_s
