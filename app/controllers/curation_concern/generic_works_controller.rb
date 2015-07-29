@@ -8,7 +8,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   def create
     return unless verify_acceptance_of_user_agreement!
-    reset_organization_if_necessary
+    reset_administrative_unit_if_necessary
     if actor.create
       after_create_response
     else
@@ -73,7 +73,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def update
-    reset_organization_if_necessary
+    reset_administrative_unit_if_necessary
     if actor.update
       after_update_response
     else
@@ -121,10 +121,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     curation_concern_type.name.underscore.to_sym
   end
 
-  def reset_organization_if_necessary
-    return unless curation_concern.respond_to?(:organization)
-    if params.has_key?(hash_key_for_curation_concern.to_s) && !params[hash_key_for_curation_concern.to_s].has_key?("organization")
-      params[hash_key_for_curation_concern.to_s].merge!('organization' => [""])
+  def reset_administrative_unit_if_necessary
+    return unless curation_concern.respond_to?(:administrative_unit)
+    if params.has_key?(hash_key_for_curation_concern.to_s) && !params[hash_key_for_curation_concern.to_s].has_key?("administrative_unit")
+      params[hash_key_for_curation_concern.to_s].merge!('administrative_unit' => [""])
     end
   end
 end

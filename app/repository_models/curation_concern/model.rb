@@ -38,7 +38,6 @@ module CurationConcern
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
       solr_doc[Solrizer.solr_name('representative', :stored_searchable)] = self.representative
       add_derived_date_created(solr_doc)
-      add_organization_details(solr_doc)
       return solr_doc
     end
 
@@ -81,31 +80,5 @@ protected
       end
       solr_doc
     end
-
-    # add organization details to solr document
-    def add_organization_details(solr_doc)
-      if self.respond_to?(:organization)
-        parents, hierarchy= get_organization_details
-        organization_labels= hierarchy.map { |id| id.split(":").last }
-        self.class.create_and_insert_terms('organization_parents', parents, [:stored_searchable, :facetable], solr_doc)
-        self.class.create_and_insert_terms('organization_hierarchy', hierarchy, [:facetable], solr_doc)
-        self.class.create_and_insert_terms('organization', organization_labels, [:stored_searchable,:facetable], solr_doc)
-      end
-    end
-
-    def get_organization_details
-      parents=[]
-      hierarchy=[]
-      organization = Array(self.organization)
-      organization.each do |id|
-        department= Department[id]
-        if department
-          parents<<department.parents.collect{|parent| parent.id}.flatten
-          hierarchy<<department.identifier.gsub("::",":")
-        end
-      end
-      [parents.uniq.map { |id| id.to_s }, hierarchy.uniq.map { |id| id.to_s }]
-    end
-
   end
 end
