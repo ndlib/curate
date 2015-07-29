@@ -51,7 +51,7 @@ class Etd < ActiveFedora::Base
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :affiliation,datastream: :descMetadata, hint: "Creator's Affiliation to the Institution.", multiple: false
-    ds.attribute :organization,
+    ds.attribute :administrative_unit,
               datastream: :descMetadata, multiple: true,
               label: "School & Department",
               hint: "School and Department that creator belong to."
