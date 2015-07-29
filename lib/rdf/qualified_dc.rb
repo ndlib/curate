@@ -8,6 +8,7 @@ module RDF
     property "creator#author".to_sym
     property "creator#affiliation".to_sym
     property "creator#organization".to_sym
+    property "creator#administrative_unit".to_sym
     property "rights#permissions".to_sym
     property "contributor#author".to_sym
     property "publisher#country".to_sym
