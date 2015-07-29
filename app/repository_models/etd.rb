@@ -55,6 +55,10 @@ class Etd < ActiveFedora::Base
               datastream: :descMetadata, multiple: true,
               label: "School & Department",
               hint: "School and Department that creator belong to."
+    ds.attribute :administrative_unit,
+              datastream: :descMetadata, multiple: true,
+              label: "School & Department",
+              hint: "School and Department that creator belong to."
 
     ds.attribute :creator,
       multiple: true,

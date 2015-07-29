@@ -32,6 +32,10 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: true,
     label: "School & Department",
     hint: "School and Department that creator belong to."
+  attribute :administrative_unit,
+    datastream: :descMetadata, multiple: true,
+    label: "School & Department",
+    hint: "School and Department that creator belong to."
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",

@@ -23,6 +23,10 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.administrative_unit(to: 'creator#administrative_unit', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.advisor(in: RDF::Relators, to: 'ths')
 
     map.abstract(to: "description#abstract", in: RDF::QualifiedDC) do |index|

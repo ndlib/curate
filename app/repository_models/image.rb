@@ -38,6 +38,11 @@ class Image < ActiveFedora::Base
               label: "School & Department",
               hint: "School and Department that creator belong to."
 
+    ds.attribute :administrative_unit,
+              datastream: :descMetadata, multiple: true,
+              label: "School & Department",
+              hint: "School and Department that creator belong to."
+
     ds.attribute :date_created,
       default: lambda { Date.today.to_s("%Y-%m-%d") },
       label: "Date",
