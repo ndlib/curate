@@ -11,7 +11,7 @@
 <div class="row with-headroom">
   <div class="span12">
     <%= render "form_doi", curation_concern: curation_concern, f: f %>
-    <% if curation_concern.doi.present? %>
+    <% if curation_concern.respond_to?(:doi) && curation_concern.doi.present? %>
       <%= f.input :doi, label: 'Changes to DOI can be made here', input_html: { class: 'input-xlarge' } %>
     <% end %>
   </div>
