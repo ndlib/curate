@@ -21,6 +21,7 @@ module CurationConcern
           writer: lambda {|value| normalize_identifier(value) }
 
         validates :publisher, multi_value_presence: { message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+        validate :remove_white_space_in_doi
 
         attr_writer :doi_remote_service
 
@@ -40,6 +41,12 @@ module CurationConcern
 
         def doi_minting_worker
           @doi_minting_worker ||= DoiMintingWorker.new(self.pid)
+        end
+
+        private
+
+        def remove_white_space_in_doi
+          self.doi.gsub!(' ', '') if self.respond_to?(:doi) && self.doi.present?
         end
       end
     end
