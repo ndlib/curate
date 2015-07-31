@@ -9,10 +9,10 @@
   <%= curation_concern_attribute_to_html(curation_concern, :alternate_title, 'Alternate Title') %>
   <%= curation_concern_attribute_to_html(curation_concern, :urn, 'URN') %>
   <% curation_concern.creator.each do |author| %>
-    <tr><th> Author </th><td><%= author %></td></tr>
+    <tr><th> Author </th><td><%= raw author %></td></tr>
   <% end %>
   <% curation_concern.advisor.each do |advisor| %>
-    <tr><th> Advisor </th><td><%= advisor %></td></tr>
+    <tr><th> Advisor </th><td><%= raw advisor %></td></tr>
   <% end %>
   <% curation_concern.contributor.each do |contributor| %>
     <% unless contributor.contributor.first.blank? %>
