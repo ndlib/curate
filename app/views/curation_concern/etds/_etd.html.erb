@@ -14,11 +14,11 @@
       <dl class="attribute-list">
         <% if solr_doc.has?('desc_metadata__creator_tesim') %>
           <dt>Author(s):</dt>
-          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__creator_tesim') %></dd>
+          <dd><%= human_readable_text(render_index_field_value(document: solr_doc, field: 'desc_metadata__creator_tesim')) %></dd>
         <% end %>
         <% if solr_doc.has?('contributors_tesim') %>
           <dt>Advisory Committee:</dt>
-          <dd><%= render_index_field_value(document: solr_doc, field: 'contributors_tesim') %></dd>
+          <dd><%= human_readable_text(render_index_field_value(document: solr_doc, field: 'contributors_tesim')) %></dd>
         <% end %>
         <% if solr_doc.has?('degree_disciplines_tesim') %>
           <dt>Department(s):</dt>

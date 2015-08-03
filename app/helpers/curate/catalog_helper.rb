@@ -35,6 +35,10 @@ module Curate::CatalogHelper
     end
   end
 
+  def human_readable_text(text)
+    raw text.gsub('&amp;', '&')
+  end
+
   private
 
     def type_field
