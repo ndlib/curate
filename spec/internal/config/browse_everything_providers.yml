@@ -1,0 +1,12 @@
+---
+file_system:
+  :home: /Users/rbalekai/Documents/Rajesh/Documents/git/ndlib/curate/spec/support
+box:
+  :client_id: <your client id>
+  :client_secret: <your client secret>
+drop_box:
+  :app_key: <your client id>
+  :app_secret: <your app secret>
+google_drive:
+  :client_id: <your client id>
+  :client_secret: <your client secret>

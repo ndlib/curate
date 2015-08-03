@@ -43,6 +43,7 @@ task :generate do
     gem 'curate', :path=>'../../../#{File.expand_path('../../', __FILE__).split('/').last}'
     gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'
     gem 'browse-everything'
+    gem 'hydra-head', github: 'ndlib/hydra-head', branch: 'fix-curate-travis'
 
     group :test do
       gem 'rspec-rails', '~> 3.0.2'
@@ -88,6 +89,8 @@ end
 task :spec do
   Bundler.with_clean_env do
     within_test_app do
+      system_with_command_output("bundle install")
+      system_with_command_output("rake db:migrate db:test:prepare")
       Rake::Task['rspec'].invoke
     end
   end
@@ -113,7 +116,7 @@ end
 
 
 desc 'Run specs on travis'
-task :ci => [:regenerate] do
+task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip

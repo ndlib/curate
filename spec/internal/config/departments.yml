@@ -1,0 +1,4 @@
+department_name:
+  key: "department_ley"
+  identifier: "department_identifier"
+  selectable: false
