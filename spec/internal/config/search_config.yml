@@ -1,0 +1,9 @@
+development:
+  catalog:
+  people:
+test:
+  catalog:
+  people:
+production:
+  catalog:
+  people:
