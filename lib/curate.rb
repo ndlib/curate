@@ -16,6 +16,8 @@ require 'browse-everything'
 require 'select2-rails'
 require 'curate/migration_services'
 require 'qa'
+require 'locabulary'
+require 'blacklight-hierarchy'
 
 module Curate
   extend ActiveSupport::Autoload
