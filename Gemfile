@@ -14,6 +14,7 @@ gemspec
 
 gem 'coveralls', require: false
 gem 'simplecov', require: false
+gem 'blacklight-hierarchy', github: 'ndlib/blacklight-hierarchy', branch: 'master'
 if !ENV['TRAVIS']
   gem 'rspec-yenta'
   gem 'pry'
