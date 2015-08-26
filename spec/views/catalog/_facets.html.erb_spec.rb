@@ -8,6 +8,7 @@ describe 'catalog/_facets.html.erb' do
     view.stub(:search_action_url) do |*args|
       catalog_index_url *args
     end
+    view.stub(:has_facet_values? => false)
     render
   end
 
