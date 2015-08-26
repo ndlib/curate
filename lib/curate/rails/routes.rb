@@ -57,6 +57,7 @@ module ActionDispatch::Routing
       match "show/stub/:id" => "common_objects#show_stub_information", via: :get, as: "common_object_stub_information"
       match 'users/:id/edit' => 'users#edit', via: :get, as: 'edit_user'
       match 'downloads/:id(/:datastream_id)(.:format)' => 'downloads#show', via: :get, as: 'download'
+      match 'catalog/administrativeunit/:id/facet' => 'catalog#administrative_unit_facet', via: :get, as: 'catalog_administrative_unit_facet'
 
       #scope module: 'hydramata' do
       namespace :hydramata do
