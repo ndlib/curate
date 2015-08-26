@@ -6,7 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` on Rails 4+ applications as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '5a1073957fd2bcd53627ff9f75ced9aedf5c0cc7eb82aca3f970bea55a244f5e2cd096654b8e1989983af4c57a38c825f7f00979c1e9be9e2841dc701f2ed132'
+  # config.secret_key = 'a74cdeee30dbf949e779f93344774ce9520ce8a71b3cfc9c3fa9780edca1a38b7cd8a65e697d4bc4fb5cfd25cd1acec99de15a113ca61be14c1d0a8395ca6eec'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -99,7 +99,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = 'dc79c786fac54f101bcb409fa9ceadea081b25d95a67b1ea2737d2e77258f858b7f181c3c20d3ed897622f1cf6e788d1218573b09d881e0bcbecc35efb4e8e96'
+  # config.pepper = '9312351b15da4bc095aeacb00425d4e5d83c8a74cf7f4f0cf963a0636b8f832d69f923bd79e45bdfdfe466b27ba918a2c6f87aa36c989512c9de74bd52de0157'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -153,9 +153,6 @@ Devise.setup do |config|
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
-
-  # If true, expires auth token on session timeout.
-  # config.expire_auth_token_on_timeout = false
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.

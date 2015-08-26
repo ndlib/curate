@@ -1,6 +1,6 @@
 ---
 file_system:
-  :home: /Users/rbalekai/Documents/Rajesh/Documents/git/ndlib/curate/spec/support
+  :home: /Users/blakshmi/projects/ndlib/curate/spec/support
 box:
   :client_id: <your client id>
   :client_secret: <your client secret>

@@ -47,6 +47,8 @@ end
     gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'
     gem 'browse-everything'
     gem 'hydra-head', github: 'ndlib/hydra-head', branch: 'fix-curate-travis'
+    gem 'locabulary', github: 'ndlib/locabulary', branch: 'master'
+    gem 'blacklight-hierarchy', github: 'ndlib/blacklight-hierarchy', branch: 'master'
 
     group :test do
       gem 'rspec-rails', '~> 3.0.2'
