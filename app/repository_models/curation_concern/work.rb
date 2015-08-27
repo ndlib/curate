@@ -15,7 +15,8 @@ module CurationConcern
     def to_solr(solr_doc={}, opts={})
       super(solr_doc, opts)
       Solrizer.set_field(solr_doc, 'generic_type', 'Work', :facetable)
-      Solrizer.set_field(solr_doc, 'hierarchy', get_solr_hierarchy_from_term(self.administrative_unit), :facetable) if self.respond_to?(:administrative_unit)
+      Solrizer.set_field(solr_doc, 'administrative_unit_hierarchy', get_solr_hierarchy_from_term(self.administrative_unit), :facetable) if self.respond_to?(:administrative_unit)
+      Solrizer.set_field(solr_doc, 'collection_name_hierarchy', get_solr_hierarchy_from_term(self.collection_name), :facetable) if self.respond_to?(:collection_name)
       return solr_doc
     end
 

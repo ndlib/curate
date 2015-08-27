@@ -59,7 +59,10 @@ class Etd < ActiveFedora::Base
               datastream: :descMetadata, multiple: true,
               label: "School & Department",
               hint: "School and Department that creator belong to."
-
+    ds.attribute :collection_name,
+                 datastream: :descMetadata, multiple: true,
+                 label: 'Collection Name',
+                 hint: "Collection that work belongs to"
     ds.attribute :creator,
       multiple: true,
       label: "Author(s)",

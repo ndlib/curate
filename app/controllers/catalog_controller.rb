@@ -29,7 +29,7 @@ class CatalogController < ApplicationController
     super
   end
 
-  def administrative_unit_facet
+  def hierarchy_facet
     @pagination = get_facet_pagination(params[:id], params)
     (@response, @document_list) = get_search_results
     respond_to do |format|
@@ -94,10 +94,12 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("desc_metadata__affiliation", :facetable), label: "Affiliation", limit: 5
     config.add_facet_field solr_name("organization", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("file_format", :facetable), label: "File Format", limit: 5
-    config.add_facet_field 'hierarchy_sim', :label => 'Administrative Units', :partial => 'blacklight/hierarchy/facet_hierarchy', :limit => 100000, :show=> false, :sort => 'count'
+    config.add_facet_field 'administrative_unit_hierarchy_sim', :label => 'Administrative Units', :partial => 'blacklight/hierarchy/facet_hierarchy', :limit => 100000, :show=> false, :sort => 'count'
+    config.add_facet_field 'collection_name_hierarchy_sim', :label => 'Collection', :partial => 'blacklight/hierarchy/facet_hierarchy', :limit => 100000, :show=> false, :sort => 'count'
     config.facet_display = {
         :hierarchy => {
-            'hierarchy' => [['sim'], ':']
+            'administrative_unit_hierarchy' => [['sim'], ':'],
+            'collection_name_hierarchy' => [['sim'], ':']
         }
     }
 

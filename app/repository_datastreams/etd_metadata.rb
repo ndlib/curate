@@ -27,6 +27,10 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.collection_name(to: "relation#ispartof", in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable
+    end
+
     map.advisor(in: RDF::Relators, to: 'ths')
 
     map.abstract(to: "description#abstract", in: RDF::QualifiedDC) do |index|
