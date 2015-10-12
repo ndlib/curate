@@ -24,15 +24,12 @@ module Curate
       end
 
       def manager?
-        repository_manager? && load_manager.active?
+        return false unless repository_manager_record.present?
+        repository_manager_record.active?
       end
 
       def repository_manager?
-        manager_usernames.include?(user_key)
-      end
-
-      def manager_usernames
-        @manager_usernames ||= RepoManager.usernames
+        repository_manager_record.present?
       end
 
       def name
@@ -45,8 +42,8 @@ module Curate
 
       private
 
-      def load_manager
-        RepoManager.where(username: user_key).first
+      def repository_manager_record
+        RepoManager.find_by(username: user_key)
       end
     end
   end
