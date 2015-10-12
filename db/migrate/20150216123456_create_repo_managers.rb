@@ -6,7 +6,7 @@ class CreateRepoManagers < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :repo_managers, :username
+    add_index :repo_managers, :username, unique: true
   end
 
   def self.down
