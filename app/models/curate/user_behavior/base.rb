@@ -24,10 +24,10 @@ module Curate
       end
 
       def manager?
-        is_user_a_manager? && load_manager.active?
+        repository_manager? && load_manager.active?
       end
 
-      def is_user_a_manager?
+      def repository_manager?
         manager_usernames.include?(user_key)
       end
 
