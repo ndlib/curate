@@ -4,7 +4,7 @@ describe 'manager profile workflow', FeatureSupport.options do
 
   describe 'editing other user\'s profile as a manager' do
     let(:manager_email) { 'manager@example.com' }
-    let(:manager_account) { FactoryGirl.create(:account, email: manager_email) }
+    let(:manager_account) { FactoryGirl.create(:repository_manager_account, email: manager_email) }
     let(:manager_user) { manager_account.user }
     let(:account) { FactoryGirl.create(:account) }
     let(:user) { account.user }

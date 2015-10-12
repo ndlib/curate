@@ -50,7 +50,7 @@ describe CatalogController do
   describe "when logged in as a repository manager" do
     let(:creating_user) { FactoryGirl.create(:user) }
     let(:email) { 'manager@example.com' }
-    let(:manager_user) { FactoryGirl.create(:user, email: email) }
+    let(:manager_user) { FactoryGirl.create(:repository_manager_user, email: email) }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let!(:work1) {
       FactoryGirl.create_curation_concern(:generic_work, creating_user, { visibility: visibility })

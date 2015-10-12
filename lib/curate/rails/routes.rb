@@ -62,7 +62,7 @@ module ActionDispatch::Routing
       namespace :hydramata do
         resources 'groups'
       end
-
+      resource :repo_manager, only: [:edit, :update]
     end
   end
 end

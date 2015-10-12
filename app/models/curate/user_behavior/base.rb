@@ -24,11 +24,12 @@ module Curate
       end
 
       def manager?
-        manager_usernames.include?(user_key)
+        return false unless repository_manager_record.present?
+        repository_manager_record.active?
       end
 
-      def manager_usernames
-        @manager_usernames ||= load_managers
+      def repository_manager?
+        repository_manager_record.present?
       end
 
       def name
@@ -41,17 +42,9 @@ module Curate
 
       private
 
-        def load_managers
-          manager_config = "#{::Rails.root}/config/manager_usernames.yml"
-          if File.exist?(manager_config)
-            content = IO.read(manager_config)
-            YAML.load(ERB.new(content).result).fetch(Rails.env).
-              fetch('manager_usernames')
-          else
-            logger.warn "Unable to find managers file: #{manager_config}"
-            []
-          end
-        end
+      def repository_manager_record
+        RepoManager.find_by(username: user_key)
+      end
     end
   end
 end

@@ -11,6 +11,12 @@ FactoryGirl.define do
     sign_in_count 20
   end
 
+  factory :repository_manager_user, parent: :user do
+    after(:create) do |user, evaluator|
+      RepoManager.create!(username: user.user_key, active: true)
+    end
+  end
+
   factory :account do
     user { FactoryGirl.build(:user) }
     sequence(:email) {|n| "email-#{srand}@test.com" }
@@ -19,6 +25,11 @@ FactoryGirl.define do
     }
     after(:create) do |account, evaluator|
       account.save
+    end
+  end
+  factory :repository_manager_account, parent: :account do
+    after(:create) do |account, evaluator|
+      RepoManager.create!(username: account.user.user_key, active: true)
     end
   end
 end

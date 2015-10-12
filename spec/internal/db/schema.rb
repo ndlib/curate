@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150806134047) do
+ActiveRecord::Schema.define(version: 20151012170335) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",     null: false
@@ -150,6 +150,15 @@ ActiveRecord::Schema.define(version: 20150806134047) do
   end
 
   add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id"
+
+  create_table "repo_managers", force: true do |t|
+    t.string   "username"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "repo_managers", ["username"], name: "index_repo_managers_on_username", unique: true
 
   create_table "searches", force: true do |t|
     t.text     "query_params"
