@@ -31,7 +31,7 @@ describe "User" do
 
       describe 'as a repository manager' do
         let(:email) { 'manager@example.com' }
-        let(:manager_user) { FactoryGirl.create(:user, email: email) }
+        let(:manager_user) { FactoryGirl.create(:repository_manager_user, email: email) }
         let(:creating_user) { user }
         let(:current_user) { manager_user }
         it {
