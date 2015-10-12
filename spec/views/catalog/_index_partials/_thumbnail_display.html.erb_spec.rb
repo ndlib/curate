@@ -45,10 +45,11 @@ describe 'catalog/_index_partials/_thumbnail_display' do
   context 'Work: ' do
     let(:document) { FactoryGirl.create(:generic_work, representative: '1234') }
     before do
+      document.stub(:representative_image_url).and_return('/downloads/1234?datastream_id=thumbnail')
       render partial: 'thumbnail_display', locals: { document: document }
     end
     it 'should display selected representative as thumbnail' do
-      rendered.should include("/downloads/1234/thumbnail")
+      rendered.should include("/downloads/1234?datastream_id=thumbnail")
     end
   end
 end

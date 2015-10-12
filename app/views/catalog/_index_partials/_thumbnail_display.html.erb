@@ -2,7 +2,11 @@
 <%- if document.respond_to?(:representative_image_url) && document.representative_image_url.present? %>
   <%= link_to(image_tag(document.representative_image_url, html_options = { class: "canonical-image"}), title_link_target )  %>
 <%- elsif document.respond_to?(:representative) && document.representative.present? %>
-  <%= link_to(image_tag(download_path(document.representative,  'thumbnail'), html_options = { class: "canonical-image" }), title_link_target)  %>
+  <% if((gf = ActiveFedora::Base.load_instance_from_solr(document.representative)) && (can?(:read, gf))) %>
+    <%= link_to(image_tag(download_path(document.representative,  'thumbnail'), html_options = { class: "canonical-image" }), title_link_target)  %>
+  <% else %>
+    <%= link_to('<span class="canonical-image"></span>'.html_safe, title_link_target) %>
+  <% end %>
 <%- elsif document.persisted? -%>
   <%= link_to(image_tag(download_path(document,  'thumbnail'), html_options = { class: "canonical-image"}), title_link_target)  %>
 <%- else -%>

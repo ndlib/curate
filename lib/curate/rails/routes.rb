@@ -22,7 +22,8 @@ module ActionDispatch::Routing
       #resources :downloads, only: [:show]
 
       match 'collections' => 'collections#index', via: :get, as: 'curation_concern_collections'
-      match 'collection/:id' => 'collections#show', via: :get, as: 'curation_concern_collection'
+      get 'collection/:id', to: redirect('collections/%{id}')
+      match 'collections/:id' => 'collections#show', via: :get, as: 'curation_concern_collection'
       match 'people/:id' => 'people#show', via: :get, as: 'curation_concern_person'
       match 'people' => 'people#index', via: :get, as: 'curation_concern_people'
 
