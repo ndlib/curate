@@ -72,5 +72,13 @@ describe Curate::CatalogHelper do
         helper.catalog_type.should == "Content"
       end
     end
+
+    describe "#human_readable_text" do
+      it "should unescape '&amp;' in the html entities and display them properly" do
+        text_from_solr = "D&amp;#259;nu&amp;#539;"
+        expected_text = "D&#259;nu&#539;"
+        helper.human_readable_text(text_from_solr).should == expected_text
+      end
+    end
   end
 end
