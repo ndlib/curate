@@ -98,7 +98,7 @@ class Curate::CollectionsController < ApplicationController
     else
       flash[:error] = 'Unable to add item to collection.'
     end
-    redirect_to params.fetch(:redirect_to) { catalog_index_path }
+    redirect_to(request.env["HTTP_REFERER"] || catalog_index_path)
   end
 
   def remove_member
