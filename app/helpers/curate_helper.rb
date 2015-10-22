@@ -1,33 +1,40 @@
+# encoding: UTF-8
+# Helper methods used across the curation concerns
 module CurateHelper
-
   def support_email_link(options = {})
     mail_to(t('sufia.help_email'), t('sufia.help_email'), {subject: t('sufia.help_email_subject')}.merge(options)).html_safe
   end
 
   def file_size_warning
-    "<strong>Note - For files larger than #{t('sufia.supported_file_upload_size')} please contact #{support_email_link.html_safe} for assistance.</strong>".html_safe
+    markup = <<-html
+    <p class="alert alert-block">
+      <strong>Please Note:</strong><br />
+      For files larger than #{t('sufia.supported_file_upload_size')} please contact #{support_email_link.html_safe} for assistance.
+    </p>
+    html
+    markup.html_safe
   end
 
   # Loads the object and returns its title
-  def collection_title_from_pid  value
+  def collection_title_from_pid(value)
     begin
       c = Collection.load_instance_from_solr(value)
     rescue => e
       logger.warn("WARN: Helper method collection_title_from_pid raised an error when loading #{value}.  Error was #{e}")
     end
-    return c.nil? ? value : c.title
+    c.nil? ? value : c.title
   end
 
   # Loads the person object and returns their name
   # In this case, the value is in the format: info:fedora/<PID>
   # So used split
-  def creator_name_from_pid value
+  def creator_name_from_pid(value)
     begin
       p = Person.load_instance_from_solr(value.split("/").last)
     rescue => e
       logger.warn("WARN: Helper method create_name_from_pid raised an error when loading #{value}.  Error was #{e}")
     end
-    return p.nil? ? value : p.name
+    p.nil? ? value : p.name
   end
 
   def construct_page_title(*elements)
@@ -43,9 +50,10 @@ module CurateHelper
   end
 
   def default_page_title
-    text = controller_name.singularize.titleize
     if action_name
       text = "#{action_name.titleize} " + text
+    else
+      text = controller_name.singularize.titleize
     end
     construct_page_title(text)
   end
@@ -61,11 +69,20 @@ module CurateHelper
       if method_name == :rights
         # Special treatment for license/rights.  A URL from the Sufia gem's config/sufia.rb is stored in the descMetadata of the
         # curation_concern.  If that URL is valid in form, then it is used as a link.  If it is not valid, it is used as plain text.
-        parsedUri = URI.parse(value) rescue nil
-        if parsedUri.nil?
+        begin
+          parsed_uri = URI.parse(value)
+        rescue
+          parsed_uri = nil
+        end
+
+        if parsed_uri.nil?
           markup << %(<li class="attribute #{method_name}">#{h(richly_formatted_text(value))}</li>\n)
         else
-          markup << %(<li class="attribute #{method_name}"><a href=#{h(value)} target="_blank"> #{h(Sufia.config.cc_licenses_reverse[value])}</a></li>\n)
+          markup << <<-html
+            <li class="attribute #{method_name}">
+              <a href=#{h(value)} target="_blank"> #{h(Sufia.config.cc_licenses_reverse[value])}</a>
+            </li>
+          html
         end
       else
         markup << %(<li class="attribute #{method_name}">#{h(richly_formatted_text(value))}</li>\n)
@@ -116,16 +133,18 @@ module CurateHelper
     # A better approximation, but we still need one location for this information
     # either via routes or via the initializer of the application
     if asset.class.included_modules.include?(CurationConcern::Model)
-      return [:curation_concern, asset]
+      [:curation_concern, asset]
     else
-      return asset
+      asset
     end
   end
+
   def polymorphic_path_for_asset(asset)
-    return polymorphic_path(polymorphic_path_args(asset))
+    polymorphic_path(polymorphic_path_args(asset))
   end
+
   def edit_polymorphic_path_for_asset(asset)
-    return edit_polymorphic_path(polymorphic_path_args(asset))
+    edit_polymorphic_path(polymorphic_path_args(asset))
   end
 
   # This converts a collection of objects to a 2 dimensional array having keys accessed via the key_method on the objects
@@ -138,7 +157,7 @@ module CurateHelper
   #           The collection of Ohs is in the variable ohList.
   #           ohArray = objects_to_array(ohList, 'b', 'e')
   def objects_to_array(collection, key_method, value_method)
-    returnArray = collection.map do |element|
+    collection.map do |element|
       [get_value_for(element, key_method), get_value_for(element, value_method)]
     end
   end
@@ -153,24 +172,28 @@ module CurateHelper
 
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys
-    dom_label_class, link_title = "label-important", "Private"
+    dom_label_class = "label-important"
+    link_title = "Private"
     if hash[Hydra.config[:permissions][:read][:group]].present?
       if hash[Hydra.config[:permissions][:read][:group]].include?('public')
         if hash[Hydra.config[:permissions][:embargo_release_date]].present?
-          dom_label_class, link_title = 'label-warning', 'Open Access with Embargo'
+          dom_label_class = 'label-warning'
+          link_title = 'Open Access with Embargo'
         else
-          dom_label_class, link_title = 'label-success', 'Open Access'
+          dom_label_class = 'label-success'
+          link_title = 'Open Access'
         end
       elsif hash[Hydra.config[:permissions][:read][:group]].include?('registered')
-        dom_label_class, link_title = "label-info", t('sufia.institution_name')
+        dom_label_class = "label-info"
+        link_title = t('sufia.institution_name')
       end
     end
-    return dom_label_class, link_title
+    [dom_label_class, link_title]
   end
   private :extract_dom_label_class_and_link_title
 
   def auto_link_without_protocols(url)
-    link = (url =~ /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/) ? 'http://' + url : url
+    link = (url =~ %r(/\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/)) ? 'http://' + url : url
     auto_link(link, :all)
   end
 
