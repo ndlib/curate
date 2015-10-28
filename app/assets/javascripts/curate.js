@@ -39,8 +39,6 @@
 //= require curate/proxy_submission
 //= require curate/content_submission
 //= require handlebars
-//= require browse_everything
-//= require curate/browse_everything_implement
 //= require curate/validate_doi
 //= require curate/sort_and_per_page
 //= require curate/read_more
@@ -119,6 +117,3 @@ Blacklight.onLoad(function() {
 	}
 
 });
-
-
-

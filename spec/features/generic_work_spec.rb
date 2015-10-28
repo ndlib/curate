@@ -28,34 +28,6 @@ describe 'Creating a generic work' do
       end
     end
   end
-
-  describe 'with a cloud resource', js: true do
-    it "should allow me to attach the cloud resource on the create page" do
-      login_as(user)
-      visit new_curation_concern_generic_work_path
-      within '#new_generic_work' do
-        fill_in "Title", with: "My title"
-        click_button("Browse!")
-      end
-      find("div#browse-everything").should be_visible
-      within('#browse-everything') do
-        page.should have_tag("a[href$='/remote_files/browse/file_system']", text: "File System")
-        click_link 'File System'
-        click_link 'features.rb'
-        click_button ("Submit")
-      end
-      within '#new_generic_work' do
-        page.should have_tag("#status", text: "1 item(s) selected")
-        select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
-        check("I have read and accept the contributor license agreement")
-        click_button("Create Generic work")
-      end
-      expect(page).to have_selector('span', text: 'Generic Work')
-      page.should have_content("Files")
-      page.should have_content('features.rb')
-    end
-  end
-
 end
 
 describe 'An existing generic work owned by the user' do
@@ -86,33 +58,6 @@ describe 'An existing generic work owned by the user' do
     page.should have_link('Cancel', href: catalog_index_path)
   end
 
-  describe 'with a cloud resource' , js: true do
-    it 'should allow me to attach a cloud resource' do
-      login_as(user)
-      visit curation_concern_generic_work_path(work)
-      click_link 'Attach a File'
-
-      within '#new_generic_file' do
-        fill_in "Title", with: "My title"
-        click_button("Browse!")
-      end
-      find("div#browse-everything").should be_visible
-      within('#browse-everything') do
-        page.should have_tag("a[href$='/remote_files/browse/file_system']", text: "File System")
-        click_link 'File System'
-        click_link 'features.rb'
-        click_button ("Submit")
-      end
-      within '#new_generic_file' do
-        page.should have_tag("#status", text: "1 item(s) selected")
-        click_button("Attach to Generic Work")
-      end
-      within ('.attached-file.generic_file') do
-        expect(page).to have_selector('.file-title', text: 'features.rb')
-      end
-    end
-  end
-
 end
 
 describe 'Viewing a generic work that is private' do
@@ -141,4 +86,3 @@ describe 'When I click on the link to create a work: ' do
     page.should have_tag("a[href$='people/#{person.to_param}']", text: "Iron Man")
   end
 end
-
