@@ -49,7 +49,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubydora', '~> 1.7.4'
   s.add_dependency 'sanitize', '~> 3.0.2'
   s.add_dependency 'select2-rails'
-  s.add_dependency 'browse-everything'
   s.add_dependency 'httparty'
   s.add_dependency 'qa'
   s.add_development_dependency 'sqlite3'
