@@ -124,8 +124,8 @@ module CurateHelper
 
   def permission_badge_for(curation_concern, solr_document = nil)
     solr_document ||= curation_concern.to_solr
-    dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
-    %(<span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>).html_safe
+    dom_label_class, link_title, qualifier = extract_dom_label_class_and_link_title(solr_document)
+    %(<span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>#{qualifier}).html_safe
   end
 
   def polymorphic_path_args(asset)
@@ -171,25 +171,32 @@ module CurateHelper
 
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys
-    dom_label_class = "label-important"
-    link_title = "Private"
+    dom_label_class = 'label-important'
+    link_title = 'Private'
+    qualifier = ''
+
     if hash[Hydra.config[:permissions][:read][:group]].present?
-      if hash[Hydra.config[:permissions][:read][:group]].include?('public')
-        if hash[Hydra.config[:permissions][:embargo_release_date]].present?
-          dom_label_class = 'label-warning'
-          link_title = 'Open Access with Embargo'
-        else
-          dom_label_class = 'label-success'
-          link_title = 'Open Access'
-        end
+      embargo_release_date = hash[Hydra.config[:permissions][:embargo_release_date]]
+      if embargo_release_date.present?
+        dom_label_class = 'label-warning'
+        link_title = 'Under Embargo'
+        qualifier = " until #{date_from_solr_field(embargo_release_date)}"
+      elsif hash[Hydra.config[:permissions][:read][:group]].include?('public')
+        dom_label_class = 'label-success'
+        link_title = 'Open Access'
       elsif hash[Hydra.config[:permissions][:read][:group]].include?('registered')
-        dom_label_class = "label-info"
+        dom_label_class = 'label-info'
         link_title = t('sufia.institution_name')
       end
     end
-    [dom_label_class, link_title]
+    [dom_label_class, link_title, qualifier]
   end
   private :extract_dom_label_class_and_link_title
+
+  def date_from_solr_field(date_string)
+    date_string.split('T').first
+  end
+  private :date_from_solr_field
 
   def auto_link_without_protocols(url)
     link = (url =~ %r(/\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/)) ? 'http://' + url : url
