@@ -50,10 +50,9 @@ module CurateHelper
   end
 
   def default_page_title
+    text = controller_name.singularize.titleize
     if action_name
       text = "#{action_name.titleize} " + text
-    else
-      text = controller_name.singularize.titleize
     end
     construct_page_title(text)
   end
