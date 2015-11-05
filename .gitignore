@@ -9,3 +9,4 @@ tmp/*
 .sass-cache
 .idea/
 coverage
+spec/internal/tmp/cache/
