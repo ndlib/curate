@@ -79,8 +79,7 @@ class Etd < ActiveFedora::Base
     ds.attribute :advisor,
       label: "Advisor",
       hint: "Advisor(s) to the thesis author.",
-      multiple: true,
-      validates: { presence: { message: "Your #{etd_label} must have an advisor." } }
+      multiple: true
     ds.attribute :date_created,
       label: "Date",
       hint: "The date that appears on the title page or equivalent of the #{etd_label}.",
