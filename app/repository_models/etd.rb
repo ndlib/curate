@@ -13,7 +13,7 @@ class Etd < ActiveFedora::Base
 
   include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
-  etd_label = human_readable_type.downcase
+  etd_label = human_readable_type
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Deposit a senior thesis, master's thesis, or dissertation."
@@ -85,8 +85,10 @@ class Etd < ActiveFedora::Base
       hint: "The date that appears on the title page or equivalent of the #{etd_label}.",
       multiple: false
     ds.attribute :date_uploaded,
-      multiple: false
-    ds.attribute :date_modified, 
+      default: Date.today.to_s("%Y-%m-%d"),
+      multiple: false,
+      validates: { presence: { message: "You must enter the date uploaded for your #{etd_label}." } }
+    ds.attribute :date_modified,
       multiple: false
     ds.attribute :subject,
       label: "Subject",
