@@ -85,7 +85,7 @@ class Etd < ActiveFedora::Base
       hint: "The date that appears on the title page or equivalent of the #{etd_label}.",
       multiple: false
     ds.attribute :date_uploaded,
-      default: Date.today.to_s("%Y-%m-%d"),
+      default: lambda { Date.today.to_s("%Y-%m-%d") },
       multiple: false,
       validates: { presence: { message: "You must enter the date uploaded for your #{etd_label}." } }
     ds.attribute :date_modified,
@@ -125,7 +125,7 @@ class Etd < ActiveFedora::Base
     ds.attribute :urn,
       multiple: false
     ds.attribute :date,
-      default: Date.today.to_s("%Y-%m-%d"),
+      default: lambda { Date.today.to_s("%Y-%m-%d") },
       multiple: false,
       label: "Defense Date",
       validates: { presence: { message: "Your #{etd_label} must have a defense date." } }
