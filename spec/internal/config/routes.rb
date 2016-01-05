@@ -6,6 +6,7 @@ Internal::Application.routes.draw do
 
 
   curate_for
+  curate_repo_manager_permissions
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -62,6 +62,9 @@ module ActionDispatch::Routing
       namespace :hydramata do
         resources 'groups'
       end
+    end
+
+    def curate_repo_manager_permissions opts=nil
       resource :repo_manager, only: [:edit, :update]
     end
   end
