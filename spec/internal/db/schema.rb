@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151012170335) do
+ActiveRecord::Schema.define(version: 20160105152618) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "user_id",     null: false
@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(version: 20151012170335) do
     t.datetime "updated_at"
   end
 
+  add_index "repo_managers", ["active"], name: "index_repo_managers_on_active"
+  add_index "repo_managers", ["username", "active"], name: "index_repo_managers_on_username_and_active"
   add_index "repo_managers", ["username"], name: "index_repo_managers_on_username", unique: true
 
   create_table "searches", force: true do |t|
