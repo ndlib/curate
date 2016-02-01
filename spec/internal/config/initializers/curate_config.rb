@@ -1,6 +1,4 @@
 Curate.configure do |config|
-  # Injected via `rails g curate:work Spam`
-  config.register_curation_concern :spam
         config.application_root_url = 'http://localhost'
         config.default_antivirus_instance = lambda {|file_path|
           AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
