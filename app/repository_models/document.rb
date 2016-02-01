@@ -8,7 +8,7 @@ class Document < GenericWork
   self.contributor_label = 'Author'
 
   def self.valid_types
-    ::DEPARTMENT.fetch('document_types')
+    DOCUMENT_TYPES.fetch('document_types')
   end
 
   attribute :type, datastream: :descMetadata,
