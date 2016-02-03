@@ -54,7 +54,7 @@ task :generate do
       gem 'launchy'
       gem 'poltergeist'
       gem 'rspec-html-matchers', '~> 0.6.1'
-      gem 'rspec-its', '~> 1.0.1'
+      gem 'rspec-its', '~> 1.2.0'
       gem 'rspec-given'
       gem 'rspec-activemodel-mocks'
       gem 'simplecov', require: false

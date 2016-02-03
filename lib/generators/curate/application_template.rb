@@ -26,6 +26,7 @@ copy_file 'predicate_mappings.yml', 'config/predicate_mappings.yml'
 copy_file 'licensing_permissions.yml', 'config/licensing_permissions.yml'
 copy_file 'etd_degree_map.yml', 'config/etd_degree_map.yml'
 copy_file 'etd_department_map.yml', 'config/etd_department_map.yml'
+copy_file 'document_types.yml', 'config/document_types.yml'
 
 
 HELPFUL_DEVELOPMENT_TOOLS =

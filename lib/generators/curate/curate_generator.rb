@@ -183,7 +183,16 @@ This generator makes the following changes to your application:
   def create_etd_degree_initializer
     template 'etd_degree_initializer.rb', 'config/initializers/etd_degree_initializer.rb'
   end
+
   def create_departments
     template 'departments.yml', 'config/departments.yml'
+  end
+
+  def create_etd_document_type_initializer
+    template 'document_type_initializer.rb', 'config/initializers/document_type_initializer.rb'
+  end
+
+  def create_document_types
+    template 'document_types.yml', 'config/document_types.yml'
   end
 end
