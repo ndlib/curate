@@ -1,6 +1,118 @@
 # -*- encoding : utf-8 -*-
 require 'blacklight/catalog'
 
+# @note This code is a copy of a module from cbeer's (BlacklightFacetExtras gem)[github.com/cbeer/blacklight_facet_extras]
+# I have chosen to paste this directly into the catalog controller to show that
+# there are significant changes to the catalog controller behavior.
+#
+# Meant to be applied on top of a controller that implements
+# Blacklight::SolrHelper. Will inject tag limiting behaviors
+# to solr parameters creation.
+module BlacklightFacetExtras
+  module Multiple
+    module ControllerExtension
+      def self.included(some_class)
+        some_class.solr_search_params_logic << :add_inclusive_facets_to_solr unless some_class.solr_search_params_logic.include? :add_inclusive_facets_to_solr
+        some_class.solr_search_params_logic << :add_multiple_facets_to_solr unless some_class.solr_search_params_logic.include? :add_multiple_facets_to_solr
+        some_class.helper BlacklightFacetExtras::Multiple::ViewHelperExtension
+      end
+
+      ##
+      # Add any existing facet limits, stored in app-level HTTP query
+      # as :f, to solr as appropriate :fq query.
+      def add_inclusive_facets_to_solr(solr_parameters, user_params)
+        # :fq, map from :f_inclusive.
+        if ( user_params[:f_inclusive])
+          f_request_params = user_params[:f_inclusive]
+          solr_parameters[:fq] ||= []
+          f_request_params.each_pair do |facet_field, value_list|
+            value_list ||= []
+            value_list = [value_list] unless value_list.respond_to? :each
+            user_params[:f] ||= {}
+            solr_parameters[:fq] << "{!tag=#{facet_field.parameterize}}#{value_list.map { |value| "_query_:\"#{facet_value_to_fq_string(facet_field, value).gsub('"', '\\"')}\"" }.join(" OR ")}"
+          end
+        end
+      end
+
+      def add_multiple_facets_to_solr(solr_parameters, user_parameters)
+        return unless solr_parameters[:"facet.field"]
+
+        solr_parameters[:"facet.field"].each_with_index.select { |field, index| blacklight_config.facet_fields[field].try(:multiple) }.each do |field, index|
+          solr_parameters[:"facet.field"][index] = "{!ex=#{field.parameterize}}#{field}"
+        end
+      end
+    end
+
+    module ViewHelperExtension
+      # adds the value and/or field to params[:f_inclusive]
+      # Does NOT remove request keys and otherwise ensure that the hash
+      # is suitable for a redirect. See
+      # add_facet_params_and_redirect
+      def add_facet_params(field, value, source_params = params)
+        if blacklight_config.facet_fields[field] && blacklight_config.facet_fields[field].multiple
+          p = params.dup
+          p[:f_inclusive] = (p[:f_inclusive] || {}).dup # the command above is not deep in rails3, !@#$!@#$
+          p[:f_inclusive][field] = (p[:f_inclusive][field] || []).dup
+          p[:f_inclusive][field].push(value)
+          p
+        else
+          super
+        end
+      end
+
+      def render_constraints_filters(localized_params = params)
+        return "".html_safe if localized_params[:f].empty? && localized_params[:f_inclusive].empty?
+        content = []
+        if localized_params[:f]
+          localized_params[:f].each_pair do |facet,values|
+            content << render_filter_element(facet, values, localized_params)
+          end
+        end
+        if localized_params[:f_inclusive]
+          localized_params[:f_inclusive].each_pair do |facet,values|
+            content << render_filter_element(facet, [Array.wrap(values).join(" OR ")], localized_params)
+          end
+        end
+        return content.flatten.join("\n").html_safe
+      end
+
+      # copies the current params (or whatever is passed in as the 3rd arg)
+      # removes the field value from params[:f]
+      # removes the field if there are no more values in params[:f][field]
+      # removes additional params (page, id, etc..)
+      def remove_facet_params(field, value, source_params=params)
+        if blacklight_config.facet_fields[field] && blacklight_config.facet_fields[field].multiple
+          p = super
+          # need to dup the facet values too,
+          # if the values aren't dup'd, then the values
+          # from the session will get remove in the show view...
+          p[:f_inclusive] = (p[:f_inclusive] || {}).dup
+          p[:f_inclusive].delete(field) if p[:f_inclusive].key?(field)
+          p.delete(:f_inclusive) if p[:f_inclusive].empty?
+          p
+        else
+          p = super
+          p.delete(:f) if p[:f].empty?
+          p
+        end
+      end
+
+      # true or false, depending on whether the field and value is in params[:f]
+      def facet_in_params?(field, value)
+        super || (params[:f_inclusive] and params[:f_inclusive][field] and params[:f_inclusive][field].include?(value))
+      end
+
+      # Standard display of a SELECTED facet value, no link, special span
+      # with class, and 'remove' button.
+      def render_selected_facet_value(facet_solr_field, item)
+        #Updated class for Bootstrap Blacklight
+        content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
+          link_to(content_tag(:i, '', :class => "icon-remove") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+      end
+    end
+  end
+end
+
 class CatalogController < ApplicationController
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
@@ -9,6 +121,8 @@ class CatalogController < ApplicationController
   include Curate::ThemedLayoutController
   include Curate::FieldsForAddToCollection
   include Hydramata::SolrHelper
+  # Order matters for this; It should be after the various blacklight and solr modules
+  include BlacklightFacetExtras::Multiple::ControllerExtension
 
   with_themed_layout 'catalog'
 
@@ -70,7 +184,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
+    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5, multiple: true
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
 
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), label: "Keyword", limit: 5
