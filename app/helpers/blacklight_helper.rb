@@ -21,7 +21,7 @@ module BlacklightHelper
   end
 
   def has_search_parameters?
-    !params[:q].blank? or !params[:f].blank?
+    !params[:q].blank? || !params[:f].blank? || !params[:f_inclusive].blank?
   end
 
 end
