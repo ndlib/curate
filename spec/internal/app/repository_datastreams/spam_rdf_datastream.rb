@@ -26,6 +26,10 @@ class SpamRdfDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.administrative_unit(to: 'subOrganization', in: RDF::SCHEMA) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.description(in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable

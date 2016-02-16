@@ -35,7 +35,9 @@ module Curate::AdministrativeUnitHelper
       select_administrative_unit_ids << administrative_unit
     end
     options=''
-    AdministrativeUnits.create_hierarchy.each do |administrative_unit|
+    all_administrative_units = AdministrativeUnits.create_hierarchy
+    root = all_administrative_units.first
+    root.children.each do |administrative_unit|
       processed_administrative_unit_ids<<administrative_unit.id
       options << options_from_collection_for_select_with_attributes([administrative_unit], "id", "label",'indent', "children", select_administrative_unit_ids) if administrative_unit.eligible_for_selection?
       if administrative_unit.children.present?

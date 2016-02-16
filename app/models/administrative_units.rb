@@ -1,5 +1,6 @@
 class AdministrativeUnits
   ADMINISTRATIVE_UNITS = Locabulary.active_nested_labels_for(predicate_name: 'administrative_units')
+  ACTIVE_ADMINISTRATIVE_UNITS = Locabulary.active_items_for(predicate_name: 'administrative_units')
 
   def initialize(attributes = {})
     @identifier = attributes.fetch(:identifier)
@@ -18,6 +19,11 @@ class AdministrativeUnits
       identifier: value,
       label: value
     )
+  end
+
+  def properties(options = {})
+    object = ACTIVE_ADMINISTRATIVE_UNITS.detect { |obj| obj.term_label == self.identifier }
+    return object
   end
 
   def to_s
@@ -70,9 +76,10 @@ class AdministrativeUnits
 
   def self.create_leaf(key, items, parent)
     items.each do |item|
+      display_text = item+"—Non-Departmental"
       leaf = new(
         identifier: [key, item].join('::'),
-        label: item,
+        label: item.eql?(parent.label)?  display_text : item,
         selectable: true
       )
       parent.children << leaf

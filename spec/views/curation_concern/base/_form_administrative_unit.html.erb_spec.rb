@@ -18,23 +18,23 @@ describe 'curation_concern/base/_form_administrative_unit.html.erb' do
 
     it 'should have optgroup within select' do
       expect(rendered).to have_select('generic_work_administrative_unit_') do
-        with_tag('optgroup', text:'University of Notre Dame')
-        with_tag('option', text:'College of Engineering', :with => { :disable => true, :class=>'bold-row'})
+        with_tag('optgroup', text:'Centers and Institutes')
+        with_tag('option', text:'Center for Building Communities', :with => { :disable => true, :class=>'bold-row'})
       end
     end
 
     it 'should have valid option within optgroup' do
-      expect(rendered).to have_tag('optgroup', :with => { :label => 'University of Notre Dame'}) do
-        have_tag('option', :with => { :class=>'bold-row'}, text:'College of Engineering')
+      expect(rendered).to have_tag('optgroup', :with => { :label => 'Centers and Institutes'}) do
+        have_tag('option', text:'Center for Building Communities')
       end
-      expect(rendered).to have_tag('optgroup', :with => { :label => 'University of Notre Dame'}) do
-        with_tag('option', text:'Electrical Engineering')
+      expect(rendered).to have_tag('optgroup', :with => { :label => 'Centers and Institutes'}) do
+        with_tag('option', text:'Center for Digital Scholarship')
       end
     end
 
     it 'should have empty optgroup' do
-      expect(rendered).to have_tag('optgroup', :with => { :label => 'University of Notre Dame'}) do
-        without_tag('option', :with => { :class=>'bold-row'}, text:'College of Engineering')
+      expect(rendered).to have_tag('optgroup', :with => { :label => 'Graduate School'}) do
+        with_tag('option', text:'Graduate School—Non-Departmental')
       end
     end
   end

@@ -89,14 +89,7 @@ Blacklight.onLoad(function() {
 	});
 
 	$(".department-select").select2({
-		placeholder: "Make a Selection",
-		formatResultCssClass:function(object) {
-									if(object.disabled === true){
-										return "bold-row";
-									}
-								},
-		formatResult: format
-
+		placeholder: "Please select one or more; type to search",
 	});
 
 	function format(option, container, query) {

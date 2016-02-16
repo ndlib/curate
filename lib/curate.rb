@@ -15,6 +15,7 @@ require 'rails_autolink'
 require 'select2-rails'
 require 'curate/migration_services'
 require 'qa'
+require 'locabulary'
 
 module Curate
   extend ActiveSupport::Autoload
