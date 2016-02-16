@@ -61,7 +61,7 @@ module BlacklightFacetExtras
       end
 
       def render_constraints_filters(localized_params = params)
-        return "".html_safe if localized_params[:f].empty? && localized_params[:f_inclusive].empty?
+        return "".html_safe if localized_params[:f].blank? && localized_params[:f_inclusive].blank?
         content = []
         if localized_params[:f]
           localized_params[:f].each_pair do |facet,values|
