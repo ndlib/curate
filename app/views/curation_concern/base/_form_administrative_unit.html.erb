@@ -1,0 +1,14 @@
+<div class="control-group <%=curation_concern.class%>_administrative_unit">
+  <span class="control-label"><label name="<%=f.object_name%>administrative_unit[]" class="select optional">Departments and Units</label>
+  <span id="<%=f.object_name%>administrative_unit[]" class="field-hint" role="tooltip">
+    Identify <strong>all</strong> the department(s), center(s), or institute(s) <strong>primarily</strong> affiliated with this work.<br />
+    Choosing a department <strong>also</strong> associates the work with its college e.g. selecting <em>Africana Studies</em> will associate the work with the <em>College of Arts and Letters</em> as well.
+  </span>
+  </span>
+  <div class="controls">
+    <% options = "" %>
+    <% options << option_listing(curation_concern) %>
+    <%=select_tag "#{f.object_name}[administrative_unit][]", options, {prompt: 'Please select one or more; type to search', class: 'input-xxlarge department-select', :size =>10, multiple:true}  %>
+  </div>
+</div>
+

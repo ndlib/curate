@@ -22,6 +22,10 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.administrative_unit(to: 'creator#administrative_unit', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.contributor(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end

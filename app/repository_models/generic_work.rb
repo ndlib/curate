@@ -34,6 +34,10 @@ class GenericWork < ActiveFedora::Base
             datastream: :descMetadata, multiple: true,
             label: "School & Department",
             hint: "School and Department that creator belong to."
+  attribute :administrative_unit,
+            datastream: :descMetadata, multiple: true,
+            label: "Departments and Units",
+            hint: "Departments and Units that creator belong to."
   attribute :content_format, datastream: :descMetadata, multiple: false
 
   attribute :contributor,            datastream: :descMetadata, multiple: true

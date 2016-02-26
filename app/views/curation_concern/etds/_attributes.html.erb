@@ -28,6 +28,9 @@
     <% end %>
     <tr><th> Degree Name </th><td><%= DEGREE.fetch('degrees')[degree.name.first] %></td></tr>
   <% end %>
+  <% curation_concern.administrative_unit.each do |au| %>
+    <tr><th> Administrative Unit </th><td><%= au.split("::").to_sentence %></td></tr>
+  <% end %>
   <%= curation_concern_attribute_to_html(curation_concern, :date, 'Defense Date') %>
   <tr><th> Submission Date </th><td><%= curation_concern.date_uploaded %></td></tr> 
   <%= curation_concern_attribute_to_html(curation_concern, :country, 'Country') %>

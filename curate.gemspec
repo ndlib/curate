@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'select2-rails'
   s.add_dependency 'httparty'
   s.add_dependency 'qa'
+  s.add_dependency 'locabulary'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails", '~> 3.0.2'
   s.add_development_dependency "factory_girl_rails", '~> 4.2.0'

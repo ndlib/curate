@@ -20,6 +20,10 @@ class Document < GenericWork
             datastream: :descMetadata, multiple: true,
             label: "School & Department",
             hint: "School and Department that creator belong to."
+  attribute :administrative_unit,
+            datastream: :descMetadata, multiple: true,
+            label: "Departments and Units",
+            hint: "Departments and Units that creator belong to."
   attribute :date_created,               datastream: :descMetadata, multiple: false, default: lambda { Date.today.to_s("%Y-%m-%d") }
   attribute :date_uploaded,              datastream: :descMetadata, multiple: false
   attribute :date_modified,              datastream: :descMetadata, multiple: false

@@ -15,6 +15,10 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.administrative_unit(to: 'creator#administrative_unit', in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.affiliation(to: 'creator#affiliation', in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end
