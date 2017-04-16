@@ -3,6 +3,8 @@ class HelpRequestsController < ApplicationController
   with_themed_layout
   before_filter :agreed_to_terms_of_service!
 
+  protect_from_forgery except: :create
+
   add_breadcrumb 'Help Request', lambda {|controller| controller.request.path }
 
   respond_to(:html)
